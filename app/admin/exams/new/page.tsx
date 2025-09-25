@@ -96,8 +96,8 @@ VIOLATION OF ANY RULE MAY RESULT IN AUTOMATIC FAILURE.`)
   const parseQuestionsFromText = (text: string) => {
     const questions: any[] = []
     
-    // Split by question numbers
-    const questionPattern = /\d+\s*[.)]/g
+    // Split by question numbers - improved pattern
+    const questionPattern = /^\s*\d+[.)\s]/gm
     const matches = [...text.matchAll(questionPattern)]
     
     for (let i = 0; i < matches.length; i++) {
@@ -112,18 +112,21 @@ VIOLATION OF ANY RULE MAY RESULT IN AUTOMATIC FAILURE.`)
       
       if (lines.length < 1) continue
       
-      // Extract question text
-      const questionText = lines[0].replace(/^\d+[.)\s]+/, '').trim()
+      // Extract question text - improved regex
+      const questionText = lines[0].replace(/^\s*\d+[.)\s]+/, '').trim()
       if (!questionText) continue
       
-      const optionA = lines.find(line => /^a[.)]/i.test(line))?.replace(/^a[.)\s]*/i, '') || ''
-      const optionB = lines.find(line => /^b[.)]/i.test(line))?.replace(/^b[.)\s]*/i, '') || ''
-      const optionC = lines.find(line => /^c[.)]/i.test(line))?.replace(/^c[.)\s]*/i, '') || ''
-      const optionD = lines.find(line => /^d[.)]/i.test(line))?.replace(/^d[.)\s]*/i, '') || ''
+      // Find options with more flexible patterns
+      const optionA = lines.find(line => /^\s*a[.)\s]/i.test(line))?.replace(/^\s*a[.)\s]*/i, '').trim() || ''
+      const optionB = lines.find(line => /^\s*b[.)\s]/i.test(line))?.replace(/^\s*b[.)\s]*/i, '').trim() || ''
+      const optionC = lines.find(line => /^\s*c[.)\s]/i.test(line))?.replace(/^\s*c[.)\s]*/i, '').trim() || ''
+      const optionD = lines.find(line => /^\s*d[.)\s]/i.test(line))?.replace(/^\s*d[.)\s]*/i, '').trim() || ''
       
-      // Find correct answer
+      // Find correct answer with more flexible patterns
       const answerLine = lines.find(line => 
-        line.toLowerCase().includes('correct') || line.toLowerCase().includes('answer')
+        /correct\s*answer/i.test(line) || 
+        /answer\s*:/i.test(line) ||
+        /correct\s*:/i.test(line)
       )
       const correctMatch = answerLine?.match(/([a-d])/i)
       const correctAnswer = correctMatch ? correctMatch[1].toUpperCase() : ''
