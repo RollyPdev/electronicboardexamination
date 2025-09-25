@@ -184,6 +184,9 @@ export default function SignInPage() {
         }
       } else {
         console.log('Login successful, getting session...')
+        // Small delay to ensure loading screen shows
+        await new Promise(resolve => setTimeout(resolve, 100))
+        
         // Get session to check user role and redirect accordingly
         const session = await getSession()
         console.log('Session:', session)

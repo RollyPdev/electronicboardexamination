@@ -10,7 +10,7 @@ export default function LoadingPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push('/student')
-    }, 2000)
+    }, 3000)
 
     return () => clearTimeout(timer)
   }, [router])
