@@ -24,6 +24,11 @@ export default withAuth(
       }
     }
 
+    // Allow loading page for all authenticated users
+    if (pathname === '/loading') {
+      return NextResponse.next()
+    }
+
     // Redirect based on role from root
     if (pathname === '/') {
       if (token.role === 'ADMIN') {
@@ -46,6 +51,7 @@ export const config = {
   matcher: [
     '/',
     '/admin/:path*',
-    '/student/:path*'
+    '/student/:path*',
+    '/loading'
   ]
 }

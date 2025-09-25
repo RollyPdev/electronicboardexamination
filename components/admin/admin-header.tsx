@@ -39,7 +39,7 @@ export function AdminHeader() {
 
   const handleLogout = async () => {
     setIsLoggingOut(true)
-    await signOut()
+    await signOut({ callbackUrl: '/auth/signin' })
   }
 
   const pageTitle = getPageTitle(pathname)

@@ -49,7 +49,7 @@ export function StudentHeader() {
 
   const handleLogout = async () => {
     setIsLoggingOut(true)
-    await signOut()
+    await signOut({ callbackUrl: '/auth/signin' })
   }
 
   return (
