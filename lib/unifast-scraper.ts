@@ -2,9 +2,6 @@ import * as cheerio from 'cheerio'
 import { PrismaClient } from '@prisma/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
-// Load environment first
-require('dotenv').config({ path: '.env.local' })
-
 // Create Prisma client for script usage
 const prisma = new PrismaClient().$extends(withAccelerate())
 
