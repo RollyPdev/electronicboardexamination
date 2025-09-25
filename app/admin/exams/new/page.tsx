@@ -116,21 +116,22 @@ VIOLATION OF ANY RULE MAY RESULT IN AUTOMATIC FAILURE.`)
       const questionText = lines[0].replace(/^\s*\d+[.)\s]+/, '').trim()
       if (!questionText) continue
       
-      // Find options with more flexible patterns
-      const optionA = lines.find(line => /^\s*a[.)\s]/i.test(line))?.replace(/^\s*a[.)\s]*/i, '').trim() || ''
-      const optionB = lines.find(line => /^\s*b[.)\s]/i.test(line))?.replace(/^\s*b[.)\s]*/i, '').trim() || ''
-      const optionC = lines.find(line => /^\s*c[.)\s]/i.test(line))?.replace(/^\s*c[.)\s]*/i, '').trim() || ''
-      const optionD = lines.find(line => /^\s*d[.)\s]/i.test(line))?.replace(/^\s*d[.)\s]*/i, '').trim() || ''
+      // Find options with more flexible patterns - allow empty options
+      const optionA = lines.find(line => /^\s*a[.)\s]/i.test(line))?.replace(/^\s*a[.)\s]*/i, '').trim() || 'Option A'
+      const optionB = lines.find(line => /^\s*b[.)\s]/i.test(line))?.replace(/^\s*b[.)\s]*/i, '').trim() || 'Option B'
+      const optionC = lines.find(line => /^\s*c[.)\s]/i.test(line))?.replace(/^\s*c[.)\s]*/i, '').trim() || 'Option C'
+      const optionD = lines.find(line => /^\s*d[.)\s]/i.test(line))?.replace(/^\s*d[.)\s]*/i, '').trim() || 'Option D'
       
-      // Find correct answer with more flexible patterns
+      // Find correct answer with more flexible patterns - default to A if not found
       const answerLine = lines.find(line => 
         /correct\s*answer/i.test(line) || 
         /answer\s*:/i.test(line) ||
         /correct\s*:/i.test(line)
       )
       const correctMatch = answerLine?.match(/([a-d])/i)
-      const correctAnswer = correctMatch ? correctMatch[1].toUpperCase() : ''
+      const correctAnswer = correctMatch ? correctMatch[1].toUpperCase() : 'A'
       
+      // Always add the question even if some parts are missing
       questions.push({
         type: 'MCQ',
         text: questionText,
@@ -185,6 +186,10 @@ VIOLATION OF ANY RULE MAY RESULT IN AUTOMATIC FAILURE.`)
               setTimeout(() => {
                 if (questions.length === 0) {
                   setImportError('No valid questions found. Please check the format.')
+                } else if (questions.length < 100) {
+                  setImportError(`Minimum 100 questions required. Found only ${questions.length} questions.`)
+                } else if (questions.length > 500) {
+                  setImportError(`Maximum 500 questions allowed. Found ${questions.length} questions.`)
                 } else {
                   setImportedQuestions(questions)
                 }
@@ -601,7 +606,7 @@ VIOLATION OF ANY RULE MAY RESULT IN AUTOMATIC FAILURE.`)
                           Click to upload questions
                         </p>
                         <p className="text-sm text-slate-600">
-                          Supports .txt files only • Maximum file size: 10MB
+                          Supports .txt files only • 100-500 questions required • Maximum file size: 10MB
                         </p>
                       </div>
                     </div>
