@@ -62,7 +62,7 @@ export async function POST(
     }
 
     // Format options for MCQ questions
-    let formattedOptions: any[] = []
+    let formattedOptions: any = null
     if (type === 'MCQ' && Array.isArray(parsedOptions) && parsedOptions.length > 0) {
       formattedOptions = parsedOptions.map((option, index) => {
         const optionText = typeof option === 'string' ? option : option.text || option
@@ -72,9 +72,14 @@ export async function POST(
           correct: optionText === parsedCorrectAnswer
         }
       })
+    } else if (type === 'TRUE_FALSE') {
+      formattedOptions = [
+        { label: 'True', text: 'True', correct: parsedCorrectAnswer === 'True' },
+        { label: 'False', text: 'False', correct: parsedCorrectAnswer === 'False' }
+      ]
     }
     
-    console.log('Parsed MCQ:', { questionText, formattedOptions, parsedCorrectAnswer })
+    console.log('Parsed question:', { questionText, formattedOptions, parsedCorrectAnswer })
 
     const newQuestion = await (prisma as any).question.create({
       data: {
@@ -82,7 +87,6 @@ export async function POST(
         type,
         text: questionText,
         options: formattedOptions,
-        correctAnswer: parsedCorrectAnswer,
         points: points || 1,
       },
     })

@@ -11,7 +11,7 @@ async function PUT(
     try {
       const { id } = await params
       const body = await req.json()
-      const { type, text, options, points } = body
+      const { type, text, options, points, correctAnswer } = body
 
       // Check if question exists
       const existingQuestion = await ((prisma as any).question as any).findUnique({
@@ -24,19 +24,19 @@ async function PUT(
 
       // Format options based on question type
       let formattedOptions = null
+      const { correctAnswer } = body
+      
       if (type === 'MCQ' && options) {
-        formattedOptions = JSON.stringify(
-          options.map((opt: string, index: number) => ({
-            label: String.fromCharCode(65 + index),
-            text: opt,
-            correct: false
-          }))
-        )
+        formattedOptions = options.map((opt: string, index: number) => ({
+          label: String.fromCharCode(65 + index),
+          text: opt,
+          correct: opt === correctAnswer
+        }))
       } else if (type === 'TRUE_FALSE') {
-        formattedOptions = JSON.stringify([
-          { label: 'True', text: 'True', correct: false },
-          { label: 'False', text: 'False', correct: false }
-        ])
+        formattedOptions = [
+          { label: 'True', text: 'True', correct: correctAnswer === 'True' },
+          { label: 'False', text: 'False', correct: correctAnswer === 'False' }
+        ]
       }
 
       const question = await ((prisma as any).question as any).update({

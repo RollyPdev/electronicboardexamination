@@ -89,10 +89,20 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
 
     setIsSaving(true)
     try {
+      // Convert correct answer from A/B/C/D to actual option text for MCQ
+      let correctAnswerValue = newQuestion.correctAnswer
+      if (newQuestion.type === 'MCQ' && newQuestion.options) {
+        const answerIndex = newQuestion.correctAnswer.charCodeAt(0) - 65 // A=0, B=1, etc.
+        correctAnswerValue = newQuestion.options[answerIndex] || newQuestion.correctAnswer
+      }
+      
       const response = await fetch(`/api/admin/exams/${resolvedParams.id}/questions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newQuestion),
+        body: JSON.stringify({
+          ...newQuestion,
+          correctAnswer: correctAnswerValue
+        }),
       })
 
       if (response.ok) {
@@ -189,6 +199,13 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
 
     setIsUpdating(true)
     try {
+      // Convert correct answer from A/B/C/D to actual option text for MCQ
+      let correctAnswerValue = editingQuestion.correctAnswer
+      if (editingQuestion.type === 'MCQ' && editingQuestion.options) {
+        const answerIndex = editingQuestion.correctAnswer.charCodeAt(0) - 65 // A=0, B=1, etc.
+        correctAnswerValue = editingQuestion.options[answerIndex] || editingQuestion.correctAnswer
+      }
+      
       const response = await fetch(`/api/admin/questions/${editingQuestion.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -196,6 +213,7 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
           type: editingQuestion.type,
           text: editingQuestion.text,
           options: editingQuestion.options,
+          correctAnswer: correctAnswerValue,
           points: editingQuestion.points
         }),
       })
