@@ -24,7 +24,6 @@ async function PUT(
 
       // Format options based on question type
       let formattedOptions = null
-      const { correctAnswer } = body
       
       if (type === 'MCQ' && options) {
         formattedOptions = options.map((opt: string, index: number) => ({
