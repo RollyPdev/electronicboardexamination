@@ -1,0 +1,255 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id             String       @id @default(cuid())
+  name           String?
+  email          String       @unique
+  emailVerified  DateTime?
+  image          String?
+  role           Role         @default(STUDENT)
+  school         String?
+  isActive       Boolean      @default(false)
+  activationCode String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  password       String?
+  accounts       Account[]
+  sessions       Session[]
+  examsTaken     ExamResult[]
+  createdExams   Exam[]       @relation("ExamCreator")
+
+  @@map("users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Exam {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  durationMin Int
+  randomize   Boolean      @default(true)
+  published   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  creatorId   String
+  results     ExamResult[]
+  creator     User         @relation("ExamCreator", fields: [creatorId], references: [id])
+  questions   Question[]
+
+  @@map("exams")
+}
+
+model Question {
+  id        String   @id @default(cuid())
+  examId    String
+  type      QType
+  text      String
+  options   Json?
+  points    Int      @default(1)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+
+  @@map("questions")
+}
+
+model ExamResult {
+  id            String       @id @default(cuid())
+  examId        String
+  userId        String
+  startedAt     DateTime     @default(now())
+  submittedAt   DateTime?
+  gradedAt      DateTime?
+  score         Float?
+  maxScore      Float?
+  status        ResultStatus @default(IN_PROGRESS)
+  answers       Json?
+  events        Json?
+  recordingKeys Json?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  exam          Exam         @relation(fields: [examId], references: [id], onDelete: Cascade)
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([examId, userId])
+  @@map("exam_results")
+}
+
+model Recording {
+  id           String   @id @default(cuid())
+  examResultId String
+  chunkIndex   Int
+  fileKey      String
+  fileName     String
+  mimeType     String
+  size         Int
+  uploadedAt   DateTime @default(now())
+
+  @@unique([examResultId, chunkIndex])
+  @@map("recordings")
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  examResultId String?
+  userId       String?
+  action       String
+  details      Json?
+  timestamp    DateTime @default(now())
+  ipAddress    String?
+  userAgent    String?
+
+  @@map("audit_logs")
+}
+
+model Settings {
+  id                       String   @id @default(cuid())
+  siteName                 String   @default("Coeus Online Exams")
+  siteDescription          String   @default("Electronic Board Examination System")
+  allowRegistration        Boolean  @default(true)
+  requireEmailVerification Boolean  @default(false)
+  enableProctoring         Boolean  @default(true)
+  maxExamDuration          Int      @default(180)
+  autoGrading              Boolean  @default(true)
+  showResultsImmediately   Boolean  @default(false)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model Student {
+  id                    String   @id @default(cuid())
+  studentId             String   @unique
+  firstName             String
+  lastName              String
+  middleName            String?
+  gender                String
+  birthDate             DateTime
+  age                   Int
+  birthPlace            String
+  contactNumber         String
+  email                 String   @unique
+  address               String
+  region                String
+  province              String
+  cityMunicipality      String
+  barangay              String
+  zipCode               String
+  guardianFirstName     String
+  guardianLastName      String
+  guardianMiddleName    String?
+  guardianContactNumber String
+  guardianAddress       String
+  guardianRelationship  String
+  school                String
+  course                String
+  graduationYear        String
+  howDidYouKnow         String
+  referredBy            String?
+  notes                 String?
+  profileImage          String?
+  status                String   @default("active")
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  password              String?
+
+  @@map("Student")
+}
+
+model Institution {
+  id               String    @id @default(cuid())
+  name             String
+  altNames         String[]
+  type             String
+  ownership        String
+  region           String
+  province         String
+  cityMunicipality String
+  address          String?
+  website          String?
+  email            String?
+  logoUrl          String?
+  source           String
+  sourceUrl        String?
+  sourceDate       DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@unique([name, region, province])
+  @@map("institutions")
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+}
+
+enum QType {
+  MCQ
+  TRUE_FALSE
+  SHORT_ANSWER
+  NUMERIC
+}
+
+enum ResultStatus {
+  IN_PROGRESS
+  SUBMITTED
+  GRADED
+  FLAGGED
+}
+
+enum InstitutionType {
+  UNIVERSITY
+  COLLEGE
+  INSTITUTE
+  ACADEMY
+  SCHOOL
+  CENTER
+}
+
+enum OwnershipType {
+  PUBLIC
+  PRIVATE
+}
