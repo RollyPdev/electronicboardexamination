@@ -108,10 +108,19 @@ export default function SignInPage() {
         return
       }
       
-      setNewUserData(data.user)
-      setActivationCode(data.user.activationCode)
+      // Auto-login the user after registration
+      const loginResult = await signIn('credentials', {
+        email: registerForm.email,
+        password: registerForm.password,
+        redirect: false,
+      })
+      
+      if (loginResult?.ok) {
+        router.push('/student?needsActivation=true')
+      } else {
+        setRegisterError('Registration successful but login failed. Please try logging in manually.')
+      }
       setIsRegisterModalOpen(false)
-      setIsActivationModalOpen(true)
       
     } catch (error) {
       setRegisterError('Network error. Please try again.')
@@ -621,51 +630,7 @@ export default function SignInPage() {
               </DialogContent>
             </Dialog>
 
-            {/* Activation Modal */}
-            <Dialog open={isActivationModalOpen} onOpenChange={() => {}}>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Account Activation Required</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <p className="text-gray-600 text-center">
-                    Your account has been created successfully! Please enter the activation code to continue.
-                  </p>
-                  <div className="bg-gray-100 p-4 rounded-lg text-center">
-                    <p className="text-sm text-gray-600 mb-2">Your activation code:</p>
-                    <p className="text-2xl font-bold text-blue-600">{activationCode}</p>
-                  </div>
-                  <div>
-                    <Label htmlFor="activationCodeInput">Enter Activation Code</Label>
-                    <Input
-                      id="activationCodeInput"
-                      placeholder="Enter your activation code"
-                      value={enteredActivationCode}
-                      onChange={(e) => setEnteredActivationCode(e.target.value.toUpperCase())}
-                      className="text-center font-mono text-lg"
-                      maxLength={6}
-                    />
-                  </div>
-                  {activationError && (
-                    <p className="text-red-500 text-sm text-center">{activationError}</p>
-                  )}
-                  <Button
-                    onClick={handleActivation}
-                    disabled={isActivating || !enteredActivationCode}
-                    className="w-full bg-green-600 hover:bg-green-700"
-                  >
-                    {isActivating ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Activating...
-                      </>
-                    ) : (
-                      'Activate Now!'
-                    )}
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
+
               
 
             </CardContent>

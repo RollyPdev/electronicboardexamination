@@ -86,7 +86,7 @@ export function StudentSidebar() {
       {/* Overlay */}
       {isOpen && (
         <div 
-          className="lg:hidden fixed inset-0 z-40 bg-black bg-opacity-50" 
+          className="lg:hidden fixed inset-0 z-40 bg-white/20 backdrop-blur-sm" 
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -147,6 +147,7 @@ export function StudentSidebar() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
+                    onClick={() => setIsOpen(false)}
                     className={cn(
                       'flex items-center text-sm font-medium rounded-lg transition-colors',
                       isCollapsed ? 'px-3 py-2.5 justify-center' : 'px-3 py-2.5',

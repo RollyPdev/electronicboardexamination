@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Leaderboard } from '@/components/student/leaderboard'
 import { StudentStats } from '@/components/student/student-stats'
+import { ActivationModal } from '@/components/student/activation-modal'
 import { BookOpen, Clock, Trophy, TrendingUp, Play, Eye, GraduationCap, Target, Award, Calendar } from 'lucide-react'
 import { formatDuration } from '@/lib/exam-utils'
 import { cn } from '@/lib/utils'
@@ -36,6 +38,9 @@ interface DashboardStats {
 }
 
 export default function StudentDashboard() {
+  const searchParams = useSearchParams()
+  const needsActivation = searchParams.get('needsActivation') === 'true'
+  const [showActivationModal, setShowActivationModal] = useState(needsActivation)
   const [recentExams, setRecentExams] = useState<ExamSummary[]>([])
   const [stats, setStats] = useState<DashboardStats>({
     totalExams: 0,
@@ -153,7 +158,9 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <>
+      <ActivationModal isOpen={showActivationModal} />
+      <div className="space-y-4 sm:space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Dashboard</h1>
@@ -326,6 +333,6 @@ export default function StudentDashboard() {
           </div>
         )}
       </div>
-    </div>
+    </>
   )
 }

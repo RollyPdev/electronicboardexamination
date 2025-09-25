@@ -52,7 +52,7 @@ export function AdminSidebar() {
       {/* Overlay */}
       {isOpen && (
         <div 
-          className="lg:hidden fixed inset-0 z-40 bg-black bg-opacity-50" 
+          className="lg:hidden fixed inset-0 z-40 bg-white/20 backdrop-blur-sm" 
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -113,6 +113,7 @@ export function AdminSidebar() {
               <li key={item.name}>
                 <Link
                   href={item.href}
+                  onClick={() => setIsOpen(false)}
                   className={cn(
                     'group flex items-center text-sm font-medium rounded-xl transition-all duration-200 relative overflow-hidden',
                     isCollapsed ? 'px-3 py-3 justify-center' : 'px-4 py-3',
