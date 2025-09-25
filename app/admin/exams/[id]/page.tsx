@@ -146,9 +146,27 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
       ? JSON.parse(question.options) 
       : question.options
     
+    // Extract options and find correct answer
+    let optionTexts = ['', '', '', '']
+    let correctAnswer = 'A'
+    
+    if (Array.isArray(options)) {
+      options.forEach((opt, index) => {
+        if (typeof opt === 'object' && opt.text) {
+          optionTexts[index] = opt.text
+          if (opt.correct) {
+            correctAnswer = String.fromCharCode(65 + index) // A, B, C, D
+          }
+        } else if (typeof opt === 'string') {
+          optionTexts[index] = opt
+        }
+      })
+    }
+    
     setEditingQuestion({
       ...question,
-      options: Array.isArray(options) ? options.map(opt => typeof opt === 'object' ? opt.text : opt) : ['', '', '', '']
+      options: optionTexts,
+      correctAnswer: correctAnswer
     })
   }
 
@@ -298,11 +316,10 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
                             <SelectValue placeholder="Select correct option" />
                           </SelectTrigger>
                           <SelectContent>
-                            {editingQuestion.options?.filter((option: string) => option.trim() !== '').map((option: string, optIndex: number) => (
-                              <SelectItem key={optIndex} value={option}>
-                                {String.fromCharCode(65 + optIndex)}. {option}
-                              </SelectItem>
-                            ))}
+                            <SelectItem value="A">A</SelectItem>
+                            <SelectItem value="B">B</SelectItem>
+                            <SelectItem value="C">C</SelectItem>
+                            <SelectItem value="D">D</SelectItem>
                           </SelectContent>
                         </Select>
                       ) : editingQuestion.type === 'TRUE_FALSE' ? (
