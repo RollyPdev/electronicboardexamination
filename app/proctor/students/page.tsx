@@ -114,75 +114,75 @@ export default function ProctorStudentsPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Student Management</h1>
-            <p className="text-slate-600 text-lg">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg border border-slate-200">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-2">Student Management</h1>
+            <p className="text-slate-600 text-sm sm:text-base lg:text-lg">
               View registered students and track their examination activity
             </p>
           </div>
-          <div className="p-4 bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl">
-            <Users className="h-8 w-8 text-green-600" />
+          <div className="p-3 sm:p-4 bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl flex-shrink-0">
+            <Users className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
           </div>
         </div>
       </div>
 
       {/* Statistics Section */}
-      <div className="grid gap-6 md:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-4">
         <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-blue-900">Total Students</p>
-                <p className="text-3xl font-bold text-blue-900">{students.length}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-blue-900 truncate">Total Students</p>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold text-blue-900">{students.length}</p>
               </div>
-              <div className="p-3 bg-blue-600 rounded-xl">
-                <Users className="h-6 w-6 text-white" />
+              <div className="p-2 sm:p-3 bg-blue-600 rounded-xl flex-shrink-0">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-green-100">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-green-900">Active Students</p>
-                <p className="text-3xl font-bold text-green-900">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-green-900 truncate">Active Students</p>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold text-green-900">
                   {students.filter(s => s._count.examsTaken > 0).length}
                 </p>
               </div>
-              <div className="p-3 bg-green-600 rounded-xl">
-                <Users className="h-6 w-6 text-white" />
+              <div className="p-2 sm:p-3 bg-green-600 rounded-xl flex-shrink-0">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-purple-100">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-purple-900">Total Exams Taken</p>
-                <p className="text-3xl font-bold text-purple-900">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-purple-900 truncate">Total Exams</p>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold text-purple-900">
                   {students.reduce((sum, s) => sum + s._count.examsTaken, 0)}
                 </p>
               </div>
-              <div className="p-3 bg-purple-600 rounded-xl">
-                <Calendar className="h-6 w-6 text-white" />
+              <div className="p-2 sm:p-3 bg-purple-600 rounded-xl flex-shrink-0">
+                <Calendar className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-50 to-orange-100">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-orange-900">New This Month</p>
-                <p className="text-3xl font-bold text-orange-900">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-orange-900 truncate">New This Month</p>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold text-orange-900">
                   {students.filter(s => {
                     const studentDate = new Date(s.createdAt)
                     const now = new Date()
@@ -191,22 +191,22 @@ export default function ProctorStudentsPage() {
                   }).length}
                 </p>
               </div>
-              <div className="p-3 bg-orange-600 rounded-xl">
-                <Users className="h-6 w-6 text-white" />
+              <div className="p-2 sm:p-3 bg-orange-600 rounded-xl flex-shrink-0">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-slate-200">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+          <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
           <Input
-            placeholder="Search students by name, email, school, or course..."
+            placeholder="Search students..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-12 h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl"
+            className="pl-10 sm:pl-12 h-10 sm:h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl text-sm sm:text-base"
           />
         </div>
       </div>
@@ -224,44 +224,44 @@ export default function ProctorStudentsPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-3 sm:gap-4">
           {filteredStudents.map((student) => (
             <Card key={student.id} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-full flex items-center justify-center">
-                      <Users className="h-6 w-6 text-white" />
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="flex items-center space-x-3 sm:space-x-4 min-w-0 flex-1">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Users className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                     </div>
-                    <div>
-                      <h3 className="font-bold text-slate-900 text-lg">{(student.name || 'No name provided').toUpperCase()}</h3>
-                      <div className="flex items-center text-sm text-slate-600 mt-1">
-                        <Mail className="h-4 w-4 mr-2 text-blue-600" />
-                        {student.email}
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-bold text-slate-900 text-sm sm:text-base lg:text-lg truncate">{(student.name || 'No name provided').toUpperCase()}</h3>
+                      <div className="flex items-center text-xs sm:text-sm text-slate-600 mt-1">
+                        <Mail className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-blue-600 flex-shrink-0" />
+                        <span className="truncate">{student.email}</span>
                       </div>
                       {student.school && (
-                        <div className="text-sm text-slate-600 mt-1">
+                        <div className="text-xs sm:text-sm text-slate-600 mt-1 truncate">
                           🏫 {student.school}
                         </div>
                       )}
                       {student.course && (
-                        <div className="text-xs text-slate-500 mt-1">
+                        <div className="text-xs text-slate-500 mt-1 truncate">
                           📚 {student.course}
                         </div>
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-6">
+                  <div className="flex items-center justify-between sm:justify-end sm:space-x-4 lg:space-x-6">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-slate-900">{student._count.examsTaken}</div>
+                      <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">{student._count.examsTaken}</div>
                       <div className="text-xs text-slate-500 font-medium">Exams Taken</div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium text-slate-900 flex items-center">
-                        <Calendar className="h-4 w-4 mr-2 text-green-600" />
+                    <div className="text-right hidden sm:block">
+                      <div className="text-xs sm:text-sm font-medium text-slate-900 flex items-center">
+                        <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-green-600" />
                         Joined
                       </div>
-                      <div className="text-sm text-slate-600">
+                      <div className="text-xs sm:text-sm text-slate-600">
                         {new Date(student.createdAt).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'short',
@@ -272,30 +272,37 @@ export default function ProctorStudentsPage() {
                   </div>
                 </div>
                 
-                <div className="mt-4 pt-4 border-t border-slate-100">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
+                <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-100">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                       <Badge 
                         variant="secondary" 
-                        className={student._count.examsTaken > 0 
+                        className={`text-xs ${student._count.examsTaken > 0 
                           ? 'bg-green-100 text-green-800' 
                           : 'bg-gray-100 text-gray-600'
-                        }
+                        }`}
                       >
                         {student._count.examsTaken > 0 ? 'Active' : 'Inactive'}
                       </Badge>
-                      <span className="text-sm text-slate-500">
+                      <span className="text-xs sm:text-sm text-slate-500">
                         Last activity: {student._count.examsTaken > 0 ? 'Recently' : 'No activity'}
                       </span>
+                      <div className="sm:hidden text-xs text-slate-600">
+                        Joined: {new Date(student.createdAt).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: '2-digit'
+                        })}
+                      </div>
                     </div>
                     <div className="flex space-x-2">
                       <Button 
                         variant="outline" 
                         size="sm" 
                         onClick={() => handleViewDetails(student)}
-                        className="hover:bg-green-50 hover:text-green-600 hover:border-green-200"
+                        className="hover:bg-green-50 hover:text-green-600 hover:border-green-200 text-xs sm:text-sm w-full sm:w-auto"
                       >
-                        <Eye className="h-4 w-4 mr-1" />
+                        <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                         View Details
                       </Button>
                     </div>

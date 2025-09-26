@@ -142,32 +142,32 @@ export default function RankingsPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Student Rankings</h1>
-            <p className="text-slate-600 text-lg">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg border border-slate-200">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-2">Student Rankings</h1>
+            <p className="text-slate-600 text-sm sm:text-base lg:text-lg">
               Track and analyze student performance rankings across all examinations
             </p>
           </div>
-          <div className="p-4 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-2xl">
-            <BarChart3 className="h-8 w-8 text-yellow-600" />
+          <div className="p-3 sm:p-4 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-2xl flex-shrink-0">
+            <BarChart3 className="h-6 w-6 sm:h-8 sm:w-8 text-yellow-600" />
           </div>
         </div>
       </div>
 
       {/* Statistics Section */}
-      <div className="grid gap-6 md:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-4">
         <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-blue-900">Total Students</p>
-                <p className="text-3xl font-bold text-blue-900">{rankings.length}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-blue-900 truncate">Total Students</p>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold text-blue-900">{rankings.length}</p>
               </div>
-              <div className="p-3 bg-blue-600 rounded-xl">
-                <BarChart3 className="h-6 w-6 text-white" />
+              <div className="p-2 sm:p-3 bg-blue-600 rounded-xl flex-shrink-0">
+                <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
               </div>
             </div>
           </CardContent>
@@ -226,29 +226,29 @@ export default function RankingsPage() {
       </div>
 
       {/* Top 3 Podium */}
-      <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6 text-center">🏆 Top Performers</h2>
-        <div className="grid gap-6 md:grid-cols-3">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg border border-slate-200">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 text-center">🏆 Top Performers</h2>
+        <div className="grid gap-3 sm:gap-4 lg:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {rankings.slice(0, 3).map((ranking) => (
             <Card key={ranking.rank} className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 ${
               ranking.rank === 1 
-                ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-l-4 border-l-yellow-500 transform scale-105' 
+                ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-l-4 border-l-yellow-500 lg:transform lg:scale-105' 
                 : ranking.rank === 2
                 ? 'bg-gradient-to-br from-gray-50 to-gray-100 border-l-4 border-l-gray-400'
                 : 'bg-gradient-to-br from-amber-50 to-amber-100 border-l-4 border-l-amber-600'
             }`}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-lg font-bold text-slate-900">
+                <CardTitle className="text-sm sm:text-base lg:text-lg font-bold text-slate-900 truncate pr-2">
                   {ranking.student.name || ranking.student.email}
                 </CardTitle>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                   {getRankIcon(ranking.rank)}
-                  <span className="font-bold text-2xl text-slate-900">#{ranking.rank}</span>
+                  <span className="font-bold text-lg sm:text-xl lg:text-2xl text-slate-900">#{ranking.rank}</span>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-4xl font-bold mb-2 text-slate-900">{ranking.averageScore.toFixed(1)}%</div>
-                <div className="flex justify-between text-sm text-slate-600">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-slate-900">{ranking.averageScore.toFixed(1)}%</div>
+                <div className="flex justify-between text-xs sm:text-sm text-slate-600">
                   <span>{ranking.totalExams} exams</span>
                   <span>Best: {ranking.bestScore}%</span>
                 </div>
@@ -280,37 +280,37 @@ export default function RankingsPage() {
               </p>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {rankings.map((ranking) => (
-                <div key={ranking.rank} className={`flex items-center justify-between p-6 rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 ${
+                <div key={ranking.rank} className={`flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-6 rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 gap-3 sm:gap-0 ${
                   ranking.rank <= 3 
                     ? 'bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-l-yellow-500' 
                     : 'bg-white hover:bg-slate-50'
                 }`}>
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center gap-3">
+                  <div className="flex items-center space-x-3 sm:space-x-4 min-w-0 flex-1">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                       {getRankIcon(ranking.rank)}
-                      <span className="font-bold text-lg text-slate-900">#{ranking.rank}</span>
+                      <span className="font-bold text-base sm:text-lg text-slate-900">#{ranking.rank}</span>
                     </div>
-                    <div>
-                      <h3 className="font-bold text-slate-900">{ranking.student.name || 'No name provided'}</h3>
-                      <p className="text-sm text-slate-600">{ranking.student.email}</p>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-bold text-slate-900 text-sm sm:text-base truncate">{ranking.student.name || 'No name provided'}</h3>
+                      <p className="text-xs sm:text-sm text-slate-600 truncate">{ranking.student.email}</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-6">
+                  <div className="flex items-center justify-between sm:justify-end sm:space-x-4 lg:space-x-6 gap-3">
                     <div className="text-center">
-                      <div className="text-sm font-medium text-slate-900">Exams</div>
-                      <div className="text-2xl font-bold text-slate-900">{ranking.totalExams}</div>
+                      <div className="text-xs sm:text-sm font-medium text-slate-900">Exams</div>
+                      <div className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">{ranking.totalExams}</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-sm font-medium text-slate-900">Best Score</div>
-                      <Badge className={`${getScoreColor(ranking.bestScore)} font-bold text-lg px-3 py-1`}>
+                      <div className="text-xs sm:text-sm font-medium text-slate-900">Best Score</div>
+                      <Badge className={`${getScoreColor(ranking.bestScore)} font-bold text-sm sm:text-base lg:text-lg px-2 sm:px-3 py-1`}>
                         {ranking.bestScore}%
                       </Badge>
                     </div>
                     <div className="text-center">
-                      <div className="text-sm font-medium text-slate-900">Average</div>
-                      <Badge className={`${getScoreColor(ranking.averageScore)} font-bold text-lg px-3 py-1`}>
+                      <div className="text-xs sm:text-sm font-medium text-slate-900">Average</div>
+                      <Badge className={`${getScoreColor(ranking.averageScore)} font-bold text-sm sm:text-base lg:text-lg px-2 sm:px-3 py-1`}>
                         {ranking.averageScore.toFixed(1)}%
                       </Badge>
                     </div>

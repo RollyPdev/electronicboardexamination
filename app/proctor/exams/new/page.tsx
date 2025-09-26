@@ -242,95 +242,96 @@ VIOLATION OF ANY RULE MAY RESULT IN AUTOMATIC FAILURE.`)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-6">
-            <Link href="/admin/exams">
-              <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl border-slate-200 hover:bg-slate-50">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <Link href="/proctor/exams">
+              <Button variant="outline" size="icon" className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl border-slate-200 hover:bg-slate-50">
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </Link>
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">Create New Examination</h1>
-              <p className="text-slate-600 text-lg">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-1 sm:mb-2">Create New Examination</h1>
+              <p className="text-slate-600 text-sm sm:text-base lg:text-lg">
                 Design and configure your examination with professional settings
               </p>
             </div>
           </div>
           
           {/* Progress Steps */}
-          <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <div className="flex items-center gap-2 text-blue-600">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                <BookOpen className="h-4 w-4" />
+          <div className="flex items-center justify-between sm:gap-4 p-3 sm:p-4 bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+            <div className="flex items-center gap-1 sm:gap-2 text-blue-600 flex-shrink-0">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <BookOpen className="h-3 w-3 sm:h-4 sm:w-4" />
               </div>
-              <span className="font-medium text-sm">Exam Details</span>
+              <span className="font-medium text-xs sm:text-sm">Details</span>
             </div>
-            <div className="w-8 h-px bg-slate-200"></div>
-            <div className="flex items-center gap-2 text-slate-400">
-              <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center">
-                <Settings className="h-4 w-4" />
+            <div className="w-4 sm:w-8 h-px bg-slate-200 flex-shrink-0"></div>
+            <div className="flex items-center gap-1 sm:gap-2 text-slate-400 flex-shrink-0">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-slate-100 rounded-full flex items-center justify-center">
+                <Settings className="h-3 w-3 sm:h-4 sm:w-4" />
               </div>
-              <span className="font-medium text-sm">Configuration</span>
+              <span className="font-medium text-xs sm:text-sm hidden sm:inline">Configuration</span>
+              <span className="font-medium text-xs sm:text-sm sm:hidden">Config</span>
             </div>
-            <div className="w-8 h-px bg-slate-200"></div>
-            <div className="flex items-center gap-2 text-slate-400">
-              <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center">
-                <CheckCircle2 className="h-4 w-4" />
+            <div className="w-4 sm:w-8 h-px bg-slate-200 flex-shrink-0"></div>
+            <div className="flex items-center gap-1 sm:gap-2 text-slate-400 flex-shrink-0">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-slate-100 rounded-full flex items-center justify-center">
+                <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4" />
               </div>
-              <span className="font-medium text-sm">Review</span>
+              <span className="font-medium text-xs sm:text-sm">Review</span>
             </div>
           </div>
         </div>
 
         {/* Form */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Main Form */}
           <div className="lg:col-span-2">
             <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
-              <CardHeader className="pb-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                    <BookOpen className="h-5 w-5 text-white" />
+              <CardHeader className="pb-4 sm:pb-6">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                   </div>
-                  <div>
-                    <CardTitle className="text-xl text-slate-900">Examination Details</CardTitle>
-                    <CardDescription className="text-slate-600">
+                  <div className="min-w-0 flex-1">
+                    <CardTitle className="text-lg sm:text-xl text-slate-900">Examination Details</CardTitle>
+                    <CardDescription className="text-slate-600 text-sm sm:text-base">
                       Configure the basic information and settings for your exam
                     </CardDescription>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-8">
-                <form onSubmit={handleSubmit} className="space-y-8">
+              <CardContent className="space-y-6 sm:space-y-8">
+                <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
                   {error && (
                     <Alert variant="destructive" className="border-red-200 bg-red-50">
-                      <AlertDescription className="text-red-800">{error}</AlertDescription>
+                      <AlertDescription className="text-red-800 text-sm sm:text-base">{error}</AlertDescription>
                     </Alert>
                   )}
 
                   {/* Basic Information */}
-                  <div className="space-y-6">
-                    <div className="border-b border-slate-200 pb-4">
-                      <h3 className="text-lg font-semibold text-slate-900 mb-1">Basic Information</h3>
-                      <p className="text-sm text-slate-600">Essential details about your examination</p>
+                  <div className="space-y-4 sm:space-y-6">
+                    <div className="border-b border-slate-200 pb-3 sm:pb-4">
+                      <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-1">Basic Information</h3>
+                      <p className="text-xs sm:text-sm text-slate-600">Essential details about your examination</p>
                     </div>
                     
                     {/* Title */}
-                    <div className="space-y-3">
-                      <Label htmlFor="title" className="text-sm font-medium text-slate-700">Examination Title *</Label>
+                    <div className="space-y-2 sm:space-y-3">
+                      <Label htmlFor="title" className="text-xs sm:text-sm font-medium text-slate-700">Examination Title *</Label>
                       <Input
                         id="title"
                         value={form.title}
                         onChange={(e) => updateForm('title', e.target.value)}
                         placeholder="e.g., Advanced Criminology Assessment"
                         readOnly={isMockExam}
-                        className={`h-12 ${isMockExam ? 'bg-slate-50 border-slate-200' : 'border-slate-300 focus:border-blue-500'} rounded-xl`}
+                        className={`h-10 sm:h-12 text-sm sm:text-base ${isMockExam ? 'bg-slate-50 border-slate-200' : 'border-slate-300 focus:border-blue-500'} rounded-xl`}
                         required
                       />
                       {isMockExam && (
-                        <p className="text-sm text-amber-600 bg-amber-50 p-2 rounded-lg">
+                        <p className="text-xs sm:text-sm text-amber-600 bg-amber-50 p-2 rounded-lg">
                           Title is automatically set for CLE mock exams
                         </p>
                       )}
@@ -464,26 +465,28 @@ VIOLATION OF ANY RULE MAY RESULT IN AUTOMATIC FAILURE.`)
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-4 pt-8 border-t border-slate-200">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6 sm:pt-8 border-t border-slate-200">
                     <Button 
                       type="submit" 
                       disabled={isLoading || !form.title.trim()}
-                      className="h-12 px-8 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                      className="h-10 sm:h-12 px-6 sm:px-8 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
                     >
                       {isLoading ? (
                         <>
                           <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                          Creating Exam...
+                          <span className="hidden sm:inline">Creating Exam...</span>
+                          <span className="sm:hidden">Creating...</span>
                         </>
                       ) : (
                         <>
                           <Save className="mr-2 h-4 w-4" />
-                          Create Examination
+                          <span className="hidden sm:inline">Create Examination</span>
+                          <span className="sm:hidden">Create Exam</span>
                         </>
                       )}
                     </Button>
-                    <Link href="/admin/exams">
-                      <Button variant="outline" type="button" className="h-12 px-6 rounded-xl border-slate-300 hover:bg-slate-50">
+                    <Link href="/proctor/exams" className="w-full sm:w-auto">
+                      <Button variant="outline" type="button" className="h-10 sm:h-12 px-4 sm:px-6 rounded-xl border-slate-300 hover:bg-slate-50 text-sm sm:text-base w-full">
                         Cancel
                       </Button>
                     </Link>
@@ -494,33 +497,33 @@ VIOLATION OF ANY RULE MAY RESULT IN AUTOMATIC FAILURE.`)
           </div>
           
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Quick Tips */}
             <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg text-slate-900 flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
-                    <FileText className="h-4 w-4 text-white" />
+              <CardHeader className="pb-3 sm:pb-4">
+                <CardTitle className="text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
                   </div>
                   Quick Tips
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3 text-sm">
-                  <div className="flex gap-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+              <CardContent className="space-y-3 sm:space-y-4">
+                <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
+                  <div className="flex gap-2 sm:gap-3">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-500 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
                     <p className="text-slate-600">Use clear, descriptive titles that students can easily understand</p>
                   </div>
-                  <div className="flex gap-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="flex gap-2 sm:gap-3">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-500 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
                     <p className="text-slate-600">Include detailed instructions in the description field</p>
                   </div>
-                  <div className="flex gap-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="flex gap-2 sm:gap-3">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-500 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
                     <p className="text-slate-600">Allow 1-2 minutes per question for optimal timing</p>
                   </div>
-                  <div className="flex gap-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="flex gap-2 sm:gap-3">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-500 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
                     <p className="text-slate-600">Enable randomization to prevent cheating</p>
                   </div>
                 </div>
@@ -529,23 +532,23 @@ VIOLATION OF ANY RULE MAY RESULT IN AUTOMATIC FAILURE.`)
             
             {/* Exam Preview */}
             <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg text-slate-900">Exam Preview</CardTitle>
+              <CardHeader className="pb-3 sm:pb-4">
+                <CardTitle className="text-base sm:text-lg text-slate-900">Exam Preview</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                  <h4 className="font-medium text-slate-900 mb-2">{form.title || 'Exam Title'}</h4>
-                  <div className="space-y-2 text-sm text-slate-600">
+              <CardContent className="space-y-3 sm:space-y-4">
+                <div className="p-3 sm:p-4 bg-slate-50 rounded-lg border border-slate-200">
+                  <h4 className="font-medium text-slate-900 mb-2 text-sm sm:text-base truncate">{form.title || 'Exam Title'}</h4>
+                  <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-slate-600">
                     <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4" />
+                      <Clock className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                       <span>{form.durationMin} minutes</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4" />
+                      <FileText className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                       <span>{importedQuestions.length} questions</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full ${form.published ? 'bg-green-500' : 'bg-orange-500'}`}></div>
+                      <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full flex-shrink-0 ${form.published ? 'bg-green-500' : 'bg-orange-500'}`}></div>
                       <span>{form.published ? 'Published' : 'Draft'}</span>
                     </div>
                   </div>

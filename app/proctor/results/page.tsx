@@ -173,96 +173,96 @@ export default function ResultsPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Exam Results Management</h1>
-            <p className="text-slate-600 text-lg">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg border border-slate-200">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-2">Exam Results Management</h1>
+            <p className="text-slate-600 text-sm sm:text-base lg:text-lg">
               Monitor and review all student exam submissions and performance
             </p>
           </div>
-          <div className="p-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl">
-            <FileText className="h-8 w-8 text-blue-600" />
+          <div className="p-3 sm:p-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl flex-shrink-0">
+            <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
           </div>
         </div>
       </div>
 
       {/* Statistics Section */}
-      <div className="grid gap-6 md:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-4">
         <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-blue-900">Total Results</p>
-                <p className="text-3xl font-bold text-blue-900">{results.length}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-blue-900 truncate">Total Results</p>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold text-blue-900">{results.length}</p>
               </div>
-              <div className="p-3 bg-blue-600 rounded-xl">
-                <FileText className="h-6 w-6 text-white" />
+              <div className="p-2 sm:p-3 bg-blue-600 rounded-xl flex-shrink-0">
+                <FileText className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-green-100">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-green-900">Graded</p>
-                <p className="text-3xl font-bold text-green-900">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-green-900 truncate">Graded</p>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold text-green-900">
                   {results.filter(r => r.score !== null).length}
                 </p>
               </div>
-              <div className="p-3 bg-green-600 rounded-xl">
-                <Award className="h-6 w-6 text-white" />
+              <div className="p-2 sm:p-3 bg-green-600 rounded-xl flex-shrink-0">
+                <Award className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-50 to-orange-100">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-orange-900">Pending</p>
-                <p className="text-3xl font-bold text-orange-900">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-orange-900 truncate">Pending</p>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold text-orange-900">
                   {results.filter(r => r.score === null).length}
                 </p>
               </div>
-              <div className="p-3 bg-orange-600 rounded-xl">
-                <Calendar className="h-6 w-6 text-white" />
+              <div className="p-2 sm:p-3 bg-orange-600 rounded-xl flex-shrink-0">
+                <Calendar className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
         
         <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-purple-100">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-purple-900">Avg Score</p>
-                <p className="text-3xl font-bold text-purple-900">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-purple-900 truncate">Avg Score</p>
+                <p className="text-lg sm:text-2xl lg:text-3xl font-bold text-purple-900">
                   {results.filter(r => r.score && r.maxScore).length > 0
                     ? Math.round(results.filter(r => r.score && r.maxScore).reduce((sum, r) => sum + ((r.score! / r.maxScore!) * 100), 0) / results.filter(r => r.score && r.maxScore).length)
                     : 0}%
                 </p>
               </div>
-              <div className="p-3 bg-purple-600 rounded-xl">
-                <Award className="h-6 w-6 text-white" />
+              <div className="p-2 sm:p-3 bg-purple-600 rounded-xl flex-shrink-0">
+                <Award className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-slate-200">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+          <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
           <Input
-            placeholder="Search by exam title, student name, or email..."
+            placeholder="Search results..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-12 h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl"
+            className="pl-10 sm:pl-12 h-10 sm:h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl text-sm sm:text-base"
           />
         </div>
       </div>
@@ -280,31 +280,31 @@ export default function ResultsPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-3 sm:gap-4">
           {filteredResults.map((result) => (
             <Card key={result.id} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-                      <FileText className="h-6 w-6 text-white" />
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                  <div className="flex items-center space-x-3 sm:space-x-4 min-w-0 flex-1">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                      <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                     </div>
-                    <div>
-                      <h3 className="font-bold text-slate-900 text-lg">{result.exam.title}</h3>
-                      <div className="flex items-center text-sm text-slate-600 mt-1">
-                        <User className="h-4 w-4 mr-2 text-blue-600" />
-                        {result.user.name || result.user.email}
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-bold text-slate-900 text-sm sm:text-base lg:text-lg line-clamp-2">{result.exam.title}</h3>
+                      <div className="flex items-center text-xs sm:text-sm text-slate-600 mt-1">
+                        <User className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-blue-600 flex-shrink-0" />
+                        <span className="truncate">{result.user.name || result.user.email}</span>
                       </div>
                       {result.user.school && (
-                        <div className="text-xs text-slate-500 mt-1">
+                        <div className="text-xs text-slate-500 mt-1 truncate">
                           🏫 {result.user.school}
                         </div>
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center justify-between lg:justify-end lg:space-x-4 gap-3">
                     <div className="text-center">
-                      <Badge className={`${getScoreColor(result.score, result.maxScore)} font-bold px-3 py-1`}>
+                      <Badge className={`${getScoreColor(result.score, result.maxScore)} font-bold px-2 sm:px-3 py-1 text-xs sm:text-sm`}>
                         {result.score && result.maxScore 
                           ? `${Math.round((result.score / result.maxScore) * 100)}%` 
                           : result.status === 'SUBMITTED' ? 'Pending' : 'Not Graded'
@@ -316,12 +316,12 @@ export default function ResultsPage() {
                         </div>
                       )}
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium text-slate-900 flex items-center">
-                        <Calendar className="h-4 w-4 mr-2 text-green-600" />
+                    <div className="text-right hidden sm:block">
+                      <div className="text-xs sm:text-sm font-medium text-slate-900 flex items-center">
+                        <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-green-600" />
                         Submitted
                       </div>
-                      <div className="text-sm text-slate-600">
+                      <div className="text-xs sm:text-sm text-slate-600">
                         {result.submittedAt ? new Date(result.submittedAt).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'short',
@@ -333,11 +333,21 @@ export default function ResultsPage() {
                       variant="outline" 
                       size="sm"
                       onClick={() => viewResult(result)}
-                      className="hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
+                      className="hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs sm:text-sm px-2 sm:px-3"
                     >
-                      <Eye className="h-4 w-4 mr-2" />
-                      View Details
+                      <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                      <span className="hidden sm:inline">View Details</span>
+                      <span className="sm:hidden">View</span>
                     </Button>
+                  </div>
+                </div>
+                <div className="sm:hidden mt-3 pt-3 border-t border-slate-100">
+                  <div className="text-xs text-slate-600">
+                    Submitted: {result.submittedAt ? new Date(result.submittedAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: '2-digit'
+                    }) : 'Not submitted'}
                   </div>
                 </div>
               </CardContent>

@@ -235,4 +235,128 @@
     @apply p-3 sm:p-4 lg:p-6;
     @apply gap-3 sm:gap-4 lg:gap-6;
   }
+  
+  /* Proctor-specific responsive utilities */
+  .proctor-card {
+    @apply bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6 lg:p-8;
+  }
+  
+  .proctor-header {
+    @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4;
+  }
+  
+  .proctor-title {
+    @apply text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-2;
+  }
+  
+  .proctor-subtitle {
+    @apply text-slate-600 text-sm sm:text-base lg:text-lg;
+  }
+  
+  .proctor-icon {
+    @apply p-3 sm:p-4 rounded-2xl flex-shrink-0;
+  }
+  
+  .proctor-stats-grid {
+    @apply grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-4;
+  }
+  
+  .proctor-stat-card {
+    @apply border-0 shadow-lg p-3 sm:p-4 lg:p-6;
+  }
+  
+  .proctor-stat-content {
+    @apply flex items-center justify-between;
+  }
+  
+  .proctor-stat-text {
+    @apply min-w-0 flex-1;
+  }
+  
+  .proctor-stat-label {
+    @apply text-xs sm:text-sm font-medium truncate;
+  }
+  
+  .proctor-stat-value {
+    @apply text-lg sm:text-2xl lg:text-3xl font-bold;
+  }
+  
+  .proctor-stat-icon {
+    @apply p-2 sm:p-3 rounded-xl flex-shrink-0;
+  }
+  
+  .proctor-search {
+    @apply relative;
+  }
+  
+  .proctor-search-icon {
+    @apply absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400;
+  }
+  
+  .proctor-search-input {
+    @apply pl-10 sm:pl-12 h-10 sm:h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl text-sm sm:text-base;
+  }
+  
+  .proctor-list-item {
+    @apply border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white;
+  }
+  
+  .proctor-list-content {
+    @apply p-4 sm:p-6;
+  }
+  
+  .proctor-list-main {
+    @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4;
+  }
+  
+  .proctor-list-info {
+    @apply flex items-center space-x-3 sm:space-x-4 min-w-0 flex-1;
+  }
+  
+  .proctor-list-avatar {
+    @apply w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0;
+  }
+  
+  .proctor-list-details {
+    @apply min-w-0 flex-1;
+  }
+  
+  .proctor-list-name {
+    @apply font-bold text-slate-900 text-sm sm:text-base lg:text-lg truncate;
+  }
+  
+  .proctor-list-meta {
+    @apply text-xs sm:text-sm text-slate-600 truncate;
+  }
+  
+  .proctor-list-actions {
+    @apply flex items-center justify-between sm:justify-end sm:space-x-4 lg:space-x-6 gap-3;
+  }
+  
+  .proctor-button {
+    @apply bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200;
+  }
+  
+  .proctor-button-responsive {
+    @apply text-xs sm:text-sm px-2 sm:px-3 py-2 sm:py-3;
+  }
+  
+  /* Mobile-specific adjustments */
+  @media (max-width: 640px) {
+    .proctor-mobile-stack {
+      @apply flex-col space-y-3;
+    }
+    
+    .proctor-mobile-full {
+      @apply w-full;
+    }
+    
+    .proctor-mobile-hide {
+      @apply hidden;
+    }
+    
+    .proctor-mobile-show {
+      @apply block;
+    }
+  }
 }

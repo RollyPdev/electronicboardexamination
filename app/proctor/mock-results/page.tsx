@@ -183,23 +183,23 @@ export default function MockBoardResultsPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Mock Board Exam Results</h1>
-            <p className="text-slate-600 text-lg">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg border border-slate-200">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-2">Mock Board Exam Results</h1>
+            <p className="text-slate-600 text-sm sm:text-base lg:text-lg">
               Criminologist Licensure Examination mock board results and rankings
             </p>
           </div>
-          <div className="p-4 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-2xl">
-            <Trophy className="h-8 w-8 text-yellow-600" />
+          <div className="p-3 sm:p-4 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-2xl flex-shrink-0">
+            <Trophy className="h-6 w-6 sm:h-8 sm:w-8 text-yellow-600" />
           </div>
         </div>
       </div>
 
       {/* Statistics Section */}
-      <div className="grid gap-6 md:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-4">
         <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-green-100">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -259,36 +259,40 @@ export default function MockBoardResultsPage() {
         </Card>
       </div>
 
-      <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-slate-200">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+          <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
           <Input
-            placeholder="Search by student name, email, or school..."
+            placeholder="Search students..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-12 h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl"
+            className="pl-10 sm:pl-12 h-10 sm:h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl text-sm sm:text-base"
           />
         </div>
       </div>
 
-      <Tabs defaultValue="rankings" className="space-y-6">
-        <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
-          <TabsList className="grid w-full grid-cols-4 bg-slate-100 p-1 rounded-xl">
-            <TabsTrigger value="rankings" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <Trophy className="h-4 w-4 mr-2" />
-              Rankings
+      <Tabs defaultValue="rankings" className="space-y-4 sm:space-y-6">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-slate-200">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-slate-100 p-1 rounded-xl gap-1">
+            <TabsTrigger value="rankings" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">
+              <Trophy className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Rankings</span>
+              <span className="sm:hidden">Rank</span>
             </TabsTrigger>
-            <TabsTrigger value="passed" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <GraduationCap className="h-4 w-4 mr-2" />
-              Passed ({passedResults.length})
+            <TabsTrigger value="passed" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">
+              <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Passed ({passedResults.length})</span>
+              <span className="sm:hidden">Pass</span>
             </TabsTrigger>
-            <TabsTrigger value="deferred" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <Award className="h-4 w-4 mr-2" />
-              Deferred ({deferredResults.length})
+            <TabsTrigger value="deferred" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">
+              <Award className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Deferred ({deferredResults.length})</span>
+              <span className="sm:hidden">Defer</span>
             </TabsTrigger>
-            <TabsTrigger value="failed" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <Medal className="h-4 w-4 mr-2" />
-              Failed ({failedResults.length})
+            <TabsTrigger value="failed" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm">
+              <Medal className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Failed ({failedResults.length})</span>
+              <span className="sm:hidden">Fail</span>
             </TabsTrigger>
           </TabsList>
         </div>
@@ -304,29 +308,29 @@ export default function MockBoardResultsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {filteredResults.slice(0, 20).map((result) => (
-                  <div key={result.id} className={`flex items-center justify-between p-6 rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 ${
+                  <div key={result.id} className={`flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-6 rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 gap-3 sm:gap-0 ${
                     result.rank <= 3 
                       ? 'bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-l-yellow-500' 
                       : 'bg-white hover:bg-slate-50'
                   }`}>
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                      <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                         {getRankIcon(result.rank)}
-                        <span className="font-bold text-lg text-slate-900">#{result.rank}</span>
+                        <span className="font-bold text-base sm:text-lg text-slate-900">#{result.rank}</span>
                       </div>
-                      <div>
-                        <p className="font-bold text-slate-900">{result.user.name || result.user.email}</p>
-                        <p className="text-sm text-slate-600">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-bold text-slate-900 text-sm sm:text-base truncate">{result.user.name || result.user.email}</p>
+                        <p className="text-xs sm:text-sm text-slate-600 truncate">
                           🏫 {result.user.school || 'No School Listed'}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <p className="font-bold text-2xl text-slate-900">{result.generalAverage}%</p>
-                        <Badge className={`${getStatusColor(result.status)} font-semibold`}>
+                    <div className="flex items-center justify-between sm:justify-end sm:gap-4 gap-3">
+                      <div className="text-center sm:text-right">
+                        <p className="font-bold text-lg sm:text-xl lg:text-2xl text-slate-900">{result.generalAverage}%</p>
+                        <Badge className={`${getStatusColor(result.status)} font-semibold text-xs sm:text-sm`}>
                           {result.status}
                         </Badge>
                       </div>
@@ -334,10 +338,11 @@ export default function MockBoardResultsPage() {
                         variant="outline" 
                         size="sm" 
                         onClick={() => viewResult(result)}
-                        className="hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
+                        className="hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-xs sm:text-sm px-2 sm:px-3"
                       >
-                        <Eye className="h-4 w-4 mr-2" />
-                        View Details
+                        <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                        <span className="hidden sm:inline">View Details</span>
+                        <span className="sm:hidden">View</span>
                       </Button>
                     </div>
                   </div>
