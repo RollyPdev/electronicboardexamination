@@ -24,7 +24,17 @@ async function main() {
     },
   })
 
-  console.log('Demo users created:', { admin, student })
+  const proctor = await prisma.user.upsert({
+    where: { email: 'proctor@example.com' },
+    update: {},
+    create: {
+      email: 'proctor@example.com',
+      name: 'Proctor User',
+      role: 'PROCTOR',
+    },
+  })
+
+  console.log('Demo users created:', { admin, student, proctor })
 }
 
 main()

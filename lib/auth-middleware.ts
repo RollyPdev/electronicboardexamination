@@ -68,6 +68,38 @@ export async function withStudentAuth(
   })
 }
 
+// Middleware to check proctor role
+export async function withProctorAuth(
+  req: NextRequest,
+  handler: (req: AuthRequest) => Promise<NextResponse>
+) {
+  return withAuth(req, async (authReq) => {
+    if (authReq.user?.role !== Role.PROCTOR) {
+      return NextResponse.json(
+        { error: 'Proctor access required' },
+        { status: 403 }
+      )
+    }
+    return handler(authReq)
+  })
+}
+
+// Middleware to check admin or proctor role
+export async function withAdminOrProctorAuth(
+  req: NextRequest,
+  handler: (req: AuthRequest) => Promise<NextResponse>
+) {
+  return withAuth(req, async (authReq) => {
+    if (authReq.user?.role !== Role.ADMIN && authReq.user?.role !== Role.PROCTOR) {
+      return NextResponse.json(
+        { error: 'Admin or Proctor access required' },
+        { status: 403 }
+      )
+    }
+    return handler(authReq)
+  })
+}
+
 // Utility to get current user from request
 export async function getCurrentUser(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withAdminAuth } from '@/lib/auth-middleware'
+import { withAdminOrProctorAuth } from '@/lib/auth-middleware'
 import { prisma } from '@/lib/prisma'
 
 async function GET(req: NextRequest) {
-  return withAdminAuth(req, async () => {
+  return withAdminOrProctorAuth(req, async () => {
     try {
       const [
         totalExams,

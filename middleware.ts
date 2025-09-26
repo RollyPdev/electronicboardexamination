@@ -14,13 +14,19 @@ export default withAuth(
     // Role-based redirects
     if (pathname.startsWith('/admin')) {
       if (token.role !== 'ADMIN') {
-        return NextResponse.redirect(new URL('/student', req.url))
+        return NextResponse.redirect(new URL(token.role === 'PROCTOR' ? '/proctor' : '/student', req.url))
+      }
+    }
+
+    if (pathname.startsWith('/proctor')) {
+      if (token.role !== 'PROCTOR') {
+        return NextResponse.redirect(new URL(token.role === 'ADMIN' ? '/admin' : '/student', req.url))
       }
     }
 
     if (pathname.startsWith('/student')) {
       if (token.role !== 'STUDENT') {
-        return NextResponse.redirect(new URL('/admin', req.url))
+        return NextResponse.redirect(new URL(token.role === 'ADMIN' ? '/admin' : '/proctor', req.url))
       }
     }
 
@@ -33,6 +39,8 @@ export default withAuth(
     if (pathname === '/') {
       if (token.role === 'ADMIN') {
         return NextResponse.redirect(new URL('/admin', req.url))
+      } else if (token.role === 'PROCTOR') {
+        return NextResponse.redirect(new URL('/proctor', req.url))
       } else if (token.role === 'STUDENT') {
         return NextResponse.redirect(new URL('/student', req.url))
       }
@@ -51,6 +59,7 @@ export const config = {
   matcher: [
     '/',
     '/admin/:path*',
+    '/proctor/:path*',
     '/student/:path*',
     '/loading'
   ]

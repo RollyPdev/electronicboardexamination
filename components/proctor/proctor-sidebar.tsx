@@ -10,12 +10,9 @@ import {
   LayoutDashboard, 
   BookOpen, 
   Users, 
-  BarChart3, 
-  Settings,
+  BarChart3,
   FileText,
-  Camera,
   Trophy,
-  UserCheck,
   Menu,
   X,
   ChevronLeft,
@@ -23,26 +20,21 @@ import {
 } from 'lucide-react'
 
 const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { name: 'Exams', href: '/admin/exams', icon: BookOpen },
-  { name: 'Students', href: '/admin/students', icon: Users },
-  { name: 'Proctors', href: '/admin/proctors', icon: UserCheck },
-  { name: 'Results', href: '/admin/results', icon: FileText },
-  { name: 'Mock Board Results', href: '/admin/mock-results', icon: Trophy },
-  { name: 'Recordings', href: '/admin/recordings', icon: Camera },
-  { name: 'Rankings', href: '/admin/rankings', icon: BarChart3 },
-  { name: 'Activation', href: '/admin/activation', icon: UserCheck },
-  { name: 'Settings', href: '/admin/settings', icon: Settings },
+  { name: 'Dashboard', href: '/proctor', icon: LayoutDashboard },
+  { name: 'Exams', href: '/proctor/exams', icon: BookOpen },
+  { name: 'Students', href: '/proctor/students', icon: Users },
+  { name: 'Results', href: '/proctor/results', icon: FileText },
+  { name: 'Mock Board Results', href: '/proctor/mock-results', icon: Trophy },
+  { name: 'Rankings', href: '/proctor/rankings', icon: BarChart3 },
 ]
 
-export function AdminSidebar() {
+export function ProctorSidebar() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const { isCollapsed, setIsCollapsed } = useSidebar()
 
   return (
     <>
-      {/* Mobile menu button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200"
@@ -50,7 +42,6 @@ export function AdminSidebar() {
         {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
 
-      {/* Overlay */}
       {isOpen && (
         <div 
           className="lg:hidden fixed inset-0 z-40 bg-white/20 backdrop-blur-sm" 
@@ -58,7 +49,6 @@ export function AdminSidebar() {
         />
       )}
 
-      {/* Sidebar */}
       <div className={cn(
         "fixed inset-y-0 left-0 z-50 bg-white/95 backdrop-blur-xl border-r border-slate-200/60 shadow-xl flex flex-col transition-all duration-300 ease-in-out",
         "lg:translate-x-0",
@@ -70,20 +60,20 @@ export function AdminSidebar() {
         "flex h-20 items-center border-b border-slate-200/60 flex-shrink-0 transition-all duration-300",
         isCollapsed ? "justify-center px-4" : "justify-between px-8"
       )}>
-        <Link href="/admin" className={cn(
+        <Link href="/proctor" className={cn(
           "flex items-center group transition-all duration-300",
           isCollapsed && "justify-center"
         )}>
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
-            <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl">
+            <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
+            <div className="relative bg-gradient-to-r from-green-600 to-blue-600 p-2 rounded-xl">
               <GraduationCap className="h-8 w-8 text-white" />
             </div>
           </div>
           {!isCollapsed && (
             <div className="ml-4">
               <span className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">Coeus</span>
-              <div className="text-sm text-slate-500 font-medium">Admin Portal</div>
+              <div className="text-sm text-slate-500 font-medium">Proctor Portal</div>
             </div>
           )}
         </Link>
@@ -119,13 +109,13 @@ export function AdminSidebar() {
                     'group flex items-center text-sm font-medium rounded-xl transition-all duration-200 relative overflow-hidden',
                     isCollapsed ? 'px-3 py-3 justify-center' : 'px-4 py-3',
                     isActive
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25'
+                      ? 'bg-gradient-to-r from-green-600 to-blue-600 text-white shadow-lg shadow-green-500/25'
                       : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                   )}
                   title={isCollapsed ? item.name : undefined}
                 >
                   {isActive && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-10"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 opacity-10"></div>
                   )}
                   <item.icon className={cn(
                     "h-5 w-5 transition-colors relative z-10",
@@ -144,23 +134,6 @@ export function AdminSidebar() {
           })}
         </ul>
       </nav>
-      
-      {!isCollapsed && (
-        <div className="p-6 flex-shrink-0">
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-100">
-            <div className="text-sm font-medium text-slate-900 mb-1">📚 Need Help?</div>
-            <div className="text-xs text-slate-600 mb-3">Access our comprehensive documentation and guides</div>
-            <a 
-              href="https://docs.coeus-exams.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-block text-xs bg-white text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-blue-300 transition-all duration-200 font-medium"
-            >
-              📖 View Documentation
-            </a>
-          </div>
-        </div>
-      )}
       </div>
     </>
   )

@@ -51,3 +51,11 @@ export function StudentGuard({ children, fallback, loading }: Omit<RoleGuardProp
     </RoleGuard>
   )
 }
+
+export function ProctorGuard({ children, fallback, loading }: Omit<RoleGuardProps, 'allowedRoles'>) {
+  return (
+    <RoleGuard allowedRoles={[Role.PROCTOR]} fallback={fallback} loading={loading}>
+      {children}
+    </RoleGuard>
+  )
+}

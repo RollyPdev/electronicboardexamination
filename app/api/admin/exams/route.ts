@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withAdminAuth } from '@/lib/auth-middleware'
+import { withAdminOrProctorAuth } from '@/lib/auth-middleware'
 import { prisma } from '@/lib/prisma'
 import { createExamSchema } from '@/lib/exam-utils'
 
 // GET /api/admin/exams - List all exams
 async function GET(req: NextRequest) {
-  return withAdminAuth(req, async (authReq) => {
+  return withAdminOrProctorAuth(req, async (authReq) => {
     try {
       const { searchParams } = new URL(authReq.url)
       const page = parseInt(searchParams.get('page') || '1')
@@ -67,7 +67,7 @@ async function GET(req: NextRequest) {
 
 // POST /api/admin/exams - Create new exam
 async function POST(req: NextRequest) {
-  return withAdminAuth(req, async (authReq) => {
+  return withAdminOrProctorAuth(req, async (authReq) => {
     try {
       const body = await req.json()
       const { questions, ...examData } = body

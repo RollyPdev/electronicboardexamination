@@ -119,6 +119,10 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Email**: student@example.com
 - **Password**: student123
 
+### Proctor Account
+- **Email**: proctor@example.com
+- **Password**: proctor123
+
 ## Testing
 
 ### Unit Tests

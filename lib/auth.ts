@@ -90,6 +90,7 @@ export const authOptions: NextAuthOptions = {
           const validPasswords: Record<string, string> = {
             'admin@example.com': 'admin123',
             'student@example.com': 'student123',
+            'proctor@example.com': 'proctor123',
           }
           
           const isValidPassword = validPasswords[credentials.email] === credentials.password
