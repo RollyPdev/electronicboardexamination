@@ -53,32 +53,32 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
-        <h1 className="text-3xl font-bold mb-2">Welcome back, Admin!</h1>
-        <p className="text-blue-100 text-lg">
+    <div className="space-responsive">
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl card-responsive text-white">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Welcome back, Admin!</h1>
+        <p className="text-blue-100 text-sm sm:text-base lg:text-lg">
           Here's an overview of your examination system performance.
         </p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-4">
         <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100 hover:shadow-xl transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-semibold text-blue-900">Total Exams</CardTitle>
-            <div className="p-2 bg-blue-600 rounded-xl">
-              <BookOpen className="h-5 w-5 text-white" />
+            <CardTitle className="text-xs sm:text-sm font-semibold text-blue-900">Total Exams</CardTitle>
+            <div className="p-1.5 sm:p-2 bg-blue-600 rounded-xl">
+              <BookOpen className="h-3 w-3 sm:h-5 sm:w-5 text-white" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-900 mb-1">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-900 mb-1">
               {isLoading ? (
-                <div className="h-8 w-16 bg-blue-200 rounded animate-pulse"></div>
+                <div className="h-6 sm:h-8 w-12 sm:w-16 bg-blue-200 rounded animate-pulse"></div>
               ) : (
                 stats.totalExams
               )}
             </div>
-            <p className="text-sm text-blue-700">
+            <p className="text-xs sm:text-sm text-blue-700">
               {stats.publishedExams} published
             </p>
           </CardContent>
@@ -149,7 +149,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent Activity */}
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2 border-0 shadow-lg">
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">

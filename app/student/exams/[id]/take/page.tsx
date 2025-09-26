@@ -1,5 +1,6 @@
 'use client'
 
+import '../../../exam-security.css'
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -12,7 +13,9 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Progress } from '@/components/ui/progress'
 import { CameraRecorder } from '@/components/exam/camera-recorder'
 import { AntiCheatWarning } from '@/components/exam/anti-cheat-warning'
+import { SecurityWarning } from '@/components/exam/security-warning'
 import { useAntiCheat } from '@/hooks/use-anti-cheat'
+import { useScreenshotPrevention } from '@/hooks/use-screenshot-prevention'
 import { 
   Clock, 
   ChevronLeft, 
@@ -68,7 +71,9 @@ export default function TakeExamPage() {
   const [examResultId, setExamResultId] = useState<string | null>(null)
   const [antiCheatEvents, setAntiCheatEvents] = useState<number>(0)
   const [showAntiCheatWarning, setShowAntiCheatWarning] = useState(false)
+  const [showSecurityWarning, setShowSecurityWarning] = useState(false)
   const [lastEventType, setLastEventType] = useState<string>('')
+  const [lastSecurityEventType, setLastSecurityEventType] = useState<string>('')
   const [hasRestoredState, setHasRestoredState] = useState(false)
   const [showRecoveryNotification, setShowRecoveryNotification] = useState(false)
 
@@ -83,6 +88,23 @@ export default function TakeExamPage() {
       setShowAntiCheatWarning(true)
       console.warn('Anti-cheat event detected:', event.type)
     },
+  })
+
+  // Screenshot prevention
+  useScreenshotPrevention({
+    enabled: !!token && !!exam,
+    onScreenshotAttempt: () => {
+      setAntiCheatEvents(prev => prev + 1)
+      setLastSecurityEventType('screenshot_attempt')
+      setShowSecurityWarning(true)
+      logEvent({ type: 'screenshot_attempt', timestamp: new Date().toISOString() })
+    },
+    onScreenRecordingDetected: () => {
+      setAntiCheatEvents(prev => prev + 1)
+      setLastSecurityEventType('screen_recording')
+      setShowSecurityWarning(true)
+      logEvent({ type: 'screen_recording', timestamp: new Date().toISOString() })
+    }
   })
 
   // Fullscreen enforcement
@@ -444,7 +466,19 @@ export default function TakeExamPage() {
   const timeWarning = timeRemaining < 5 * 60 * 1000 // 5 minutes warning
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 select-none" style={{ userSelect: 'none', WebkitUserSelect: 'none' }}>
+    <div 
+      className="min-h-screen bg-gray-50 dark:bg-gray-900 select-none exam-secure" 
+      style={{ 
+        userSelect: 'none', 
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+        WebkitAppRegion: 'no-drag',
+        pointerEvents: 'auto'
+      }}
+      onContextMenu={(e) => e.preventDefault()}
+      onDragStart={(e) => e.preventDefault()}
+      onSelectStart={(e) => e.preventDefault()}
+    >
       {/* Anti-cheat warning modal */}
       <AntiCheatWarning
         isOpen={showAntiCheatWarning}
@@ -452,6 +486,15 @@ export default function TakeExamPage() {
         eventType={lastEventType}
         eventCount={antiCheatEvents}
         onContinue={() => setShowAntiCheatWarning(false)}
+      />
+
+      {/* Security warning modal */}
+      <SecurityWarning
+        isOpen={showSecurityWarning}
+        onClose={() => setShowSecurityWarning(false)}
+        eventType={lastSecurityEventType}
+        eventCount={antiCheatEvents}
+        onContinue={() => setShowSecurityWarning(false)}
       />
 
       {/* Recovery notification */}
@@ -466,26 +509,26 @@ export default function TakeExamPage() {
 
       {/* Fixed Header */}
       <div className="bg-white dark:bg-gray-800 border-b shadow-sm sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-xl font-bold">{exam.title}</h1>
-              <p className="text-sm text-muted-foreground">
+        <div className="container-responsive py-3 sm:py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-lg sm:text-xl font-bold truncate">{exam.title}</h1>
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 Question {currentQuestionIndex + 1} of {exam.questions.length}
               </p>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
               {/* Anti-cheat status */}
               {antiCheatEvents > 0 && (
-                <div className="text-xs text-red-600 bg-red-50 px-2 py-1 rounded">
-                  ⚠ {antiCheatEvents} event{antiCheatEvents !== 1 ? 's' : ''} logged
+                <div className="text-xs text-red-600 bg-red-50 px-2 py-1 rounded flex-shrink-0">
+                  ⚠ {antiCheatEvents} event{antiCheatEvents !== 1 ? 's' : ''}
                 </div>
               )}
 
               {/* Auto-save status */}
               {autoSaveStatus && (
-                <div className="text-xs text-muted-foreground">
+                <div className="text-xs text-muted-foreground hidden sm:block">
                   {autoSaveStatus === 'saving' && 'Saving...'}
                   {autoSaveStatus === 'saved' && '✓ Saved'}
                   {autoSaveStatus === 'error' && '⚠ Save failed'}
@@ -494,33 +537,31 @@ export default function TakeExamPage() {
 
               {/* State restored indicator */}
               {hasRestoredState && localStorage.getItem(`exam_state_${examId}`) && (
-                <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
+                <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded hidden sm:block">
                   ✓ Progress restored
                 </div>
               )}
 
               {/* Timer */}
-              <div className={`flex items-center gap-2 px-3 py-1 rounded-md ${
+              <div className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 rounded-md flex-shrink-0 ${
                 timeWarning ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
               }`}>
-                <Clock className="h-4 w-4" />
-                <span className="font-mono font-medium">
+                <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="font-mono font-medium text-sm sm:text-base">
                   {formatTime(timeRemaining)}
                 </span>
               </div>
-
-
             </div>
           </div>
 
           {/* Progress bar */}
-          <div className="mt-4">
-            <Progress value={progress} className="h-2" />
+          <div className="mt-3 sm:mt-4">
+            <Progress value={progress} className="h-1.5 sm:h-2" />
           </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <div className="container-responsive space-responsive">
         {/* Camera Recording Component - Disabled */}
         {false && examResultId && token && (
           <div className="fixed top-20 right-4 z-20">
@@ -532,17 +573,17 @@ export default function TakeExamPage() {
         )}
 
         {/* Question Card */}
-        <Card>
+        <Card className="card-responsive">
           <CardHeader>
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <CardTitle className="text-lg">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+              <div className="flex-1 min-w-0">
+                <CardTitle className="text-base sm:text-lg">
                   Question {currentQuestionIndex + 1}
-                  <span className="ml-2 text-sm font-normal text-muted-foreground">
+                  <span className="ml-2 text-xs sm:text-sm font-normal text-muted-foreground block sm:inline">
                     ({currentQuestion.points} {currentQuestion.points === 1 ? 'point' : 'points'})
                   </span>
                 </CardTitle>
-                <CardDescription className="mt-2 text-base leading-relaxed">
+                <CardDescription className="mt-2 text-sm sm:text-base leading-relaxed">
                   {currentQuestion.type === 'MCQ' ? getQuestionTextOnly(currentQuestion.text) : currentQuestion.text}
                 </CardDescription>
               </div>
@@ -554,18 +595,19 @@ export default function TakeExamPage() {
         </Card>
 
         {/* Navigation */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <Button
             variant="outline"
             onClick={() => navigateToQuestion(currentQuestionIndex - 1)}
             disabled={currentQuestionIndex === 0}
+            className="w-full sm:w-auto button-responsive"
           >
             <ChevronLeft className="mr-2 h-4 w-4" />
             Previous
           </Button>
 
-          <div className="text-center">
-            <span className="text-lg font-medium">
+          <div className="text-center order-first sm:order-none">
+            <span className="text-base sm:text-lg font-medium">
               {currentQuestionIndex + 1} of {exam.questions.length}
             </span>
           </div>
@@ -579,6 +621,7 @@ export default function TakeExamPage() {
                 navigateToQuestion(currentQuestionIndex + 1)
               }
             }}
+            className="w-full sm:w-auto button-responsive"
           >
             {isLastQuestion ? (
               <>

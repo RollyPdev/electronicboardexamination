@@ -15,15 +15,18 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
   const { isCollapsed } = useSidebar()
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex flex-col lg:flex-row">
       <AdminSidebar />
       <div className={cn(
-        "transition-all duration-300",
+        "flex-1 flex flex-col transition-all duration-300",
+        "lg:ml-0", // Remove left margin on mobile
         isCollapsed ? "lg:pl-16" : "lg:pl-72"
       )}>
-        <AdminHeader />
-        <main className="p-4 sm:p-6 lg:p-8 pt-16 lg:pt-8">
-          <div className="max-w-7xl mx-auto">
+        <div className="sticky top-0 z-40 w-full">
+          <AdminHeader />
+        </div>
+        <main className="flex-1 overflow-auto">
+          <div className="container-responsive py-4 sm:py-6 lg:py-8 space-responsive">
             {children}
           </div>
         </main>

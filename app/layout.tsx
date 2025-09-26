@@ -16,6 +16,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "e-BES - Electronic Board Examination System",
   description: "Electronic Board Examination System with advanced proctoring",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
 };
 
 export default function RootLayout({
@@ -26,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className="antialiased"
+        className="antialiased min-h-screen w-full overflow-x-hidden"
         suppressHydrationWarning={true}
       >
         <AuthProvider>

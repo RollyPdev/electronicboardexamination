@@ -93,15 +93,15 @@ export default function StudentResultsPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="container-responsive space-responsive">
       <div>
         <div className="flex items-center gap-2 mb-2">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <FileText className="h-4 w-4 text-blue-600" />
+          <div className="p-1.5 sm:p-2 bg-blue-100 rounded-lg">
+            <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
           </div>
-          <h1 className="text-2xl font-semibold text-gray-900">My Results</h1>
+          <h1 className="heading-responsive font-semibold text-gray-900">My Results</h1>
         </div>
-        <p className="text-gray-600">View your exam performance and detailed results</p>
+        <p className="text-responsive text-gray-600">View your exam performance and detailed results</p>
       </div>
 
       {results.length === 0 ? (
@@ -123,40 +123,40 @@ export default function StudentResultsPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-3 sm:gap-4">
           {results.map((result) => (
             <Card key={result.id} className="bg-white border border-gray-200 hover:shadow-md hover:border-blue-200 transition-all">
-              <CardHeader className="pb-3 bg-gray-50/50">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-base font-medium text-gray-900">{result.examTitle}</CardTitle>
-                    <p className="text-sm text-gray-600 mt-1">
+              <CardHeader className="pb-2 sm:pb-3 bg-gray-50/50">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <CardTitle className="text-sm sm:text-base font-medium text-gray-900">{result.examTitle}</CardTitle>
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
                       {result.examDescription || 'No description provided'}
                     </p>
                   </div>
-                  <div className="ml-3">
+                  <div className="flex-shrink-0">
                     {getStatusBadge(result.status)}
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <CardContent className="space-y-3 sm:space-y-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 text-xs sm:text-sm">
                   <div className="flex items-center gap-1 text-blue-600">
                     <Clock className="h-3 w-3" />
-                    {formatDuration(result.durationMin)}
+                    <span className="truncate">{formatDuration(result.durationMin)}</span>
                   </div>
                   <div className="flex items-center gap-1 text-green-600">
                     <BookOpen className="h-3 w-3" />
-                    {result.questionCount} questions
+                    <span>{result.questionCount} questions</span>
                   </div>
                   <div className="flex items-center gap-1 text-purple-600">
                     <Calendar className="h-3 w-3" />
-                    {new Date(result.startedAt).toLocaleDateString()}
+                    <span className="truncate">{new Date(result.startedAt).toLocaleDateString()}</span>
                   </div>
                   {result.submittedAt && (
                     <div className="flex items-center gap-1 text-gray-600">
                       <TrendingUp className="h-3 w-3" />
-                      Submitted
+                      <span>Submitted</span>
                     </div>
                   )}
                 </div>

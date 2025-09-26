@@ -149,12 +149,12 @@ export function Leaderboard({ examId, limit = 20 }: LeaderboardProps) {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h3 className="text-lg font-medium text-gray-900">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div className="min-w-0 flex-1">
+          <h3 className="text-base sm:text-lg font-medium text-gray-900">
             {data.type === 'exam' ? 'Exam Rankings' : 'Overall Leaderboard'}
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-xs sm:text-sm text-gray-600">
             {data.type === 'exam' 
               ? `Rankings for this exam (${data.totalParticipants} participants)`
               : `Top performers across all exams (${data.totalParticipants} students)`
@@ -168,65 +168,67 @@ export function Leaderboard({ examId, limit = 20 }: LeaderboardProps) {
               variant={viewType === 'overall' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setViewType('overall')}
-              className={viewType === 'overall' ? 'bg-blue-600 hover:bg-blue-700' : ''}
+              className={`${viewType === 'overall' ? 'bg-blue-600 hover:bg-blue-700' : ''} text-xs sm:text-sm`}
             >
-              <TrendingUp className="h-4 w-4 mr-1" />
+              <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
               Overall
             </Button>
           </div>
         )}
       </div>
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {data.rankings.map((item, index) => (
             <div 
               key={item.userId}
-              className={`flex items-center gap-3 p-4 rounded-lg border transition-all ${
+              className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border transition-all ${
                 item.isCurrentUser 
                   ? 'bg-blue-50 border-blue-200 shadow-sm' 
                   : 'bg-white border-gray-200 hover:shadow-md hover:border-blue-200'
               }`}
             >
-              <div className="flex items-center justify-center min-w-12">
+              <div className="flex items-center justify-center min-w-8 sm:min-w-12">
                 {getRankIcon(item.rank)}
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <p className="font-medium truncate">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                  <p className="font-medium truncate text-sm sm:text-base">
                     {item.userName || 'Anonymous'}
                   </p>
-                  {item.isCurrentUser && (
-                    <Badge variant="secondary" className="text-xs">
-                      You
-                    </Badge>
-                  )}
-                  {item.rank <= 3 && (
-                    <Badge variant={getRankBadgeVariant(item.rank)} className="text-xs">
-                      {item.rank === 1 ? 'Gold' : item.rank === 2 ? 'Silver' : 'Bronze'}
-                    </Badge>
-                  )}
+                  <div className="flex gap-1">
+                    {item.isCurrentUser && (
+                      <Badge variant="secondary" className="text-xs">
+                        You
+                      </Badge>
+                    )}
+                    {item.rank <= 3 && (
+                      <Badge variant={getRankBadgeVariant(item.rank)} className="text-xs">
+                        {item.rank === 1 ? 'Gold' : item.rank === 2 ? 'Silver' : 'Bronze'}
+                      </Badge>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-gray-600">
+                <div className="flex flex-wrap items-center gap-1 sm:gap-3 text-xs sm:text-sm text-gray-600">
                   {data.type === 'exam' ? (
                     <>
-                      <span>{item.score}/{item.maxScore} points</span>
-                      <span>•</span>
+                      <span>{item.score}/{item.maxScore} pts</span>
+                      <span className="hidden sm:inline">•</span>
                       <span>{item.percentage}%</span>
                     </>
                   ) : (
                     <>
                       <span>Avg: {item.averageScore} pts</span>
-                      <span>•</span>
+                      <span className="hidden sm:inline">•</span>
                       <span>{item.averagePercentage}%</span>
-                      <span>•</span>
+                      <span className="hidden sm:inline">•</span>
                       <span>{item.examsCompleted} exams</span>
                     </>
                   )}
                 </div>
               </div>
 
-              <div className="text-right">
-                <div className="font-bold text-lg text-blue-600">
+              <div className="text-right flex-shrink-0">
+                <div className="font-bold text-base sm:text-lg text-blue-600">
                   {data.type === 'exam' ? `${item.percentage}%` : `${item.averagePercentage}%`}
                 </div>
                 {data.type === 'overall' && (
@@ -236,7 +238,7 @@ export function Leaderboard({ examId, limit = 20 }: LeaderboardProps) {
                 )}
               </div>
             </div>
-          ))}
+          ))
 
           {/* Current user rank if not in top results */}
           {data.currentUserRank && !data.rankings.find(r => r.isCurrentUser) && (

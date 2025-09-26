@@ -160,55 +160,55 @@ export default function ExamsPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Examination Management</h1>
-            <p className="text-slate-600 text-lg">
+      <div className="bg-white rounded-2xl card-responsive shadow-lg border border-slate-200">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+          <div className="min-w-0 flex-1">
+            <h1 className="heading-responsive font-bold text-slate-900 mb-2">Examination Management</h1>
+            <p className="text-slate-600 text-responsive">
               Create, manage, and monitor your examination content
             </p>
           </div>
           <Button 
             onClick={() => setShowCreateModal(true)}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white button-responsive rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 w-full sm:w-auto"
           >
-            <Plus className="mr-2 h-5 w-5" />
+            <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
             Create Exam
           </Button>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
-        <div className="flex flex-col sm:flex-row gap-4">
+      <div className="bg-white rounded-2xl card-responsive shadow-lg border border-slate-200">
+        <div className="flex flex-col gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+            <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
             <Input
-              placeholder="Search exams by title or description..."
+              placeholder="Search exams..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 h-12 bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl"
+              className="pl-10 sm:pl-12 input-responsive bg-slate-50 border-slate-200 focus:bg-white transition-colors rounded-xl"
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Button
               variant={filter === 'all' ? 'default' : 'outline'}
               onClick={() => setFilter('all')}
-              className={filter === 'all' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'hover:bg-slate-100'}
+              className={`button-responsive ${filter === 'all' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'hover:bg-slate-100'}`}
             >
               All ({exams.length})
             </Button>
             <Button
               variant={filter === 'published' ? 'default' : 'outline'}
               onClick={() => setFilter('published')}
-              className={filter === 'published' ? 'bg-gradient-to-r from-green-600 to-green-700 text-white' : 'hover:bg-slate-100'}
+              className={`button-responsive ${filter === 'published' ? 'bg-gradient-to-r from-green-600 to-green-700 text-white' : 'hover:bg-slate-100'}`}
             >
               Published
             </Button>
             <Button
               variant={filter === 'draft' ? 'default' : 'outline'}
               onClick={() => setFilter('draft')}
-              className={filter === 'draft' ? 'bg-gradient-to-r from-orange-600 to-orange-700 text-white' : 'hover:bg-slate-100'}
+              className={`button-responsive ${filter === 'draft' ? 'bg-gradient-to-r from-orange-600 to-orange-700 text-white' : 'hover:bg-slate-100'}`}
             >
               Drafts
             </Button>
@@ -238,7 +238,7 @@ export default function ExamsPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredExams.map((exam) => (
             <Card key={exam.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-white">
               <CardHeader className="pb-4">

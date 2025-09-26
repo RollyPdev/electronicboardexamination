@@ -15,20 +15,18 @@ function StudentLayoutContent({ children }: StudentLayoutProps) {
   const { isCollapsed } = useSidebar()
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col lg:flex-row">
       <StudentSidebar />
       <div className={cn(
-        "transition-all duration-300",
+        "flex-1 flex flex-col transition-all duration-300",
+        "lg:ml-0", // Remove left margin on mobile, sidebar handles its own positioning
         isCollapsed ? "lg:pl-16" : "lg:pl-64"
       )}>
-        <div className={cn(
-          "fixed top-0 right-0 left-0 z-40 transition-all duration-300",
-          isCollapsed ? "lg:left-16" : "lg:left-64"
-        )}>
+        <div className="sticky top-0 z-40 w-full">
           <StudentHeader />
         </div>
-        <main className="pt-16 min-h-screen">
-          <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <main className="flex-1 overflow-auto">
+          <div className="container-responsive py-4 sm:py-6 lg:py-8 space-responsive">
             {children}
           </div>
         </main>
