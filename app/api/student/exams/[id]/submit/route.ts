@@ -15,9 +15,37 @@ async function POST(
       const body = await req.json()
       const { token } = body
 
-      // Verify exam token
-      const tokenData = verifyExamToken(token)
-      if (!tokenData || tokenData.examId !== id || tokenData.userId !== authReq.user!.id) {
+      console.log('Submit exam request:', { examId: id, userId: authReq.user?.id })
+
+      // Handle direct submission or verify exam token
+      let tokenData = null
+      if (token === 'direct-submit') {
+        // Direct submission from exam details page
+        tokenData = { examId: id, userId: authReq.user!.id }
+      } else {
+        // Regular token-based submission
+        tokenData = verifyExamToken(token)
+        if (!tokenData || tokenData.examId !== id) {
+          console.error('Invalid token:', { tokenData, examId: id })
+          return NextResponse.json({ error: 'Invalid exam token' }, { status: 401 })
+        }
+      }
+
+      // Ensure user exists
+      const user = await (prisma as any).user.upsert({
+        where: { email: authReq.user!.email },
+        update: {},
+        create: {
+          id: authReq.user!.id,
+          email: authReq.user!.email || 'student@example.com',
+          name: authReq.user!.name || 'Student',
+          role: 'STUDENT'
+        }
+      })
+
+      // Verify token userId matches authenticated user
+      if (tokenData.userId !== user.id) {
+        console.error('Token user mismatch:', { tokenUserId: tokenData.userId, actualUserId: user.id })
         return NextResponse.json({ error: 'Invalid exam token' }, { status: 401 })
       }
 
@@ -26,7 +54,7 @@ async function POST(
         where: {
           examId_userId: {
             examId: id,
-            userId: authReq.user!.id,
+            userId: user.id,
           },
         },
         include: {
@@ -39,12 +67,41 @@ async function POST(
       })
 
       if (!examResult) {
+        console.error('Exam result not found:', { examId: id, userId: user.id })
         return NextResponse.json({ error: 'Exam result not found' }, { status: 404 })
       }
 
-      if (examResult.status !== 'IN_PROGRESS') {
-        return NextResponse.json({ error: 'Exam is not in progress' }, { status: 400 })
+      console.log('Exam result found:', { id: examResult.id, status: examResult.status, answers: examResult.answers })
+
+      // Check if already submitted
+      if (examResult.status === 'SUBMITTED' || examResult.status === 'GRADED') {
+        console.log('Exam already submitted, returning existing result')
+        return NextResponse.json({
+          message: 'Exam already submitted',
+          resultId: examResult.id,
+          score: examResult.score || 0,
+          maxScore: examResult.maxScore || 0,
+          percentage: examResult.maxScore ? Math.round((examResult.score || 0) / examResult.maxScore * 100) : 0,
+          status: examResult.status,
+          submittedAt: examResult.submittedAt || new Date(),
+        })
       }
+
+      if (examResult.status !== 'IN_PROGRESS') {
+        console.error('Exam submission failed - status:', examResult.status, 'expected: IN_PROGRESS')
+        return NextResponse.json({ 
+          error: `Exam is not in progress. Current status: ${examResult.status}` 
+        }, { status: 400 })
+      }
+
+      // Update status to SUBMITTED before grading
+      await (prisma as any).examResult.update({
+        where: { id: examResult.id },
+        data: {
+          status: 'SUBMITTED',
+          submittedAt: new Date(),
+        },
+      })
 
       // Automatically grade the exam
       const gradingResult = await gradeExam(examResult.id)

@@ -41,6 +41,7 @@ export default function StudentExamsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [filter, setFilter] = useState<'all' | 'available' | 'completed' | 'in-progress'>('all')
+  const [startingExamId, setStartingExamId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchExams()
@@ -96,15 +97,34 @@ export default function StudentExamsPage() {
     }
   }
 
+  const handleStartExam = (examId: string) => {
+    setStartingExamId(examId)
+    window.location.href = `/student/exams/${examId}/start`
+  }
+
   const getActionButton = (exam: Exam) => {
+    const isStarting = startingExamId === exam.id
+    
     if (!exam.result) {
       return (
-        <Link href={`/student/exams/${exam.id}/start`}>
-          <Button size="sm" className="w-full">
-            <Play className="mr-2 h-4 w-4" />
-            Start Exam
-          </Button>
-        </Link>
+        <Button 
+          size="sm" 
+          className="w-full" 
+          onClick={() => handleStartExam(exam.id)}
+          disabled={isStarting}
+        >
+          {isStarting ? (
+            <>
+              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
+              Starting...
+            </>
+          ) : (
+            <>
+              <Play className="mr-2 h-4 w-4" />
+              Start Exam
+            </>
+          )}
+        </Button>
       )
     }
     
@@ -156,35 +176,35 @@ export default function StudentExamsPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="container-responsive space-responsive">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <div className="p-2 bg-blue-100 rounded-lg">
-          <BookOpen className="h-5 w-5 text-blue-600" />
+      <div className="flex items-center gap-2 sm:gap-3">
+        <div className="p-1.5 sm:p-2 bg-blue-100 rounded-lg flex-shrink-0">
+          <BookOpen className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-blue-600" />
         </div>
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Available Exams</h1>
-          <p className="text-gray-600">Take exams and track your progress</p>
+        <div className="min-w-0">
+          <h1 className="heading-responsive font-semibold text-gray-900 truncate">Available Exams</h1>
+          <p className="text-responsive text-gray-600 truncate">Take exams and track your progress</p>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex-responsive gap-3 sm:gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
           <Input
             placeholder="Search exams..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+            className="input-responsive pl-8 sm:pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1 sm:gap-2 overflow-x-auto pb-1">
           <Button
             variant={filter === 'all' ? 'default' : 'outline'}
             onClick={() => setFilter('all')}
             size="sm"
-            className={filter === 'all' ? 'bg-blue-600 hover:bg-blue-700' : 'border-gray-200 hover:bg-gray-50'}
+            className={`flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 ${filter === 'all' ? 'bg-blue-600 hover:bg-blue-700' : 'border-gray-200 hover:bg-gray-50'}`}
           >
             All
           </Button>
@@ -192,7 +212,7 @@ export default function StudentExamsPage() {
             variant={filter === 'available' ? 'default' : 'outline'}
             onClick={() => setFilter('available')}
             size="sm"
-            className={filter === 'available' ? 'bg-blue-600 hover:bg-blue-700' : 'border-gray-200 hover:bg-gray-50'}
+            className={`flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 ${filter === 'available' ? 'bg-blue-600 hover:bg-blue-700' : 'border-gray-200 hover:bg-gray-50'}`}
           >
             Available
           </Button>
@@ -200,15 +220,16 @@ export default function StudentExamsPage() {
             variant={filter === 'in-progress' ? 'default' : 'outline'}
             onClick={() => setFilter('in-progress')}
             size="sm"
-            className={filter === 'in-progress' ? 'bg-blue-600 hover:bg-blue-700' : 'border-gray-200 hover:bg-gray-50'}
+            className={`flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 ${filter === 'in-progress' ? 'bg-blue-600 hover:bg-blue-700' : 'border-gray-200 hover:bg-gray-50'}`}
           >
-            In Progress
+            <span className="hidden sm:inline">In Progress</span>
+            <span className="sm:hidden">Progress</span>
           </Button>
           <Button
             variant={filter === 'completed' ? 'default' : 'outline'}
             onClick={() => setFilter('completed')}
             size="sm"
-            className={filter === 'completed' ? 'bg-blue-600 hover:bg-blue-700' : 'border-gray-200 hover:bg-gray-50'}
+            className={`flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 ${filter === 'completed' ? 'bg-blue-600 hover:bg-blue-700' : 'border-gray-200 hover:bg-gray-50'}`}
           >
             Completed
           </Button>
@@ -238,49 +259,49 @@ export default function StudentExamsPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid-responsive grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {filteredExams.map((exam) => (
             <Card key={exam.id} className="bg-white border border-gray-200 hover:shadow-md hover:border-blue-200 transition-all shadow-sm">
-              <CardHeader className="pb-3 bg-gray-50/50">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-base font-medium text-gray-900 line-clamp-2">{exam.title}</CardTitle>
-                    <CardDescription className="text-sm text-gray-600 mt-1 line-clamp-2">
+              <CardHeader className="card-responsive pb-2 sm:pb-3 bg-gray-50/50">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <CardTitle className="text-sm sm:text-base font-medium text-gray-900 line-clamp-2">{exam.title}</CardTitle>
+                    <CardDescription className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
                       {exam.description || 'No description provided'}
                     </CardDescription>
                   </div>
-                  <div className="ml-3">
+                  <div className="flex-shrink-0">
                     {getStatusBadge(exam)}
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm">
+              <CardContent className="card-responsive pt-2 sm:pt-3">
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
                     <div className="flex items-center gap-1 text-blue-600">
                       <Clock className="h-3 w-3" />
-                      {formatDuration(exam.durationMin)}
+                      <span className="truncate">{formatDuration(exam.durationMin)}</span>
                     </div>
                     <div className="flex items-center gap-1 text-green-600">
                       <BookOpen className="h-3 w-3" />
-                      {exam.questionCount} questions
+                      <span>{exam.questionCount} questions</span>
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between text-sm text-gray-600">
-                    <div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 text-xs sm:text-sm text-gray-600">
+                    <div className="truncate">
                       Max Score: <span className="font-medium text-gray-900">{exam.maxScore}</span> points
                     </div>
-                    <span className="text-xs">
+                    <span className="text-xs flex-shrink-0">
                       {new Date(exam.createdAt).toLocaleDateString()}
                     </span>
                   </div>
 
                   {exam.result && exam.result.score !== null && exam.result.maxScore && (
-                    <div className="p-3 bg-blue-50 rounded-lg border border-blue-100">
-                      <div className="text-sm text-blue-700 mb-1">Your Score</div>
+                    <div className="p-2 sm:p-3 bg-blue-50 rounded-lg border border-blue-100">
+                      <div className="text-xs sm:text-sm text-blue-700 mb-1">Your Score</div>
                       <div className={cn(
-                        "text-base font-medium",
+                        "text-sm sm:text-base font-medium",
                         (exam.result.score / exam.result.maxScore) >= 0.8 ? "text-green-600" :
                         (exam.result.score / exam.result.maxScore) >= 0.6 ? "text-amber-600" : "text-red-600"
                       )}>

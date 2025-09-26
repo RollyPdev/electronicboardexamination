@@ -1,35 +1,23 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import fs from 'fs'
+import path from 'path'
 
-const institutions = [
-  'Capiz State University Main Campus - Roxas City',
-  'Capiz State University - Dayao Campus (Roxas City)',
-  'Capiz State University Dayao Satellite College',
-  'Hercor College (Roxas City)',
-  'University of the Philippines',
-  'Ateneo de Manila University',
-  'De La Salle University',
-  'University of Santo Tomas',
-  'Far Eastern University',
-  'Adamson University',
-  'National University',
-  'Polytechnic University of the Philippines',
-  'Technological University of the Philippines',
-  'Central Philippine University',
-  'University of San Carlos',
-  'Silliman University',
-  'Xavier University',
-  'Mindanao State University',
-  'University of the Philippines Diliman',
-  'University of the Philippines Los Baños'
-]
-
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const search = searchParams.get('search')?.toLowerCase() || ''
-
-  const filteredInstitutions = institutions.filter((institution: any) =>
-    institution.toLowerCase().includes(search)
-  )
-
-  return NextResponse.json({ institutions: filteredInstitutions })
+export async function GET() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'philippine-institutions.json')
+    
+    // Check if the file exists
+    if (!fs.existsSync(filePath)) {
+      // Return empty array if file doesn't exist
+      return NextResponse.json([])
+    }
+    
+    const fileContents = fs.readFileSync(filePath, 'utf8')
+    const institutions = JSON.parse(fileContents)
+    
+    return NextResponse.json(institutions)
+  } catch (error) {
+    console.error('Error loading institutions:', error)
+    return NextResponse.json([], { status: 500 })
+  }
 }

@@ -75,25 +75,34 @@ export default function ResultDetailPage() {
 
     switch (question.type) {
       case 'MCQ':
-        const options = question.options as string[]
+        const options = question.options
         if (!Array.isArray(options)) {
           return <span className="text-red-500">Invalid options format</span>
         }
         return (
           <div className="space-y-1 sm:space-y-2">
-            {options.map((option, index) => (
-              <div key={index} className={cn(
-                "p-2 sm:p-3 rounded border text-sm sm:text-base",
-                question.studentAnswer === index 
-                  ? "bg-blue-50 border-blue-200" 
-                  : "bg-gray-50 border-gray-200"
-              )}>
-                <span className="font-medium">{String.fromCharCode(65 + index)}.</span> {option}
-                {question.studentAnswer === index && (
-                  <CheckCircle className="inline ml-2 h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
-                )}
-              </div>
-            ))}
+            {options.map((option, index) => {
+              // Extract text from option object or use as string
+              const optionText = typeof option === 'string' 
+                ? option 
+                : (option && typeof option === 'object' && option.text) 
+                  ? String(option.text) 
+                  : `Option ${String.fromCharCode(65 + index)}`
+              
+              return (
+                <div key={index} className={cn(
+                  "p-2 sm:p-3 rounded border text-sm sm:text-base",
+                  question.studentAnswer === index 
+                    ? "bg-blue-50 border-blue-200" 
+                    : "bg-gray-50 border-gray-200"
+                )}>
+                  <span className="font-medium">{String.fromCharCode(65 + index)}.</span> {optionText}
+                  {question.studentAnswer === index && (
+                    <CheckCircle className="inline ml-2 h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
+                  )}
+                </div>
+              )
+            })}
           </div>
         )
       case 'TRUE_FALSE':

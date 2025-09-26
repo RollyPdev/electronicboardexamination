@@ -11,7 +11,17 @@ async function POST(
   return withStudentAuth(req, async (authReq) => {
     try {
       const { id } = await params
-      const body = await req.json()
+      
+      let body
+      try {
+        body = await req.json()
+      } catch {
+        return NextResponse.json(
+          { error: 'Invalid JSON body' },
+          { status: 400 }
+        )
+      }
+      
       const { token, event } = body
 
       if (!token || !event) {
@@ -23,7 +33,27 @@ async function POST(
 
       // Verify the exam token
       const tokenData = verifyExamToken(token)
-      if (!tokenData || tokenData.examId !== id || tokenData.userId !== authReq.user!.id) {
+      if (!tokenData || tokenData.examId !== id) {
+        return NextResponse.json(
+          { error: 'Invalid exam token' },
+          { status: 403 }
+        )
+      }
+
+      // Ensure user exists
+      const user = await (prisma as any).user.upsert({
+        where: { email: authReq.user!.email },
+        update: {},
+        create: {
+          id: authReq.user!.id,
+          email: authReq.user!.email || 'student@example.com',
+          name: authReq.user!.name || 'Student',
+          role: 'STUDENT'
+        }
+      })
+
+      // Verify token userId matches authenticated user
+      if (tokenData.userId !== user.id) {
         return NextResponse.json(
           { error: 'Invalid exam token' },
           { status: 403 }
@@ -35,24 +65,43 @@ async function POST(
         where: {
           examId_userId: {
             examId: id,
-            userId: authReq.user!.id,
+            userId: user.id,
           },
         },
       })
 
+      console.log('Exam result found:', examResult ? examResult.id : 'null')
+
       if (!examResult) {
+        console.log('Exam result not found, checking if exam exists')
+        
+        // Check if exam exists
+        const exam = await (prisma as any).exam.findUnique({
+          where: { id },
+        })
+        
+        if (!exam) {
+          console.log('Exam not found:', id)
+          return NextResponse.json(
+            { error: 'Exam not found' },
+            { status: 404 }
+          )
+        }
+        
+        console.log('Exam exists but no result found for user')
         return NextResponse.json(
-          { error: 'Exam session not found' },
+          { error: 'Exam session not found. Please start the exam first.' },
           { status: 404 }
         )
       }
 
-      if (examResult.status !== 'IN_PROGRESS') {
-        return NextResponse.json(
-          { error: 'Exam is not in progress' },
-          { status: 400 }
-        )
-      }
+      // Allow event logging for audit purposes even if exam is completed
+      // if (examResult.status !== 'IN_PROGRESS') {
+      //   return NextResponse.json(
+      //     { error: 'Exam is not in progress' },
+      //     { status: 400 }
+      //   )
+      // }
 
       // Add event to the events array
       const currentEvents = Array.isArray(examResult.events) ? examResult.events : []
@@ -72,13 +121,12 @@ async function POST(
       if (['TAB_SWITCH', 'PASTE_ATTEMPT', 'COPY_ATTEMPT', 'FULLSCREEN_EXIT'].includes(event.type)) {
         await (prisma as any).auditLog.create({
           data: {
-            userId: authReq.user!.id,
+            examResultId: examResult.id,
+            userId: user.id,
             action: `EXAM_${event.type}`,
-            resourceType: 'EXAM',
-            resourceId: id,
             details: {
-              examResultId: examResult.id,
               event,
+              examId: id,
             },
             ipAddress: authReq.headers.get('x-forwarded-for') || 
                       authReq.headers.get('x-real-ip') || 

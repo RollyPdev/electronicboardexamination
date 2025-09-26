@@ -181,6 +181,7 @@ async function GET(req: NextRequest) {
             averageScore: user.count > 0 ? user.totalScore / user.count : 0,
             averagePercentage: user.maxScore > 0 ? Math.round((user.totalScore / user.maxScore) * 100) : 0
           }))
+          .filter((user: any) => user.averagePercentage >= 70)
           .sort((a: any, b: any) => b.averageScore - a.averageScore)
           .slice(0, limit)
 

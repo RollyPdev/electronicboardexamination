@@ -54,7 +54,7 @@ async function GET(req: NextRequest) {
             bestScore: Math.round(bestScore)
           }
         })
-        .filter((student: any) => student.totalExams > 0)
+        .filter((student: any) => student.totalExams > 0 && student.averageScore >= 70)
         .sort((a: any, b: any) => b.averageScore - a.averageScore)
         .map((student: any, index: number) => ({
           ...student,

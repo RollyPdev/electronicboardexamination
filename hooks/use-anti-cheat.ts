@@ -24,7 +24,7 @@ export function useAntiCheat({
   const logEvent = useCallback(async (event: AntiCheatEvent) => {
     try {
       // Log to API
-      await fetch(`/api/student/exams/${examId}/events`, {
+      const response = await fetch(`/api/student/exams/${examId}/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -32,6 +32,16 @@ export function useAntiCheat({
           event,
         }),
       })
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+        console.warn('Anti-cheat event logging failed:', response.status, errorData.error)
+        
+        // Don't throw error for non-critical failures (404, 400) as they don't affect exam functionality
+        if (response.status !== 404 && response.status !== 400) {
+          throw new Error(`HTTP ${response.status}: ${errorData.error}`)
+        }
+      }
       
       // Call custom handler if provided
       onEvent?.(event)

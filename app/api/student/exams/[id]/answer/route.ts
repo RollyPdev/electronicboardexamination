@@ -16,7 +16,24 @@ async function PATCH(
 
       // Verify exam token
       const tokenData = verifyExamToken(token)
-      if (!tokenData || tokenData.examId !== id || tokenData.userId !== authReq.user!.id) {
+      if (!tokenData || tokenData.examId !== id) {
+        return NextResponse.json({ error: 'Invalid exam token' }, { status: 401 })
+      }
+
+      // Ensure user exists
+      const user = await (prisma as any).user.upsert({
+        where: { email: authReq.user!.email },
+        update: {},
+        create: {
+          id: authReq.user!.id,
+          email: authReq.user!.email || 'student@example.com',
+          name: authReq.user!.name || 'Student',
+          role: 'STUDENT'
+        }
+      })
+
+      // Verify token userId matches authenticated user
+      if (tokenData.userId !== user.id) {
         return NextResponse.json({ error: 'Invalid exam token' }, { status: 401 })
       }
 
@@ -28,7 +45,7 @@ async function PATCH(
         where: {
           examId_userId: {
             examId: id,
-            userId: authReq.user!.id,
+            userId: user.id,
           },
         },
       })

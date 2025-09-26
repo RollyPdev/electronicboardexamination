@@ -31,7 +31,13 @@ export function gradeQuestion(
     case 'MCQ':
       const options = Array.isArray(question.options) ? question.options : []
       const correctOption = options.find((opt: any) => opt.correct)
-      isCorrect = correctOption && answer.answer === correctOption.label
+      // Check both label and text for compatibility
+      const answerText = answer.answer
+      isCorrect = correctOption && (
+        answerText === correctOption.label || 
+        answerText === correctOption.text ||
+        answerText === `${correctOption.label}) ${correctOption.text}`
+      )
       if (!isCorrect) {
         feedback = correctOption 
           ? `Correct answer: ${correctOption.label}) ${correctOption.text}`

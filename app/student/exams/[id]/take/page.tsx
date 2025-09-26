@@ -32,7 +32,7 @@ interface Question {
   text: string
   points: number
   order: number
-  options?: Array<{ label: string; text: string }>
+  options?: string[] | null
 }
 
 interface ExamData {
@@ -75,6 +75,8 @@ export default function TakeExamPage() {
   const [lastSecurityEventType, setLastSecurityEventType] = useState<string>('')
   const [hasRestoredState, setHasRestoredState] = useState(false)
   const [showRecoveryNotification, setShowRecoveryNotification] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [submissionResult, setSubmissionResult] = useState<any>(null)
 
   // Anti-cheat monitoring
   const { logEvent } = useAntiCheat({
@@ -327,9 +329,10 @@ export default function TakeExamPage() {
 
       if (response.ok) {
         const data = await response.json()
+        setSubmissionResult(data)
+        setShowSuccessModal(true)
         // Clear saved state after successful submission
         localStorage.removeItem(`exam_state_${examId}`)
-        router.push(`/student/results/${data.resultId}`)
       } else {
         const errorData = await response.json()
         setError(errorData.error || 'Failed to submit exam')
@@ -368,28 +371,53 @@ export default function TakeExamPage() {
 
   const renderQuestion = (question: Question) => {
     const currentAnswer = answers[question.id]?.answer
+    
+    console.log('Rendering question:', question.id, 'type:', question.type)
+    console.log('Question options:', question.options)
+    console.log('Options type:', typeof question.options)
+    if (Array.isArray(question.options)) {
+      question.options.forEach((opt, i) => {
+        console.log(`Option ${i}:`, opt, 'type:', typeof opt)
+      })
+    }
 
     switch (question.type) {
-      case 'MCQ':
-        const options = typeof question.options === 'string' 
-          ? JSON.parse(question.options) 
-          : question.options
+      case 'MCQ': {
+        const options = question.options || []
+        
+        if (!Array.isArray(options)) {
+          return <div>Error: Invalid question options</div>
+        }
         
         return (
           <RadioGroup
             value={currentAnswer || ''}
             onValueChange={(value) => handleAnswerChange(question.id, value)}
           >
-            {Array.isArray(options) && options.map((option) => (
-              <div key={option.label} className="flex items-center space-x-2">
-                <RadioGroupItem value={option.label} id={`${question.id}-${option.label}`} />
-                <Label htmlFor={`${question.id}-${option.label}`} className="flex-1 cursor-pointer">
-                  <span className="font-medium">{option.label})</span> {option.text}
-                </Label>
-              </div>
-            ))}
+            {options.map((option: any, index: number) => {
+              const label = String.fromCharCode(65 + index)
+              let optionText = ''
+              
+              if (typeof option === 'string') {
+                optionText = option
+              } else if (option && typeof option === 'object' && option.text) {
+                optionText = String(option.text)
+              } else {
+                optionText = `Option ${label}`
+              }
+              
+              return (
+                <div key={index} className="flex items-center space-x-2">
+                  <RadioGroupItem value={optionText} id={`${question.id}-${label}`} />
+                  <Label htmlFor={`${question.id}-${label}`} className="flex-1 cursor-pointer">
+                    {label}) {optionText}
+                  </Label>
+                </div>
+              )
+            })}
           </RadioGroup>
         )
+      }
 
       case 'TRUE_FALSE':
         return (
@@ -476,7 +504,7 @@ export default function TakeExamPage() {
       }}
       onContextMenu={(e) => e.preventDefault()}
       onDragStart={(e) => e.preventDefault()}
-      onSelectStart={(e) => e.preventDefault()}
+      onSelectStartCapture={(e) => e.preventDefault()}
     >
       {/* Anti-cheat warning modal */}
       <AntiCheatWarning
@@ -502,6 +530,41 @@ export default function TakeExamPage() {
           <div className="flex items-center">
             <Save className="h-4 w-4 mr-2" />
             <span className="text-sm font-medium">Your exam progress has been restored!</span>
+          </div>
+        </div>
+      )}
+
+      {/* Success Modal */}
+      {showSuccessModal && submissionResult && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                <Send className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Exam Submitted Successfully!</h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Your exam has been submitted and graded automatically.
+              </p>
+              <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <div className="text-sm text-gray-600">Your Score:</div>
+                <div className="text-2xl font-bold text-green-600">
+                  {submissionResult.score}/{submissionResult.maxScore}
+                </div>
+                <div className="text-sm text-gray-600">
+                  ({submissionResult.percentage}%)
+                </div>
+              </div>
+              <Button 
+                onClick={() => {
+                  setShowSuccessModal(false)
+                  router.push(`/student/results/${submissionResult.resultId}`)
+                }}
+                className="w-full"
+              >
+                View Detailed Results
+              </Button>
+            </div>
           </div>
         </div>
       )}
@@ -621,11 +684,16 @@ export default function TakeExamPage() {
               }
             }}
             className="w-full sm:w-auto button-responsive"
+            disabled={isSubmitting}
           >
             {isLastQuestion ? (
               <>
-                <Send className="mr-2 h-4 w-4" />
-                Submit Exam
+                {isSubmitting ? (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                ) : (
+                  <Send className="mr-2 h-4 w-4" />
+                )}
+                {isSubmitting ? 'Submitting...' : 'Submit Exam'}
               </>
             ) : (
               <>

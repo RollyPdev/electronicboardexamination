@@ -50,6 +50,8 @@ model User {
   sessions       Session[]
   examsTaken     ExamResult[]
   createdExams   Exam[]       @relation("ExamCreator")
+  sentMessages   Message[]    @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
 
   @@map("users")
 }
@@ -157,6 +159,21 @@ model Settings {
   updatedAt                DateTime @updatedAt
 
   @@map("settings")
+}
+
+model Message {
+  id         String      @id @default(cuid())
+  subject    String?
+  content    String
+  fromId     String
+  toId       String
+  isRead     Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  from       User        @relation("SentMessages", fields: [fromId], references: [id], onDelete: Cascade)
+  to         User        @relation("ReceivedMessages", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
 }
 
 model Student {

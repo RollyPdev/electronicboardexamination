@@ -5,7 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Search, FileText, User, Calendar, Eye, Award } from 'lucide-react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Search, FileText, User, Calendar, Eye, Award, Plus, Edit, Trash2 } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { calculateCLEResult, formatCLETable, type CLEResult } from '@/lib/cle-scoring'
 
@@ -26,15 +29,40 @@ interface ExamResult {
   }
 }
 
+interface Exam {
+  id: string
+  title: string
+}
+
+interface User {
+  id: string
+  name: string | null
+  email: string
+}
+
 export default function ResultsPage() {
   const [results, setResults] = useState<ExamResult[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedResult, setSelectedResult] = useState<ExamResult | null>(null)
   const [cleResult, setCleResult] = useState<CLEResult | null>(null)
+  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editingResult, setEditingResult] = useState<ExamResult | null>(null)
+  const [exams, setExams] = useState<Exam[]>([])
+  const [users, setUsers] = useState<User[]>([])
+  const [formData, setFormData] = useState({
+    examId: '',
+    userId: '',
+    score: '',
+    maxScore: '',
+    status: 'IN_PROGRESS'
+  })
 
   useEffect(() => {
     fetchResults()
+    fetchExams()
+    fetchUsers()
   }, [])
 
   const fetchResults = async () => {
@@ -48,6 +76,107 @@ export default function ResultsPage() {
       console.error('Error fetching results:', error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const fetchExams = async () => {
+    try {
+      const response = await fetch('/api/admin/exams')
+      if (response.ok) {
+        const data = await response.json()
+        setExams(data.exams)
+      }
+    } catch (error) {
+      console.error('Error fetching exams:', error)
+    }
+  }
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch('/api/admin/users')
+      if (response.ok) {
+        const data = await response.json()
+        setUsers(data.users.filter((u: User) => u.email !== 'admin@example.com'))
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error)
+    }
+  }
+
+  const handleCreate = async () => {
+    try {
+      const response = await fetch('/api/admin/results', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          examId: formData.examId,
+          userId: formData.userId,
+          score: formData.score ? parseFloat(formData.score) : null,
+          maxScore: formData.maxScore ? parseFloat(formData.maxScore) : null,
+          status: formData.status
+        })
+      })
+      
+      if (response.ok) {
+        fetchResults()
+        setShowCreateModal(false)
+        setFormData({ examId: '', userId: '', score: '', maxScore: '', status: 'IN_PROGRESS' })
+      }
+    } catch (error) {
+      console.error('Error creating result:', error)
+    }
+  }
+
+  const handleEdit = (result: ExamResult) => {
+    setEditingResult(result)
+    setFormData({
+      examId: '',
+      userId: '',
+      score: result.score?.toString() || '',
+      maxScore: result.maxScore?.toString() || '',
+      status: result.status
+    })
+    setShowEditModal(true)
+  }
+
+  const handleUpdate = async () => {
+    if (!editingResult) return
+    
+    try {
+      const response = await fetch(`/api/admin/results/${editingResult.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          score: formData.score ? parseFloat(formData.score) : null,
+          maxScore: formData.maxScore ? parseFloat(formData.maxScore) : null,
+          status: formData.status
+        })
+      })
+      
+      if (response.ok) {
+        fetchResults()
+        setShowEditModal(false)
+        setEditingResult(null)
+        setFormData({ examId: '', userId: '', score: '', maxScore: '', status: 'IN_PROGRESS' })
+      }
+    } catch (error) {
+      console.error('Error updating result:', error)
+    }
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this result?')) return
+    
+    try {
+      const response = await fetch(`/api/admin/results/${id}`, {
+        method: 'DELETE'
+      })
+      
+      if (response.ok) {
+        fetchResults()
+      }
+    } catch (error) {
+      console.error('Error deleting result:', error)
     }
   }
 
@@ -182,8 +311,14 @@ export default function ResultsPage() {
               Monitor and review all student exam submissions and performance
             </p>
           </div>
-          <div className="p-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl">
-            <FileText className="h-8 w-8 text-blue-600" />
+          <div className="flex items-center gap-4">
+            <Button onClick={() => setShowCreateModal(true)} className="bg-blue-600 hover:bg-blue-700">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Result
+            </Button>
+            <div className="p-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl">
+              <FileText className="h-8 w-8 text-blue-600" />
+            </div>
           </div>
         </div>
       </div>
@@ -329,15 +464,33 @@ export default function ResultsPage() {
                         }) : 'Not submitted'}
                       </div>
                     </div>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => viewResult(result)}
-                      className="hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
-                    >
-                      <Eye className="h-4 w-4 mr-2" />
-                      View Details
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => viewResult(result)}
+                        className="hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        View
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleEdit(result)}
+                        className="hover:bg-green-50 hover:text-green-600 hover:border-green-200"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleDelete(result.id)}
+                        className="hover:bg-red-50 hover:text-red-600 hover:border-red-200"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -457,6 +610,124 @@ export default function ResultsPage() {
           </div>
         </div>
       )}
+
+      {/* Create Modal */}
+      <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create New Result</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Exam</Label>
+              <Select value={formData.examId} onValueChange={(value) => setFormData({...formData, examId: value})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select exam" />
+                </SelectTrigger>
+                <SelectContent>
+                  {exams.map(exam => (
+                    <SelectItem key={exam.id} value={exam.id}>{exam.title}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Student</Label>
+              <Select value={formData.userId} onValueChange={(value) => setFormData({...formData, userId: value})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select student" />
+                </SelectTrigger>
+                <SelectContent>
+                  {users.map(user => (
+                    <SelectItem key={user.id} value={user.id}>{user.name || user.email}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Score</Label>
+              <Input 
+                type="number" 
+                value={formData.score} 
+                onChange={(e) => setFormData({...formData, score: e.target.value})}
+                placeholder="Enter score"
+              />
+            </div>
+            <div>
+              <Label>Max Score</Label>
+              <Input 
+                type="number" 
+                value={formData.maxScore} 
+                onChange={(e) => setFormData({...formData, maxScore: e.target.value})}
+                placeholder="Enter max score"
+              />
+            </div>
+            <div>
+              <Label>Status</Label>
+              <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                  <SelectItem value="SUBMITTED">Submitted</SelectItem>
+                  <SelectItem value="GRADED">Graded</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowCreateModal(false)}>Cancel</Button>
+            <Button onClick={handleCreate}>Create</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Modal */}
+      <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Result</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Score</Label>
+              <Input 
+                type="number" 
+                value={formData.score} 
+                onChange={(e) => setFormData({...formData, score: e.target.value})}
+                placeholder="Enter score"
+              />
+            </div>
+            <div>
+              <Label>Max Score</Label>
+              <Input 
+                type="number" 
+                value={formData.maxScore} 
+                onChange={(e) => setFormData({...formData, maxScore: e.target.value})}
+                placeholder="Enter max score"
+              />
+            </div>
+            <div>
+              <Label>Status</Label>
+              <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                  <SelectItem value="SUBMITTED">Submitted</SelectItem>
+                  <SelectItem value="GRADED">Graded</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowEditModal(false)}>Cancel</Button>
+            <Button onClick={handleUpdate}>Update</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

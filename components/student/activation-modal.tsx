@@ -54,45 +54,45 @@ export function ActivationModal({ isOpen }: ActivationModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
-      <DialogContent className="sm:max-w-md" hideCloseButton>
+      <DialogContent className="modal-responsive" hideCloseButton>
         <DialogHeader>
-          <div className="flex items-center justify-center mb-4">
-            <div className="p-3 bg-blue-100 rounded-full">
-              <Shield className="h-6 w-6 text-blue-600" />
+          <div className="flex items-center justify-center mb-3 sm:mb-4">
+            <div className="p-2 sm:p-3 bg-blue-100 rounded-full">
+              <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
             </div>
           </div>
-          <DialogTitle className="text-center">Account Activation Required</DialogTitle>
-          <DialogDescription className="text-center">
+          <DialogTitle className="text-center text-base sm:text-lg">Account Activation Required</DialogTitle>
+          <DialogDescription className="text-center text-sm sm:text-base">
             Your account needs to be activated. Please enter the activation code provided by your administrator.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4 mt-4">
+        <div className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
           <div>
-            <Label htmlFor="activationCodeInput">Enter Activation Code</Label>
+            <Label htmlFor="activationCodeInput" className="text-xs sm:text-sm">Enter Activation Code</Label>
             <Input
               id="activationCodeInput"
               placeholder="Enter your activation code"
               value={enteredActivationCode}
               onChange={(e) => setEnteredActivationCode(e.target.value.toUpperCase())}
-              className="text-center font-mono text-lg"
+              className="input-responsive text-center font-mono text-base sm:text-lg"
               maxLength={6}
             />
           </div>
           {activationError && (
-            <p className="text-red-500 text-sm text-center">{activationError}</p>
+            <p className="text-red-500 text-xs sm:text-sm text-center">{activationError}</p>
           )}
           <Button
             onClick={handleActivation}
             disabled={isActivating || !enteredActivationCode}
-            className="w-full bg-blue-600 hover:bg-blue-700"
+            className="button-responsive w-full bg-blue-600 hover:bg-blue-700"
           >
             {isActivating ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Activating...
+                <Loader2 className="mr-2 h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
+                <span className="text-xs sm:text-sm">Activating...</span>
               </>
             ) : (
-              'Activate Account'
+              <span className="text-xs sm:text-sm">Activate Account</span>
             )}
           </Button>
         </div>

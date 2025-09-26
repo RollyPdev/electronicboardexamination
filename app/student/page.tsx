@@ -49,6 +49,7 @@ export default function StudentDashboard() {
     bestScore: 0,
   })
   const [isLoading, setIsLoading] = useState(true)
+  const [startingExamId, setStartingExamId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchDashboardData()
@@ -101,15 +102,34 @@ export default function StudentDashboard() {
     }
   }
 
+  const handleStartExam = (examId: string) => {
+    setStartingExamId(examId)
+    window.location.href = `/student/exams/${examId}/start`
+  }
+
   const getActionButton = (exam: ExamSummary) => {
+    const isStarting = startingExamId === exam.id
+    
     if (!exam.result) {
       return (
-        <Link href={`/student/exams/${exam.id}/start`}>
-          <Button size="sm" className="w-full">
-            <Play className="mr-2 h-4 w-4" />
-            Start Exam
-          </Button>
-        </Link>
+        <Button 
+          size="sm" 
+          className="w-full" 
+          onClick={() => handleStartExam(exam.id)}
+          disabled={isStarting}
+        >
+          {isStarting ? (
+            <>
+              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
+              Starting...
+            </>
+          ) : (
+            <>
+              <Play className="mr-2 h-4 w-4" />
+              Start Exam
+            </>
+          )}
+        </Button>
       )
     }
     
@@ -289,12 +309,15 @@ export default function StudentDashboard() {
                 <CardHeader className="pb-2 sm:pb-3 bg-gray-50/50">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <CardTitle className="text-sm sm:text-base font-medium text-gray-900 truncate">{exam.title}</CardTitle>
-                      <CardDescription className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
-                        {exam.description || 'No description provided'}
+                      <CardTitle className="text-sm sm:text-base font-medium text-gray-900 line-clamp-1">{exam.title}</CardTitle>
+                      <CardDescription className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-3 max-h-12 sm:max-h-16 overflow-hidden">
+                        {exam.description && exam.description.length > 100 
+                          ? `${exam.description.substring(0, 100)}...` 
+                          : exam.description || 'No description provided'
+                        }
                       </CardDescription>
                     </div>
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 mt-1">
                       {getStatusBadge(exam)}
                     </div>
                   </div>

@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Switch } from '@/components/ui/switch'
 import { ArrowLeft, Plus, Trash2, Save, Edit } from 'lucide-react'
 import Link from 'next/link'
 
@@ -60,6 +61,14 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
   })
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
+  const [isEditingExam, setIsEditingExam] = useState(false)
+  const [examData, setExamData] = useState({
+    title: '',
+    description: '',
+    durationMin: 0,
+    randomize: false,
+    published: false
+  })
 
   useEffect(() => {
     fetchExam()
@@ -71,6 +80,13 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
       if (response.ok) {
         const data = await response.json()
         setExam(data)
+        setExamData({
+          title: data.title,
+          description: data.description || '',
+          durationMin: data.durationMin,
+          randomize: data.randomize,
+          published: data.published
+        })
       } else {
         setError('Failed to load exam')
       }
@@ -232,6 +248,34 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
     }
   }
 
+  const updateExam = async () => {
+    if (!examData.title.trim()) {
+      setError('Exam title is required')
+      return
+    }
+
+    setIsUpdating(true)
+    try {
+      const response = await fetch(`/api/admin/exams/${resolvedParams.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(examData)
+      })
+
+      if (response.ok) {
+        await fetchExam()
+        setIsEditingExam(false)
+        setError('')
+      } else {
+        setError('Failed to update exam')
+      }
+    } catch (error) {
+      setError('An error occurred while updating the exam')
+    } finally {
+      setIsUpdating(false)
+    }
+  }
+
   if (isLoading) {
     return <div className="flex justify-center p-8">Loading...</div>
   }
@@ -243,24 +287,92 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Link href="/admin/exams">
-          <Button variant="outline" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">{exam.title}</h1>
-          <p className="text-muted-foreground">
-            {exam.questions.length} questions • {exam.durationMin} minutes
-          </p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link href="/proctor/exams">
+            <Button variant="outline" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">{exam.title}</h1>
+            <p className="text-muted-foreground">
+              {exam.questions.length} questions • {exam.durationMin} minutes
+            </p>
+          </div>
         </div>
+        <Button 
+          variant="outline" 
+          onClick={() => setIsEditingExam(!isEditingExam)}
+        >
+          <Edit className="h-4 w-4 mr-2" />
+          {isEditingExam ? 'Cancel Edit' : 'Edit Exam'}
+        </Button>
       </div>
 
       {error && (
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
+      )}
+
+      {/* Exam Settings */}
+      {isEditingExam && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Exam Settings</CardTitle>
+            <CardDescription>
+              Update exam information and settings
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label>Title</Label>
+              <Input
+                value={examData.title}
+                onChange={(e) => setExamData(prev => ({ ...prev, title: e.target.value }))}
+                placeholder="Enter exam title"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label>Description</Label>
+              <Textarea
+                value={examData.description}
+                onChange={(e) => setExamData(prev => ({ ...prev, description: e.target.value }))}
+                placeholder="Enter exam description"
+                rows={3}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label>Duration (minutes)</Label>
+              <Input
+                type="number"
+                min="1"
+                value={examData.durationMin}
+                onChange={(e) => setExamData(prev => ({ ...prev, durationMin: parseInt(e.target.value) || 1 }))}
+                placeholder="Enter duration in minutes"
+              />
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Switch
+                checked={examData.randomize}
+                onCheckedChange={(checked) => setExamData(prev => ({ ...prev, randomize: checked }))}
+              />
+              <Label>Randomize question order</Label>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Switch
+                checked={examData.published}
+                onCheckedChange={(checked) => setExamData(prev => ({ ...prev, published: checked }))}
+              />
+              <Label>Published (visible to students)</Label>
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Existing Questions */}
@@ -532,6 +644,29 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
           </Button>
         </CardContent>
       </Card>
+
+      {/* Update Exam Button */}
+      {isEditingExam && (
+        <div className="flex justify-end">
+          <Button 
+            onClick={updateExam} 
+            disabled={isUpdating}
+            className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white"
+          >
+            {isUpdating ? (
+              <>
+                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
+                Updating...
+              </>
+            ) : (
+              <>
+                <Save className="mr-2 h-4 w-4" />
+                Update Exam
+              </>
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

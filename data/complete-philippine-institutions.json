@@ -1,0 +1,1822 @@
+[
+  {
+    "region": "01 - Ilocos Region",
+    "name": "ABE International College of Business and Accountancy-Urdaneta City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "AMA Computer College-Dagupan City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "AMA Computer College-Laoag City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Asbury College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Asiacareer College Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Binalatongan Community College",
+    "type": "LUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "CICOSAT Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Colegio de Dagupan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Colegio De San Juan De Letran-Manaoag",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Colegio San Jose De Alaminos",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Dagupan Colleges Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Data Center College of the Philippines of Laoag City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Divine Word College of Laoag",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Divine Word College of Vigan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Don Mariano Marcos Memorial State University-Mid La Union",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Don Mariano Marcos Memorial State University-North La Union-Main Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Don Mariano Marcos Memorial State University-Open University",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Don Mariano Marcos Memorial State University-South La Union",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Golden West Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Ilocos Sur Community College",
+    "type": "LUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Ilocos Sur Polytechnic State College",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Ilocos Sur Polytechnic State College-Candon",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Ilocos Sur Polytechnic State College-Cervantes",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Ilocos Sur Polytechnic State College-College of Arts and Sciences-Tagudin",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Ilocos Sur Polytechnic State College-College of Engineering and Technology-Santiago",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Ilocos Sur Polytechnic State College-College of Fisheries and Marine Sciences-Narvacan",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "International Colleges for Excellence, inc",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Kingfisher School of Business & Finance",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "La Union Christian Comprehensive College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "La Union College of Science and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Lorma Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Luna Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Lyceum Northern Luzon",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Lyceum Northwestern University",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Lyceum Northwestern University-Urdaneta Campus",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Malasiqui Agno Valley College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Mariano Marcos State University-College of Agriculture and Forestry-Dingras",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Mariano Marcos State University-College of Aquatic Sciences and Applied Technology",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Mariano Marcos State University-College of Industrial Technology-Laoag City",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Mariano Marcos State University-College of Teacher Education-Laoag City",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Mariano Marcos State University-Main",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Mary Help of Christians College Seminary",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Metro-Dagupan Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Mystical Rose College of Science and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "NICOSAT Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "NJ Valdez Colleges Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "North Luzon Philippines State College",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Northern Christian College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Northern Luzon Adventist College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Northern Philippines College for Maritime, Science and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Northwestern University",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Osias Educational Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Palaris College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan Merchant Marine Academy",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan State University",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan State University-Alaminos City",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan State University-Asingan",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan State University-Bayambang",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan State University-Binmaley",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan State University-Infanta",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan State University-San Carlos City",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan State University-Sta. Maria",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pangasinan State University-Urdaneta City",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Panpacific University North Philippines-Tayug",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Panpacific University North Philippines-Urdaneta City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Pass College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Perpetual Help College of Pangasinan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Philippine College of Northwestern Luzon",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Philippine College of Science and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Philippine Darakbang Theological College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "PHINMA-Upang College Urdaneta",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "PIMSAT Colleges-Dagupan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "PIMSAT Colleges-San Carlos City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Polytechnic College of La union",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Rosales-Wesleyan Bible College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Saint Columban's College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Saint John Bosco College of Northern Luzon",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Saint Louis College-City of San Fernando",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Saint Mary's College Sta. Maria, Ilocos Sur",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Saint Paul College of Ilocos Sur",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "San Carlos College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Sea and Sky College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Señor Tesoro College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "South Ilocandia College of Arts and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "St. Camillus College of Manaoag Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "St. Therese College Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Systems Technology Institute (STI) College-Dagupan City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "The Adelphi College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "The Great Plebeian College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Union Christian College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "University of Eastern Pangasinan",
+    "type": "LUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "University of Luzon",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "University of Northern Philippines",
+    "type": "SUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "University of Pangasinan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Urdaneta City University",
+    "type": "LUC"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "Virgen Milagrosa University Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "01 - Ilocos Region",
+    "name": "WCC Aeronautical & Technological College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Aldersgate College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "AMA Computer College, Santiago",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "AMA Computer College-Tuguegarao City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Batanes State College",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Cagayan State University-Andrews",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Cagayan State University-Aparri",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Cagayan State University-Gonzaga",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Cagayan State University-Lallo",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Cagayan State University-Lasam",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Cagayan State University-Piat",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Cagayan State University-Sanchez Mira",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Cagayan State University-Tuguegarao (Carig)",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Cagayan Valley Computer and Information Technology College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "F.L. Vargas College-Abulug Campus",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "FL Vargas College-Tuguegarao",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Global Academy of Technology and Entrepreneurship",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "HGBaquiran College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Infant Jesus Montessori School (College Department)",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "International School of Asia and the Pacific",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela College of Arts and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-Angadanan Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-Cabagan",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-Cauayan Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-Ilagan Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-Jones Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-Main (Echague)",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-Palanan Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-Roxas Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-San Mariano Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Isabela State University-San Mateo Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "King's College of the Philippines-Bambang",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "La Patria College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "La Salette of Roxas College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Lyceum of Aparri",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Lyceum of Tuao",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Maila Rosario Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Mallig Plains Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Medical Colleges of Northern Philippines",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Metropolitan College of Science and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Northeast Luzon Adventist College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Northeastern College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Northern Cagayan Colleges Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Nueva Vizcaya State University - Main, Bayombong",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Nueva Vizcaya State University-Bambang",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Our Lady of the Pillar College-Cauayan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Our Lady of the Pillar College-Cauayan San Manuel Branch",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Philippine Law Enforcement College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Philippine Normal University-North Luzon Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "PLT College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Quezon Colleges of the North",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Quirino State University",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Quirino State University - Cabarroguis",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Quirino State University - Maddela",
+    "type": "SUC"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Saint Anthony's College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Saint Dominic College of Batanes",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Saint Ferdinand College-Cabagan Campus",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Saint Joseph's College of Baggao",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Saint Mary's University of Bayombong",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Saint Paul University Philippines",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "Santiago City Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "SISTECH College of Santiago City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "St. Ferdinand College-Ilagan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "University of Cagayan Valley",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "University of La Salette",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "University of Perpetual Help System",
+    "type": "Private HEI"
+  },
+  {
+    "region": "02 - Cagayan Valley",
+    "name": "University of Saint Louis-Tuguegarao",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Academia de San Lorenzo Dema Ala, inc.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "ACLC College of Apalit, INC.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "ACLC College of Malolos, Inc.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "ACLC College of Meycauayan, Inc.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "ACLC College of Poblacion Baliuag, Inc.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "ACLC College of Sta. Maria, Inc.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "AMA Computer College-Angeles City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "AMA Computer College-Cabanatuan City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "AMA Computer College-Tarlac City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Angeles University Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Araullo University",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Asia Pacific College of Advanced Studies",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Aurora State College of Technology",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Aurora State College of Technology-Bazal",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Aurora State College of Technology-Casiguran",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Baliuag University",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Baliwag Maritime Academy",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Baliwag Polytechnic College",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bataan Heroes College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bataan Peninsula State University",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bataan Peninsula State University-Abucay",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bataan Peninsula State University-Balanga",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bataan Peninsula State University-Dinalupihan",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bataan Peninsula State University-Orani",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bestlink College of the Philippines-Bulacan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bulacan Agricultural State College",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bulacan Agricultural State College-Doña Remedios Trinidad",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bulacan Polytechnic College",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bulacan State University-Bustos",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bulacan State University-Hagonoy",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bulacan State University-Main",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bulacan State University-Meneses",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Bulacan State University-San Jose Del Monte",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Camiling Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Carthel Science Educational Foundation (CSEF), INC.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Central Luzon College of Science and Technology, Inc.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Central Luzon College of Science and Technology-Olongapo City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Central Luzon Doctors' Hospital Educational Institution",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Central Luzon State University",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Centro Colegio De Tarlac",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Centro Escolar University-Malolos City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "CIT Colleges of Paniqui Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "City College of Angeles",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "City College of San Fernando",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Colegio De Calumpit",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Colegio De San Gabriel Arcangel",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Colegio de San Juan de Letran-Abucay",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Colegio De San Pascual Baylon",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Colegio de Sebastian-Pampanga",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "College for Research and Technology-Cabanatuan City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "College of Mary Immaculate of Pandi, Bulacan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "College of Our Lady of Mt. Carmel (Pampanga)",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "College of Saint Lawrence",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "College of Subic Montesorri-Dinalupihan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "College of Subic Montessori-Subic Bay",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "College of the Immaculate Conception",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "College of the Our Lady of Mercy of Pulilan Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Colleges of Advance Technology and Management of the Philippines",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Columban College-Olongapo City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Columban College-Sta. Cruz, Zambales",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Comteq Computer and Business College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Concepcion Holy Cross College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "CORE Gateway College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Divina Pastora College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Dominican College of Tarlac",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Don Honorio Ventura Technological State University-Main",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Don Honorio Ventura Technological State University-Mexico",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Don Honorio Ventura Technological State University-Porac",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Don Honorio Ventura Technological State University-Sto.Thomas",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Dr. Gloria D. Lacson Foundation Colleges - Nueva Ecija",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Dr. Gloria D. Lacson Foundation Colleges-Cabanatuan City",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Dr. Yanga's Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Eastwoods Professional College of Science and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Eduardo L. Joson Memorial College",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Emmanuel System College of Bulacan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Erhard Science College-Bulacan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Exact Colleges of Asia",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Fernandez College of Arts and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "First City Providential College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Fundamental Baptist College For Asians",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "General De Jesus College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Gerona Junior College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Gordon College",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Guagua Community College",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Guagua National Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Holy Angel University",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Holy Cross College-Nueva Ecija",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Holy Cross College-Pampanga",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Holy Rosary Colleges Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "IMMACULATE CONCEPTION I-COLLEGE OF ARTS AND TECHNOLOGY, INC.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Interworld College of science and Technology Foundation-Tarlac",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Interworld Colleges Foundation - Paniqui",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Jesus Is Lord Colleges Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Jocson College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Jose C. Feliciano College Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Kolehiyo ng Subic",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "La Concepcion College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "La Consolacion University Philippines",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "La Verdad Christian College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Limay Polytechnic College",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Lourdes College of Bulacan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Lyceum of Subic Bay",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Lyceum of the East-Aurora",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Lyceum of Western Luzon - Zambales",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Mabalacat City College",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Magsaysay Memorial College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Manuel V. Gallego Foundation Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Marian College of Baliuag",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Maritime Academy of Asia and the Pacific",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Mary the Queen College-Pampanga",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Megabyte College, inc.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Meycauayan College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Micro Asia College of Science and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "MIDWAY COLLEGES, Inc. (Formerly: Midway Maritime Foundation)",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Mondriaan Aura College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Mount Carmel College of Casiguran",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Mount Carmel College-Baler",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Mt. Carmel College of bocaue bulacan, inc.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nazarenus College and Hospital Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "New Era University-Pampanga",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Northern Zambales College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Norzagaray College",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija Doctors' Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-Atate",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-Carranglan",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-Fort Magsaysay",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-Main",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-Peñaranda",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-San Antonio Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-San Isidro Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-San Leonardo",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-Sebani Estate Agricultural College",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-Sumacab Campus",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Nueva Ecija University of Science and Technology-Talavera",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "OLRA College Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Osias Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Our Lady of Fatima University-Pampanga",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Our Lady of Sacred Heart College of Guimba",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Pambayang Dalubhasaan ng Marilao",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Pampanga Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Pampanga State Agricultural University",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Philippine Merchant Marine Academy",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Philippine Rehabilitation Institute Foundation-Guagua",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Philippine State College of Aeronautics-Pampanga Extension",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Philippine Women`s University Career Development and Continuing Education Center-Bataan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Polytechnic College of Botolan",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Polytechnic College of the City of Meycauayan",
+    "type": "LUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Polytechnic University of the Philippines-Cabiao",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Polytechnic University of the Philippines-Mariveles",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Polytechnic University of the Philippines-Pulilan",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Polytechnic University of the Philippines-Sta. Maria, Bulacan",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "President Ramon Magsaysay State University-Botolan",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "President Ramon Magsaysay State University-Candelaria",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "President Ramon Magsaysay State University-Castillejos",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "President Ramon Magsaysay State University-Main",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "President Ramon Magsaysay State University-Masinloc",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "President Ramon Magsaysay State University-San Marcelino",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "President Ramon Magsaysay State University-Sta. Cruz",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Republic Central Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Richwell Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Saint Anthony College of Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Saint Mary's Angels College of Pampanga",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Saint Mary's College of Meycauayan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Saint Rose College Educational Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "San Jose Christian Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Santa Rita College of Pampanga",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "St. Augustine Colleges Foundation, Inc.",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "St. Benilde Center for Global Competence",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "St. Elizabeth Global Skills Institute",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "St. Joseph College-Olongapo",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "St. Mary's College of Baliuag",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "St. Nicolas College of Business and Technology",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "St. Paul Colleges Foundation-Paniqui, Tarlac",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "St. Paul University at San Miguel",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College Angeles",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College Balagtas",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College Baliuag",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College Malolos",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College Meycauayan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College San Fernando",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College San Jose",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College San Jose del Monte",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College Sta. Maria",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "STI College Tarlac",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Sto. Rosario Sapang Palay College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Subic Bay Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Systems Plus College Foundation",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Tarlac Agricultural University",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Tarlac Christian Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Tarlac State University",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "The Good Samaritan Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "The Manila Times College of Subic",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Tomas Del Rosario College",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "United School of Science and Technology Colleges",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "University of Nueva Caceres - Bataan",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "University of the Assumption",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "University of the Philippines-Diliman (Pampanga)",
+    "type": "SUC"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Wesleyan University-Philippines (Cabanatuan)",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "Wesleyan University-Philippines-Aurora",
+    "type": "Private HEI"
+  },
+  {
+    "region": "03 - Central Luzon",
+    "name": "World Citi Colleges, Guimba Campus",
+    "type": "Private HEI"
+  }
+]

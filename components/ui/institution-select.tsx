@@ -5,6 +5,7 @@ import { Search, ChevronDown, GraduationCap, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Institution {
+  id: number
   region: string
   name: string
   type: string
@@ -29,6 +30,7 @@ interface InstitutionSelectProps {
 export function InstitutionSelect({ value, onValueChange, placeholder = "Select institution", className }: InstitutionSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [search, setSearch] = useState('')
+  const [selectedRegion, setSelectedRegion] = useState('')
   const [institutions, setInstitutions] = useState<Institution[]>([])
   const [filteredInstitutions, setFilteredInstitutions] = useState<Institution[]>([])
   const [loading, setLoading] = useState(false)
@@ -42,9 +44,10 @@ export function InstitutionSelect({ value, onValueChange, placeholder = "Select 
       try {
         const response = await fetch('/api/institutions')
         const data = await response.json()
-        setInstitutions(data)
+        setInstitutions(Array.isArray(data) ? data : [])
       } catch (error) {
         console.error('Error fetching institutions:', error)
+        setInstitutions([])
       } finally {
         setLoading(false)
       }
@@ -54,21 +57,34 @@ export function InstitutionSelect({ value, onValueChange, placeholder = "Select 
   }, [])
 
   useEffect(() => {
-    if (search) {
+    if (search || selectedRegion) {
       setSearching(true)
       const timer = setTimeout(() => {
-        const filtered = institutions.filter(inst => 
-          inst.name.toLowerCase().includes(search.toLowerCase())
-        )
-        setFilteredInstitutions(filtered.slice(0, 50))
+        let filtered = Array.isArray(institutions) ? institutions : []
+        
+        // Filter by region if selected
+        if (selectedRegion) {
+          filtered = filtered.filter(inst => inst.region === selectedRegion)
+        }
+        
+        // Filter by search term
+        if (search) {
+          filtered = filtered.filter(inst => 
+            inst.name.toLowerCase().includes(search.toLowerCase())
+          )
+        }
+        
+        setFilteredInstitutions(filtered.slice(0, 100))
         setSearching(false)
       }, 300)
       return () => clearTimeout(timer)
     } else {
-      setFilteredInstitutions(institutions.slice(0, 50))
+      // Show popular institutions or recent ones when no filter
+      const popular = Array.isArray(institutions) ? institutions.slice(0, 50) : []
+      setFilteredInstitutions(popular)
       setSearching(false)
     }
-  }, [search, institutions])
+  }, [search, selectedRegion, institutions])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -116,8 +132,21 @@ export function InstitutionSelect({ value, onValueChange, placeholder = "Select 
       </button>
 
       {isOpen && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-80 overflow-hidden">
-          <div className="p-3 border-b border-gray-100">
+        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-96 overflow-hidden">
+          <div className="p-3 border-b border-gray-100 space-y-3">
+            {/* Region Filter */}
+            <select
+              value={selectedRegion}
+              onChange={(e) => setSelectedRegion(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            >
+              <option value="">All Regions</option>
+              {Array.from(new Set(institutions.map(inst => inst.region))).sort().map(region => (
+                <option key={region} value={region}>{region}</option>
+              ))}
+            </select>
+            
+            {/* Search Input */}
             <div className="relative">
               {searching ? (
                 <Loader2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-500 animate-spin" />
@@ -135,7 +164,17 @@ export function InstitutionSelect({ value, onValueChange, placeholder = "Select 
             </div>
           </div>
           
-          <div className="max-h-60 overflow-y-auto">
+          {/* Results Count */}
+          {!loading && !searching && filteredInstitutions.length > 0 && (
+            <div className="px-3 py-2 bg-gray-50 border-b border-gray-100">
+              <span className="text-xs text-gray-600">
+                {filteredInstitutions.length} institution{filteredInstitutions.length !== 1 ? 's' : ''} found
+                {selectedRegion && ` in ${selectedRegion}`}
+              </span>
+            </div>
+          )}
+          
+          <div className="max-h-64 overflow-y-auto">
             {loading ? (
               <div className="flex items-center justify-center py-8">
                 <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
