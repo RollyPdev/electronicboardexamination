@@ -31,13 +31,18 @@ export function gradeQuestion(
     case 'MCQ':
       const options = Array.isArray(question.options) ? question.options : []
       const correctOption = options.find((opt: any) => opt.correct)
-      // Check both label and text for compatibility
       const answerText = answer.answer
-      isCorrect = correctOption && (
-        answerText === correctOption.label || 
-        answerText === correctOption.text ||
-        answerText === `${correctOption.label}) ${correctOption.text}`
+      
+      // Find which option the student selected by matching text
+      const selectedOption = options.find((opt: any) => 
+        opt.text === answerText || 
+        opt.label === answerText ||
+        `${opt.label}) ${opt.text}` === answerText
       )
+      
+      // Check if the selected option is correct
+      isCorrect = selectedOption && selectedOption.correct
+      
       if (!isCorrect) {
         feedback = correctOption 
           ? `Correct answer: ${correctOption.label}) ${correctOption.text}`

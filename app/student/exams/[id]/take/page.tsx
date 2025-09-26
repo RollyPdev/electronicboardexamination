@@ -364,8 +364,9 @@ export default function TakeExamPage() {
 
   const getQuestionTextOnly = (text: string) => {
     if (!text) return ''
-    // Extract only the question part before the first choice (A., B., etc.)
-    const match = text.match(/^(.*?)(?=\r?\n?[A-D]\.|$)/)
+    // For MCQ questions, extract only the question part before choices
+    // Look for patterns like "A.", "B.", etc. or "Correct Answer:"
+    const match = text.match(/^([\s\S]*?)(?=\r?\n?[A-D]\.\s|\r?\n?Correct\s+Answer:|$)/i)
     return match ? match[1].trim() : text
   }
 
@@ -393,6 +394,7 @@ export default function TakeExamPage() {
           <RadioGroup
             value={currentAnswer || ''}
             onValueChange={(value) => handleAnswerChange(question.id, value)}
+            className="space-y-3"
           >
             {options.map((option: any, index: number) => {
               const label = String.fromCharCode(65 + index)
@@ -407,10 +409,10 @@ export default function TakeExamPage() {
               }
               
               return (
-                <div key={index} className="flex items-center space-x-2">
-                  <RadioGroupItem value={optionText} id={`${question.id}-${label}`} />
-                  <Label htmlFor={`${question.id}-${label}`} className="flex-1 cursor-pointer">
-                    {label}) {optionText}
+                <div key={index} className="flex items-start space-x-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors">
+                  <RadioGroupItem value={optionText} id={`${question.id}-${label}`} className="mt-1" />
+                  <Label htmlFor={`${question.id}-${label}`} className="flex-1 cursor-pointer text-sm leading-relaxed">
+                    <span className="font-medium text-gray-700">{label})</span> {optionText}
                   </Label>
                 </div>
               )
@@ -424,14 +426,15 @@ export default function TakeExamPage() {
           <RadioGroup
             value={currentAnswer || ''}
             onValueChange={(value) => handleAnswerChange(question.id, value)}
+            className="space-y-3"
           >
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors">
               <RadioGroupItem value="True" id={`${question.id}-true`} />
-              <Label htmlFor={`${question.id}-true`} className="cursor-pointer">True</Label>
+              <Label htmlFor={`${question.id}-true`} className="cursor-pointer text-sm font-medium">True</Label>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors">
               <RadioGroupItem value="False" id={`${question.id}-false`} />
-              <Label htmlFor={`${question.id}-false`} className="cursor-pointer">False</Label>
+              <Label htmlFor={`${question.id}-false`} className="cursor-pointer text-sm font-medium">False</Label>
             </div>
           </RadioGroup>
         )
@@ -442,8 +445,8 @@ export default function TakeExamPage() {
             value={currentAnswer || ''}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
             placeholder="Enter your answer here..."
-            rows={4}
-            className="w-full"
+            rows={6}
+            className="w-full resize-none text-sm leading-relaxed"
           />
         )
 
@@ -454,7 +457,7 @@ export default function TakeExamPage() {
             value={currentAnswer || ''}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
             placeholder="Enter a number"
-            className="w-full max-w-xs"
+            className="w-full max-w-sm text-sm"
           />
         )
 
@@ -636,23 +639,33 @@ export default function TakeExamPage() {
 
         {/* Question Card */}
         <Card className="card-responsive">
-          <CardHeader>
+          <CardHeader className="pb-4">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
               <div className="flex-1 min-w-0">
-                <CardTitle className="text-base sm:text-lg">
+                <CardTitle className="text-lg sm:text-xl font-semibold">
                   Question {currentQuestionIndex + 1}
-                  <span className="ml-2 text-xs sm:text-sm font-normal text-muted-foreground block sm:inline">
+                  <span className="ml-2 text-sm font-normal text-muted-foreground block sm:inline">
                     ({currentQuestion.points} {currentQuestion.points === 1 ? 'point' : 'points'})
                   </span>
                 </CardTitle>
-                <CardDescription className="mt-2 text-sm sm:text-base leading-relaxed">
-                  {currentQuestion.type === 'MCQ' ? getQuestionTextOnly(currentQuestion.text) : currentQuestion.text}
-                </CardDescription>
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+                  <CardDescription className="text-base leading-relaxed whitespace-pre-wrap text-gray-800 font-medium">
+                    {currentQuestion.type === 'MCQ' ? getQuestionTextOnly(currentQuestion.text) : currentQuestion.text}
+                  </CardDescription>
+                </div>
               </div>
             </div>
           </CardHeader>
-          <CardContent>
-            {renderQuestion(currentQuestion)}
+          <CardContent className="pt-2">
+            <div className="space-y-4">
+              <div className="text-sm text-gray-600 font-medium">
+                {currentQuestion.type === 'MCQ' && 'Choose the best answer:'}
+                {currentQuestion.type === 'TRUE_FALSE' && 'Select True or False:'}
+                {currentQuestion.type === 'SHORT_ANSWER' && 'Provide your answer in the text area below:'}
+                {currentQuestion.type === 'NUMERIC' && 'Enter a numeric value:'}
+              </div>
+              {renderQuestion(currentQuestion)}
+            </div>
           </CardContent>
         </Card>
 
