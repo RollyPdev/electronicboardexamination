@@ -238,7 +238,7 @@ export function Leaderboard({ examId, limit = 20 }: LeaderboardProps) {
                 )}
               </div>
             </div>
-          ))
+          ))}
 
           {/* Current user rank if not in top results */}
           {data.currentUserRank && !data.rankings.find(r => r.isCurrentUser) && (

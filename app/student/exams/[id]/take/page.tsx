@@ -1,6 +1,5 @@
 'use client'
 
-import '../../../exam-security.css'
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
