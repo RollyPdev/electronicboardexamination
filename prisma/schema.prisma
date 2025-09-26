@@ -221,9 +221,12 @@ model Institution {
   @@map("institutions")
 }
 
+
+
 enum Role {
   ADMIN
   STUDENT
+  PROCTOR
 }
 
 enum QType {
