@@ -2,7 +2,7 @@
 
 import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { User, LogOut, Settings } from 'lucide-react'
 import Link from 'next/link'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 export function ProctorHeader() {
   const { data: session } = useSession()
