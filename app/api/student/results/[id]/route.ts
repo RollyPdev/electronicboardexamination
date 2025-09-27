@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { gradeQuestion } from '@/lib/grading'
 
 export async function GET(
   request: NextRequest,
@@ -44,15 +45,35 @@ export async function GET(
     }
 
     const answers = result.answers as any || {}
-    const questionsWithAnswers = result.exam.questions.map((question: any) => ({
-      id: question.id,
-      type: question.type,
-      text: question.text,
-      options: question.options,
-      points: question.points,
-      order: question.order,
-      studentAnswer: answers[question.id] || null
-    }))
+    const questionsWithAnswers = result.exam.questions.map((question: any) => {
+      const studentAnswer = answers[question.id]?.answer || null
+      const gradingResult = gradeQuestion(question, answers[question.id] || { answer: null })
+      
+      // Get correct answer text for display
+      let correctAnswerText = ''
+      if (question.type === 'MCQ' || question.type === 'TRUE_FALSE') {
+        const correctOption = question.options?.find((opt: any) => opt.correct)
+        correctAnswerText = correctOption ? correctOption.text : 'No correct answer defined'
+      } else if (question.type === 'NUMERIC') {
+        correctAnswerText = question.options?.[0]?.correct_answer?.toString() || 'No correct answer defined'
+      } else if (question.type === 'SHORT_ANSWER') {
+        correctAnswerText = 'Manually graded'
+      }
+      
+      return {
+        id: question.id,
+        type: question.type,
+        text: question.text,
+        options: question.options,
+        points: question.points,
+        order: question.order,
+        studentAnswer,
+        correctAnswer: correctAnswerText,
+        isCorrect: gradingResult.isCorrect,
+        pointsEarned: gradingResult.points,
+        feedback: gradingResult.feedback
+      }
+    })
 
     const detailedResult = {
       id: result.id,

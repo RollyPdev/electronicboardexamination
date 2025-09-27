@@ -15,12 +15,25 @@ export async function GET(request: NextRequest) {
       where: { email: session.user.email }
     })
 
-    if (!user || user.role !== 'STUDENT') {
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    // Allow ADMIN, STUDENT, and PROCTOR roles to view results
+    if (!['ADMIN', 'STUDENT', 'PROCTOR'].includes(user.role)) {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 })
     }
 
+    console.log('Fetching results for user:', user.id, user.email, 'Role:', user.role)
+    
+    // For ADMIN and PROCTOR, show all results. For STUDENT, show only their results
+    // Only show submitted or graded exams (not in-progress)
+    const whereClause = user.role === 'ADMIN' || user.role === 'PROCTOR' 
+      ? { status: { in: ['SUBMITTED', 'GRADED'] } } // Show all submitted/graded results for admins and proctors
+      : { userId: user.id, status: { in: ['SUBMITTED', 'GRADED'] } } // Show only user's submitted/graded results for students
+    
     const results = await ((prisma as any).examResult as any).findMany({
-      where: { userId: user.id },
+      where: whereClause,
       include: {
         exam: {
           select: {
@@ -34,24 +47,69 @@ export async function GET(request: NextRequest) {
           }
         }
       },
-      orderBy: { submittedAt: 'desc' }
+      orderBy: { createdAt: 'desc' }
+    })
+    
+    console.log(`Found ${results.length} exam results for ${user.role} user ${session.user.email}`)
+    
+    // Log each result for debugging
+    results.forEach((result: any, index: number) => {
+      console.log(`Result ${index + 1}:`, {
+        id: result.id,
+        examTitle: result.exam.title,
+        status: result.status,
+        score: result.score,
+        maxScore: result.maxScore,
+        submittedAt: result.submittedAt,
+        gradedAt: result.gradedAt
+      })
     })
 
-    const formattedResults = results.map((result: any) => ({
-      id: result.id,
-      examId: result.examId,
-      examTitle: result.exam.title,
-      examDescription: result.exam.description,
-      durationMin: result.exam.durationMin,
-      questionCount: result.exam.questions.length,
-      maxScore: result.exam.questions.reduce((sum: any, q: any) => sum + q.points, 0),
-      score: result.score,
-      percentage: result.score && result.maxScore ? (result.score / result.maxScore) * 100 : null,
-      status: result.status,
-      startedAt: result.startedAt,
-      submittedAt: result.submittedAt,
-      gradedAt: result.gradedAt
-    }))
+    // Get student info for admin/proctor views
+    const studentIds = [...new Set(results.map((r: any) => r.userId))]
+    const students = await ((prisma as any).user as any).findMany({
+      where: { id: { in: studentIds } },
+      select: { id: true, name: true, email: true }
+    })
+    const studentMap = new Map(students.map((s: any) => [s.id, s]))
+
+    const formattedResults = results.map((result: any) => {
+      const calculatedMaxScore = result.exam.questions.reduce((sum: any, q: any) => sum + q.points, 0)
+      const actualMaxScore = result.maxScore || calculatedMaxScore
+      const percentage = result.score && actualMaxScore ? Math.round((result.score / actualMaxScore) * 100) : null
+      const student = studentMap.get(result.userId)
+      
+      return {
+        id: result.id,
+        examId: result.examId,
+        examTitle: result.exam.title,
+        examDescription: result.exam.description,
+        durationMin: result.exam.durationMin,
+        questionCount: result.exam.questions.length,
+        maxScore: actualMaxScore,
+        score: result.score,
+        percentage,
+        status: result.status,
+        startedAt: result.startedAt,
+        submittedAt: result.submittedAt,
+        gradedAt: result.gradedAt,
+        hasAnswers: !!result.answers && Object.keys(result.answers).length > 0,
+        answersCount: result.answers ? Object.keys(result.answers).length : 0,
+        // Include student info for admin/proctor views
+        studentName: student?.name,
+        studentEmail: student?.email,
+        isOwnResult: result.userId === user.id
+      }
+    })
+    
+    console.log('Formatted results:', formattedResults.map(r => ({
+      id: r.id,
+      examTitle: r.examTitle,
+      status: r.status,
+      score: r.score,
+      maxScore: r.maxScore,
+      percentage: r.percentage
+    })))
 
     return NextResponse.json({ results: formattedResults })
   } catch (error) {

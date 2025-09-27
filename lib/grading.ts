@@ -26,6 +26,13 @@ export function gradeQuestion(
 ): GradingResult {
   let isCorrect = false
   let feedback = ''
+  
+  console.log('Grading question:', {
+    questionId: question.id,
+    type: question.type,
+    options: question.options,
+    studentAnswer: answer?.answer
+  })
 
   switch (question.type) {
     case 'MCQ':
@@ -33,12 +40,33 @@ export function gradeQuestion(
       const correctOption = options.find((opt: any) => opt.correct)
       const answerText = answer.answer
       
-      // Find which option the student selected by matching text
-      const selectedOption = options.find((opt: any) => 
-        opt.text === answerText || 
-        opt.label === answerText ||
-        `${opt.label}) ${opt.text}` === answerText
-      )
+      console.log('MCQ grading details:', {
+        options,
+        correctOption,
+        answerText,
+        optionTexts: options.map((opt: any) => opt.text)
+      })
+      
+      // Find which option the student selected by matching text or label
+      const selectedOption = options.find((opt: any) => {
+        if (!opt || !answerText) return false
+        
+        // Direct text match
+        if (opt.text === answerText) return true
+        
+        // Label match (A, B, C, D)
+        if (opt.label === answerText) return true
+        
+        // Combined format match
+        if (`${opt.label}) ${opt.text}` === answerText) return true
+        
+        // Case insensitive matches
+        if (opt.text && opt.text.toLowerCase() === answerText.toLowerCase()) return true
+        
+        return false
+      })
+      
+      console.log('Selected option:', selectedOption)
       
       // Check if the selected option is correct
       isCorrect = selectedOption && selectedOption.correct
@@ -52,24 +80,29 @@ export function gradeQuestion(
 
     case 'TRUE_FALSE':
       const tfOptions = Array.isArray(question.options) ? question.options : []
-      const correctAnswer = tfOptions[0]?.correct
-      isCorrect = answer.answer === (correctAnswer ? 'True' : 'False')
+      const correctTfOption = tfOptions.find((opt: any) => opt.correct)
+      const correctTfAnswer = correctTfOption ? correctTfOption.text : null
+      isCorrect = answer.answer === correctTfAnswer
       if (!isCorrect) {
-        feedback = `Correct answer: ${correctAnswer ? 'True' : 'False'}`
+        feedback = `Correct answer: ${correctTfAnswer || 'Unknown'}`
       }
       break
 
     case 'NUMERIC':
       const numOptions = Array.isArray(question.options) ? question.options : []
-      const correctValue = numOptions[0]?.correct_answer
+      const correctValue = numOptions[0]?.correct_answer || numOptions[0]?.correctAnswer
       const tolerance = numOptions[0]?.tolerance || 0.01
-      if (correctValue !== undefined && answer.answer !== undefined) {
+      if (correctValue !== undefined && answer.answer !== undefined && answer.answer !== '') {
         const numericAnswer = parseFloat(answer.answer)
         const numericCorrect = parseFloat(correctValue)
-        isCorrect = Math.abs(numericAnswer - numericCorrect) <= tolerance
+        if (!isNaN(numericAnswer) && !isNaN(numericCorrect)) {
+          isCorrect = Math.abs(numericAnswer - numericCorrect) <= tolerance
+        }
         if (!isCorrect) {
           feedback = `Correct answer: ${numericCorrect}`
         }
+      } else {
+        feedback = correctValue !== undefined ? `Correct answer: ${correctValue}` : 'No correct answer defined'
       }
       break
 
@@ -119,12 +152,26 @@ export async function gradeExam(examResultId: string): Promise<ExamGradingResult
   let maxScore = 0
   let needsManualReview = false
 
+  console.log('Grading exam with answers:', {
+    examResultId,
+    questionsCount: examResult.exam.questions.length,
+    answersCount: Object.keys(answers).length,
+    answerKeys: Object.keys(answers)
+  })
+
   // Grade each question
   for (const question of examResult.exam.questions) {
     maxScore += question.points
     const answer = answers[question.id]
 
-    if (!answer) {
+    console.log(`Grading question ${question.id}:`, {
+      type: question.type,
+      hasAnswer: !!answer,
+      answerValue: answer?.answer,
+      points: question.points
+    })
+
+    if (!answer || answer.answer === null || answer.answer === undefined || answer.answer === '') {
       // No answer provided
       questionResults.push({
         questionId: question.id,
@@ -140,6 +187,12 @@ export async function gradeExam(examResultId: string): Promise<ExamGradingResult
     questionResults.push(result)
     totalScore += result.points
 
+    console.log(`Question ${question.id} result:`, {
+      points: result.points,
+      maxPoints: result.maxPoints,
+      isCorrect: result.isCorrect
+    })
+
     // Check if manual review is needed
     if (question.type === 'SHORT_ANSWER') {
       needsManualReview = true
@@ -149,7 +202,7 @@ export async function gradeExam(examResultId: string): Promise<ExamGradingResult
   const percentage = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0
 
   // Update the exam result with scores
-  await (prisma as any).examResult.update({
+  const updatedResult = await (prisma as any).examResult.update({
     where: { id: examResultId },
     data: {
       score: totalScore,
@@ -157,6 +210,14 @@ export async function gradeExam(examResultId: string): Promise<ExamGradingResult
       status: needsManualReview ? 'SUBMITTED' : 'GRADED',
       gradedAt: needsManualReview ? null : new Date(),
     },
+  })
+  
+  console.log('Updated exam result:', {
+    id: examResultId,
+    score: totalScore,
+    maxScore,
+    percentage,
+    status: needsManualReview ? 'SUBMITTED' : 'GRADED'
   })
 
   return {
@@ -264,8 +325,8 @@ export async function generateExamFeedback(examResultId: string): Promise<{
 
       case 'TRUE_FALSE':
         const tfFeedbackOptions = Array.isArray(question.options) ? question.options : []
-        const correctBool = tfFeedbackOptions[0]?.correct
-        correctAnswerText = correctBool ? 'True' : 'False'
+        const correctTfFeedbackOption = tfFeedbackOptions.find((opt: any) => opt.correct)
+        correctAnswerText = correctTfFeedbackOption ? correctTfFeedbackOption.text : 'Unknown'
         break
 
       case 'NUMERIC':

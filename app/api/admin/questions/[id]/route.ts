@@ -36,6 +36,16 @@ async function PUT(
           { label: 'True', text: 'True', correct: correctAnswer === 'True' },
           { label: 'False', text: 'False', correct: correctAnswer === 'False' }
         ]
+      } else if (type === 'NUMERIC') {
+        formattedOptions = [{
+          correct_answer: parseFloat(correctAnswer),
+          tolerance: body.tolerance || 0.01
+        }]
+      } else if (type === 'SHORT_ANSWER') {
+        formattedOptions = [{
+          sample_answer: correctAnswer || '',
+          keywords: body.keywords || []
+        }]
       }
 
       const question = await ((prisma as any).question as any).update({

@@ -60,7 +60,9 @@ async function POST(
         include: {
           exam: {
             include: {
-              questions: true,
+              questions: {
+                orderBy: { order: 'asc' }
+              },
             },
           },
         },
@@ -69,6 +71,12 @@ async function POST(
       if (!examResult) {
         console.error('Exam result not found:', { examId: id, userId: user.id })
         return NextResponse.json({ error: 'Exam result not found' }, { status: 404 })
+      }
+      
+      // Validate that exam has questions
+      if (!examResult.exam.questions || examResult.exam.questions.length === 0) {
+        console.error('Exam has no questions:', { examId: id })
+        return NextResponse.json({ error: 'Exam has no questions' }, { status: 400 })
       }
 
       console.log('Exam result found:', { id: examResult.id, status: examResult.status, answers: examResult.answers })
@@ -104,7 +112,9 @@ async function POST(
       })
 
       // Automatically grade the exam
+      console.log('Starting automatic grading for exam result:', examResult.id)
       const gradingResult = await gradeExam(examResult.id)
+      console.log('Grading completed:', gradingResult)
 
       return NextResponse.json({
         message: 'Exam submitted successfully',
@@ -114,6 +124,10 @@ async function POST(
         percentage: gradingResult.percentage,
         status: gradingResult.needsManualReview ? 'SUBMITTED' : 'GRADED',
         submittedAt: new Date(),
+        debug: {
+          answersCount: Object.keys(examResult.answers || {}).length,
+          questionsCount: examResult.exam.questions.length
+        }
       })
     } catch (error) {
       console.error('Error submitting exam:', error)

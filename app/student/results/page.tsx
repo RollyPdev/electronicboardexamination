@@ -23,6 +23,9 @@ interface ExamResult {
   startedAt: string
   submittedAt: string | null
   gradedAt: string | null
+  studentName?: string
+  studentEmail?: string
+  isOwnResult?: boolean
 }
 
 export default function StudentResultsPage() {
@@ -49,12 +52,10 @@ export default function StudentResultsPage() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'IN_PROGRESS':
-        return <Badge variant="secondary">In Progress</Badge>
       case 'SUBMITTED':
-        return <Badge variant="default">Under Review</Badge>
+        return <Badge variant="secondary">Submitted - Awaiting Grade</Badge>
       case 'GRADED':
-        return <Badge variant="default">Completed</Badge>
+        return <Badge variant="default">Graded</Badge>
       case 'FLAGGED':
         return <Badge variant="destructive">Flagged</Badge>
       default:
@@ -133,6 +134,11 @@ export default function StudentResultsPage() {
                     <p className="text-xs sm:text-sm text-gray-600 mt-1">
                       {result.examDescription || 'No description provided'}
                     </p>
+                    {result.studentName && (
+                      <p className="text-xs text-blue-600 mt-1">
+                        Student: {result.studentName} ({result.studentEmail})
+                      </p>
+                    )}
                   </div>
                   <div className="flex-shrink-0">
                     {getStatusBadge(result.status)}
@@ -161,7 +167,7 @@ export default function StudentResultsPage() {
                   )}
                 </div>
 
-                {result.score !== null && result.percentage !== null && (
+                {result.status === 'GRADED' && result.score !== null && result.percentage !== null ? (
                   <div className="p-3 bg-blue-50 rounded-lg border border-blue-100">
                     <div className="flex items-center justify-between">
                       <div>
@@ -179,7 +185,13 @@ export default function StudentResultsPage() {
                       </div>
                     </div>
                   </div>
-                )}
+                ) : result.status === 'SUBMITTED' ? (
+                  <div className="p-3 bg-amber-50 rounded-lg border border-amber-100">
+                    <div className="text-sm text-amber-700">
+                      Exam submitted successfully. Awaiting grading by instructor.
+                    </div>
+                  </div>
+                ) : null}
 
                 {result.status === 'GRADED' && (
                   <Link href={`/student/results/${result.id}`}>

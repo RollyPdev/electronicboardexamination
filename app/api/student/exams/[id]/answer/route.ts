@@ -71,9 +71,16 @@ async function PATCH(
       const currentAnswers = examResult.answers as any || {}
       currentAnswers[questionId] = {
         answer: validatedData.answer,
-        timeSpent: validatedData.timeSpent,
+        timeSpent: validatedData.timeSpent || 0,
         submittedAt: new Date().toISOString(),
       }
+      
+      console.log('Saving answer:', {
+        questionId,
+        answer: validatedData.answer,
+        examResultId: examResult.id,
+        totalAnswers: Object.keys(currentAnswers).length
+      })
 
       await ((prisma as any).examResult as any).update({
         where: { id: examResult.id },

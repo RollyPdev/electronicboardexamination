@@ -73,7 +73,7 @@ async function POST(
         return NextResponse.json({ error: 'Exam not found' }, { status: 404 })
       }
 
-      // Format options for MCQ questions
+      // Format options for different question types
       let formattedOptions: any = null
       if (type === 'MCQ' && Array.isArray(parsedOptions) && parsedOptions.length > 0) {
         formattedOptions = parsedOptions.map((option, index) => {
@@ -89,6 +89,16 @@ async function POST(
           { label: 'True', text: 'True', correct: parsedCorrectAnswer === 'True' },
           { label: 'False', text: 'False', correct: parsedCorrectAnswer === 'False' }
         ]
+      } else if (type === 'NUMERIC' && parsedCorrectAnswer) {
+        formattedOptions = [{
+          correct_answer: parseFloat(parsedCorrectAnswer),
+          tolerance: requestBody.tolerance || 0.01
+        }]
+      } else if (type === 'SHORT_ANSWER' && parsedCorrectAnswer) {
+        formattedOptions = [{
+          sample_answer: parsedCorrectAnswer,
+          keywords: requestBody.keywords || []
+        }]
       }
       
       console.log('Parsed question:', { questionText, formattedOptions, parsedCorrectAnswer })
