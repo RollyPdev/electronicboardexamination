@@ -67,7 +67,12 @@ export default function ResultsPage() {
 
   const fetchResults = async () => {
     try {
-      const response = await fetch('/api/admin/results')
+      const response = await fetch('/api/admin/results', {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      })
       if (response.ok) {
         const data = await response.json()
         setResults(data.results)
@@ -168,15 +173,24 @@ export default function ResultsPage() {
     if (!confirm('Are you sure you want to delete this result?')) return
     
     try {
+      // Optimistically remove from UI
+      setResults(prev => prev.filter(result => result.id !== id))
+      
       const response = await fetch(`/api/admin/results/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        cache: 'no-store'
       })
       
-      if (response.ok) {
+      if (!response.ok) {
+        // If delete failed, restore the item
         fetchResults()
+        alert('Failed to delete result')
       }
     } catch (error) {
       console.error('Error deleting result:', error)
+      // Restore on error
+      fetchResults()
+      alert('Error deleting result')
     }
   }
 

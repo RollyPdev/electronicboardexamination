@@ -6,6 +6,7 @@ export interface GradingResult {
   maxPoints: number
   isCorrect: boolean
   feedback?: string
+  partialCredit?: number
 }
 
 export interface ExamGradingResult {
@@ -47,34 +48,23 @@ export function gradeQuestion(
         optionTexts: options.map((opt: any) => opt.text)
       })
       
-      // Find which option the student selected by matching text or label
-      const selectedOption = options.find((opt: any) => {
-        if (!opt || !answerText) return false
-        
-        // Direct text match
-        if (opt.text === answerText) return true
-        
-        // Label match (A, B, C, D)
-        if (opt.label === answerText) return true
-        
-        // Combined format match
-        if (`${opt.label}) ${opt.text}` === answerText) return true
-        
-        // Case insensitive matches
-        if (opt.text && opt.text.toLowerCase() === answerText.toLowerCase()) return true
-        
-        return false
-      })
+      // Check if student answer matches correct option
+      if (correctOption && answerText) {
+        // Multiple ways to match: by text, by label, or by index
+        isCorrect = (
+          answerText === correctOption.text ||
+          answerText === correctOption.label ||
+          answerText === `${correctOption.label}) ${correctOption.text}` ||
+          (typeof answerText === 'number' && options[answerText] === correctOption)
+        )
+      }
       
-      console.log('Selected option:', selectedOption)
+      console.log('MCQ grading result:', { isCorrect, correctOption, answerText })
       
-      // Check if the selected option is correct
-      isCorrect = selectedOption && selectedOption.correct
-      
-      if (!isCorrect) {
-        feedback = correctOption 
-          ? `Correct answer: ${correctOption.label}) ${correctOption.text}`
-          : 'No correct answer defined'
+      if (!isCorrect && correctOption) {
+        feedback = `Correct answer: ${correctOption.label}) ${correctOption.text}`
+      } else if (!correctOption) {
+        feedback = 'No correct answer defined'
       }
       break
 

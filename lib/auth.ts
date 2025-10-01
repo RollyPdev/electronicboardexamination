@@ -19,10 +19,10 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        console.log('Auth attempt for:', credentials?.email)
+        console.log('🔐 Auth attempt for:', credentials?.email)
         
         if (!credentials?.email || !credentials?.password) {
-          console.log('Missing credentials')
+          console.log('❌ Missing credentials')
           return null
         }
 
@@ -61,13 +61,20 @@ export const authOptions: NextAuthOptions = {
         }
 
         if (!user) {
-          console.log('User not found:', credentials.email)
+          console.log('❌ User not found:', credentials.email)
           return null
         }
         
+        console.log('✅ User found:', {
+          email: user.email,
+          role: user.role,
+          hasPassword: !!user.password,
+          isActive: user.isActive
+        })
+        
         // Check if account is activated (only for STUDENT role)
         if ('isActive' in user && user.role === 'STUDENT' && user.isActive === false) {
-          console.log('Student account not activated:', credentials.email)
+          console.log('⚠️ Student account not activated:', credentials.email)
           throw new Error('Account not activated')
         }
         
@@ -77,10 +84,12 @@ export const authOptions: NextAuthOptions = {
         if (user.password) {
           try {
             const isValidPassword = await bcrypt.compare(credentials.password, user.password)
-            console.log('Password comparison result:', isValidPassword)
+            console.log('🔑 Password comparison result:', isValidPassword)
             if (!isValidPassword) {
+              console.log('❌ Invalid password for:', credentials.email)
               return null
             }
+            console.log('✅ Password valid for:', credentials.email)
           } catch (error) {
             console.error('Bcrypt comparison error:', error)
             return null
@@ -99,12 +108,15 @@ export const authOptions: NextAuthOptions = {
           }
         }
 
-        return {
+        const authResult = {
           id: user.id,
           email: user.email,
           name: user.name,
           role: user.role,
         }
+        
+        console.log('✅ Authentication successful for:', authResult.email, 'Role:', authResult.role)
+        return authResult
       },
     }),
   ],

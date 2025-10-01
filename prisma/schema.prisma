@@ -65,18 +65,26 @@ model VerificationToken {
 }
 
 model Exam {
-  id          String       @id @default(cuid())
-  title       String
-  description String?
-  durationMin Int
-  randomize   Boolean      @default(true)
-  published   Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  creatorId   String
-  results     ExamResult[]
-  creator     User         @relation("ExamCreator", fields: [creatorId], references: [id])
-  questions   Question[]
+  id              String       @id @default(cuid())
+  title           String
+  description     String?
+  durationMin     Int
+  randomize       Boolean      @default(true)
+  published       Boolean      @default(false)
+  passingScore    Float?       @default(60)
+  maxAttempts     Int?         @default(1)
+  showResults     Boolean      @default(true)
+  allowReview     Boolean      @default(true)
+  startDate       DateTime?
+  endDate         DateTime?
+  instructions    String?
+  proctoringConfig Json?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  creatorId       String
+  results         ExamResult[]
+  creator         User         @relation("ExamCreator", fields: [creatorId], references: [id])
+  questions       Question[]
 
   @@map("exams")
 }
@@ -238,7 +246,24 @@ model Institution {
   @@map("institutions")
 }
 
+model QuestionTemplate {
+  id            String   @id @default(cuid())
+  type          QType
+  subject       String
+  topic         String
+  difficulty    String
+  text          String
+  options       Json?
+  correctAnswer String
+  explanation   String?
+  points        Int      @default(1)
+  tags          String[]
+  createdBy     String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
+  @@map("question_templates")
+}
 
 enum Role {
   ADMIN
@@ -251,6 +276,10 @@ enum QType {
   TRUE_FALSE
   SHORT_ANSWER
   NUMERIC
+  MULTIPLE_SELECT
+  FILL_IN_BLANK
+  MATCHING
+  ESSAY
 }
 
 enum ResultStatus {

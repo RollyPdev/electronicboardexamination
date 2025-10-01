@@ -114,7 +114,12 @@ async function POST(
       // Automatically grade the exam
       console.log('Starting automatic grading for exam result:', examResult.id)
       const gradingResult = await gradeExam(examResult.id)
-      console.log('Grading completed:', gradingResult)
+      console.log('Grading completed:', {
+        totalScore: gradingResult.totalScore,
+        maxScore: gradingResult.maxScore,
+        percentage: gradingResult.percentage,
+        questionResults: gradingResult.questionResults.length
+      })
 
       return NextResponse.json({
         message: 'Exam submitted successfully',

@@ -17,6 +17,10 @@ interface Question {
   points: number
   order: number
   studentAnswer: any
+  correctAnswer?: string
+  isCorrect?: boolean
+  pointsEarned?: number
+  feedback?: string
 }
 
 interface DetailedResult {
@@ -92,12 +96,16 @@ export default function ResultDetailPage() {
               return (
                 <div key={index} className={cn(
                   "p-2 sm:p-3 rounded border text-sm sm:text-base",
-                  question.studentAnswer === index 
+                  (question.studentAnswer === optionText || 
+                   question.studentAnswer === String.fromCharCode(65 + index) ||
+                   question.studentAnswer === index)
                     ? "bg-blue-50 border-blue-200" 
                     : "bg-gray-50 border-gray-200"
                 )}>
                   <span className="font-medium">{String.fromCharCode(65 + index)}.</span> {optionText}
-                  {question.studentAnswer === index && (
+                  {(question.studentAnswer === optionText || 
+                    question.studentAnswer === String.fromCharCode(65 + index) ||
+                    question.studentAnswer === index) && (
                     <CheckCircle className="inline ml-2 h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
                   )}
                 </div>
@@ -222,15 +230,43 @@ export default function ResultDetailPage() {
                     <Badge variant="outline" className="text-xs sm:text-sm">Question {index + 1}</Badge>
                     <Badge variant="secondary" className="text-xs sm:text-sm">{question.type.replace('_', ' ')}</Badge>
                     <span className="text-xs sm:text-sm text-gray-600">{question.points} point{question.points !== 1 ? 's' : ''}</span>
+                    {question.isCorrect !== undefined && (
+                      <Badge variant={question.isCorrect ? "default" : "destructive"} className="text-xs sm:text-sm">
+                        {question.isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                      </Badge>
+                    )}
+                    {question.pointsEarned !== undefined && (
+                      <span className="text-xs sm:text-sm font-medium text-blue-600">
+                        {question.pointsEarned}/{question.points} pts
+                      </span>
+                    )}
                   </div>
                   <p className="text-sm sm:text-base text-gray-900">{question.text}</p>
                 </div>
               </div>
             </CardHeader>
             <CardContent className="px-3 sm:px-6">
-              <div>
-                <h4 className="text-xs sm:text-sm font-medium text-gray-700 mb-2">Your Answer:</h4>
-                {renderAnswer(question)}
+              <div className="space-y-3">
+                <div>
+                  <h4 className="text-xs sm:text-sm font-medium text-gray-700 mb-2">Your Answer:</h4>
+                  {renderAnswer(question)}
+                </div>
+                {question.correctAnswer && question.isCorrect === false && (
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-medium text-green-700 mb-2">Correct Answer:</h4>
+                    <div className="p-2 sm:p-3 bg-green-50 border border-green-200 rounded text-sm sm:text-base text-green-800">
+                      {question.correctAnswer}
+                    </div>
+                  </div>
+                )}
+                {question.feedback && (
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-medium text-blue-700 mb-2">Feedback:</h4>
+                    <div className="p-2 sm:p-3 bg-blue-50 border border-blue-200 rounded text-sm sm:text-base text-blue-800">
+                      {question.feedback}
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
