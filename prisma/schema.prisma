@@ -90,18 +90,51 @@ model Exam {
 }
 
 model Question {
-  id        String   @id @default(cuid())
-  examId    String
-  type      QType
-  text      String
-  options   Json?
-  points    Int      @default(1)
-  order     Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  examId        String
+  type          QType
+  text          String
+  options       Json?
+  points        Int      @default(1)
+  order         Int      @default(0)
+  correctAnswer String?  // Store the correct answer text for easier access
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  exam          Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  choices       Choice[] // Support for individual choice records
+  studentAnswers StudentAnswer[]
 
   @@map("questions")
+}
+
+model Choice {
+  id        String   @id @default(cuid())
+  questionId String
+  text      String
+  label     String   // A, B, C, D, etc.
+  isCorrect Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  question  Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("choices")
+}
+
+model StudentAnswer {
+  id           String   @id @default(cuid())
+  studentId    String
+  questionId   String
+  examResultId String
+  selectedChoice String? // The choice text or label selected
+  selectedChoiceId String? // Reference to the Choice record
+  isCorrect    Boolean  @default(false)
+  timeSpent    Int      @default(0) // Time spent on this question in seconds
+  submittedAt  DateTime @default(now())
+  question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  examResult   ExamResult @relation(fields: [examResultId], references: [id], onDelete: Cascade)
+
+  @@unique([examResultId, questionId])
+  @@map("student_answers")
 }
 
 model ExamResult {
@@ -121,6 +154,7 @@ model ExamResult {
   updatedAt     DateTime     @updatedAt
   exam          Exam         @relation(fields: [examId], references: [id], onDelete: Cascade)
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studentAnswers StudentAnswer[]
 
   @@unique([examId, userId])
   @@map("exam_results")

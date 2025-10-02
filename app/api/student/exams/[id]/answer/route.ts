@@ -58,28 +58,79 @@ async function PATCH(
         return NextResponse.json({ error: 'Exam is not in progress' }, { status: 400 })
       }
 
-      // Verify question belongs to the exam
+      // Get the question and its choices to determine correct answer
       const question = await ((prisma as any).question as any).findFirst({
         where: { id: questionId, examId: id },
+        include: { choices: true }
       })
 
       if (!question) {
         return NextResponse.json({ error: 'Question not found' }, { status: 404 })
       }
 
-      // Update answers in the exam result
+      // Determine if the answer is correct
+      let isCorrect = false
+      let selectedChoiceId = null
+
+      if (question.type === 'MCQ') {
+        // Find the selected choice
+        const selectedChoice = question.choices.find((choice: any) => 
+          choice.text === validatedData.answer || 
+          choice.label === validatedData.answer ||
+          `${choice.label}) ${choice.text}` === validatedData.answer
+        )
+
+        if (selectedChoice) {
+          selectedChoiceId = selectedChoice.id
+          isCorrect = selectedChoice.isCorrect
+        }
+      } else {
+        // For other question types, check against correctAnswer field
+        isCorrect = validatedData.answer === question.correctAnswer
+      }
+
+      // Upsert the student answer (update if exists, create if not)
+      const studentAnswer = await ((prisma as any).studentAnswer as any).upsert({
+        where: {
+          examResultId_questionId: {
+            examResultId: examResult.id,
+            questionId: questionId
+          }
+        },
+        update: {
+          selectedChoice: validatedData.answer,
+          selectedChoiceId,
+          isCorrect,
+          timeSpent: validatedData.timeSpent || 0,
+          submittedAt: new Date()
+        },
+        create: {
+          studentId: user.id,
+          questionId: questionId,
+          examResultId: examResult.id,
+          selectedChoice: validatedData.answer,
+          selectedChoiceId,
+          isCorrect,
+          timeSpent: validatedData.timeSpent || 0,
+          submittedAt: new Date()
+        }
+      })
+
+      // Also update the legacy answers field for backward compatibility
       const currentAnswers = examResult.answers as any || {}
       currentAnswers[questionId] = {
         answer: validatedData.answer,
         timeSpent: validatedData.timeSpent || 0,
         submittedAt: new Date().toISOString(),
+        isCorrect
       }
       
       console.log('Saving answer:', {
         questionId,
         answer: validatedData.answer,
         examResultId: examResult.id,
-        totalAnswers: Object.keys(currentAnswers).length
+        isCorrect,
+        studentAnswerId: studentAnswer.id
       })
 
       await ((prisma as any).examResult as any).update({

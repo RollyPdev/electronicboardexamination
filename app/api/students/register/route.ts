@@ -71,7 +71,8 @@ export async function POST(req: NextRequest) {
         course: 'Not Specified',
         graduationYear: '2025',
         howDidYouKnow: 'Online Registration',
-        status: 'pending'
+        status: 'pending',
+        password: hashedPassword
       }
     })
 

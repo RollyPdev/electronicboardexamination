@@ -94,36 +94,54 @@ export default function SignInPage() {
     setRegisterError('')
     setIsRegistering(true)
     
+    // Validate required fields
+    if (!registerForm.firstName || !registerForm.lastName || !registerForm.school || !registerForm.email || !registerForm.password) {
+      setRegisterError('Please fill in all required fields')
+      setIsRegistering(false)
+      return
+    }
+    
+    if (registerForm.password.length < 6) {
+      setRegisterError('Password must be at least 6 characters long')
+      setIsRegistering(false)
+      return
+    }
+    
     try {
+      console.log('Registering with data:', registerForm)
+      
       const response = await fetch('/api/students/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(registerForm)
       })
       
+      console.log('Registration response status:', response.status)
       const data = await response.json()
+      console.log('Registration response data:', data)
       
       if (!response.ok) {
-        setRegisterError(data.error || 'Failed to register')
+        setRegisterError(data.error || `Registration failed (${response.status})`)
         return
       }
       
-      // Auto-login the user after registration
-      const loginResult = await signIn('credentials', {
-        email: registerForm.email,
-        password: registerForm.password,
-        redirect: false,
-      })
-      
-      if (loginResult?.ok) {
-        router.push('/student?needsActivation=true')
-      } else {
-        setRegisterError('Registration successful but login failed. Please try logging in manually.')
-      }
+      // Registration successful - show success message
+      alert(`Registration successful! You can now login with ${registerForm.email}`)
       setIsRegisterModalOpen(false)
       
+      // Reset form
+      setRegisterForm({
+        firstName: '',
+        middleInitial: '',
+        lastName: '',
+        school: '',
+        email: '',
+        password: ''
+      })
+      
     } catch (error) {
-      setRegisterError('Network error. Please try again.')
+      console.error('Registration error:', error)
+      setRegisterError('Network error. Please check your connection and try again.')
     } finally {
       setIsRegistering(false)
     }

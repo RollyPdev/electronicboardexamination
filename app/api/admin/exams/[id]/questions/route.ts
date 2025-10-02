@@ -73,52 +73,46 @@ async function POST(
         return NextResponse.json({ error: 'Exam not found' }, { status: 404 })
       }
 
-      // Format options for different question types
-      let formattedOptions: any = null
-      if (type === 'MCQ' && Array.isArray(parsedOptions) && parsedOptions.length > 0) {
-        formattedOptions = parsedOptions.map((option, index) => {
-          const optionText = typeof option === 'string' ? option : option.text || option
-          return {
-            label: String.fromCharCode(65 + index), // A, B, C, D
-            text: optionText,
-            correct: optionText === parsedCorrectAnswer
+      // Start transaction to create question and choices
+      const result = await (prisma as any).$transaction(async (tx: any) => {
+        // Create the question
+        const newQuestion = await tx.question.create({
+          data: {
+            examId: id,
+            type,
+            text: questionText,
+            correctAnswer: parsedCorrectAnswer,
+            points: points || 1,
+            order: requestBody.order || 0
           }
         })
-      } else if (type === 'TRUE_FALSE') {
-        formattedOptions = [
-          { label: 'True', text: 'True', correct: parsedCorrectAnswer === 'True' },
-          { label: 'False', text: 'False', correct: parsedCorrectAnswer === 'False' }
-        ]
-      } else if (type === 'NUMERIC' && parsedCorrectAnswer) {
-        formattedOptions = [{
-          correct_answer: parseFloat(parsedCorrectAnswer),
-          tolerance: requestBody.tolerance || 0.01
-        }]
-      } else if (type === 'SHORT_ANSWER' && parsedCorrectAnswer) {
-        formattedOptions = [{
-          sample_answer: parsedCorrectAnswer,
-          keywords: requestBody.keywords || []
-        }]
-      }
-      
-      console.log('Parsed question:', { questionText, formattedOptions, parsedCorrectAnswer })
-      
-      const createData = {
-        examId: id,
-        type,
-        text: questionText,
-        options: formattedOptions,
-        points: points || 1,
-      }
-      console.log('Creating question with data:', createData)
 
-      const newQuestion = await (prisma as any).question.create({
-        data: createData,
+        // Create choices for MCQ questions
+        if (type === 'MCQ' && Array.isArray(parsedOptions) && parsedOptions.length > 0) {
+          const choices = await Promise.all(
+            parsedOptions.map((option, index) => {
+              const optionText = typeof option === 'string' ? option : option.text || option
+              return tx.choice.create({
+                data: {
+                  questionId: newQuestion.id,
+                  text: optionText,
+                  label: String.fromCharCode(65 + index), // A, B, C, D
+                  isCorrect: optionText === parsedCorrectAnswer,
+                  order: index + 1
+                }
+              })
+            })
+          )
+          
+          return { ...newQuestion, choices }
+        }
+
+        return newQuestion
       })
       
-      console.log('Question created successfully:', newQuestion)
+      console.log('Question created successfully:', result)
 
-      return NextResponse.json(newQuestion)
+      return NextResponse.json(result)
     } catch (error) {
       console.error('Error creating question:', error)
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -126,4 +120,69 @@ async function POST(
   })
 }
 
-export { POST }
+// GET /api/admin/exams/[id]/questions - Get all questions for an exam
+async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  return withAdminAuth(request, async (authReq) => {
+    try {
+      const { id } = await params
+
+      // Check if exam exists and user has permission
+      const exam = await (prisma as any).exam.findUnique({
+        where: { id },
+        include: {
+          questions: {
+            include: {
+              choices: {
+                orderBy: { order: 'asc' }
+              }
+            },
+            orderBy: { order: 'asc' }
+          }
+        }
+      })
+
+      if (!exam) {
+        return NextResponse.json({ error: 'Exam not found' }, { status: 404 })
+      }
+
+      // Check if user is the creator or admin
+      if (exam.creatorId !== authReq.user!.id && authReq.user!.role !== 'ADMIN') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+      }
+
+      return NextResponse.json({
+        exam: {
+          id: exam.id,
+          title: exam.title,
+          description: exam.description
+        },
+        questions: exam.questions.map((question: any) => ({
+          id: question.id,
+          type: question.type,
+          text: question.text,
+          correctAnswer: question.correctAnswer,
+          points: question.points,
+          order: question.order,
+          choices: question.choices.map((choice: any) => ({
+            id: choice.id,
+            text: choice.text,
+            label: choice.label,
+            isCorrect: choice.isCorrect,
+            order: choice.order
+          }))
+        }))
+      })
+    } catch (error) {
+      console.error('Error fetching questions:', error)
+      return NextResponse.json(
+        { error: 'Failed to fetch questions' },
+        { status: 500 }
+      )
+    }
+  })
+}
+
+export { POST, GET }

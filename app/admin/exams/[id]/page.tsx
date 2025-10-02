@@ -49,6 +49,37 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
     const match = text.match(/^([\s\S]*?)(?=\r?\n?[A-D]\.|$)/)
     return match ? match[1].trim() : text
   }
+  
+  const parseMCQFromText = (fullText: string) => {
+    // Extract question part (before first choice)
+    const questionMatch = fullText.match(/^([\s\S]*?)(?=\r?\n?[A-D]\.|$)/)
+    const question = questionMatch ? questionMatch[1].trim() : ''
+    
+    // Extract choices (A., B., C., D.)
+    const choiceMatches = fullText.match(/[A-D]\.\s*[^\r\n]*(?=\r?\n?[A-D]\.|\r?\n?Correct|$)/g) || []
+    const options = choiceMatches.map((choice: string) => {
+      return choice.replace(/^[A-D]\.\s*/, '').trim()
+    })
+    
+    // Pad options to 4 if less
+    while (options.length < 4) {
+      options.push('')
+    }
+    
+    // Extract correct answer (look for "Correct Answer: X" pattern)
+    const correctMatch = fullText.match(/Correct\s+Answer:\s*([A-D])/i)
+    let correctAnswer = ''
+    if (correctMatch && options.length > 0) {
+      const correctIndex = correctMatch[1].charCodeAt(0) - 65 // A=0, B=1, etc.
+      correctAnswer = options[correctIndex] || ''
+    }
+    
+    return {
+      question,
+      options,
+      correctAnswer
+    }
+  }
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState('')
@@ -168,9 +199,13 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
   }
 
   const startEditQuestion = (question: Question) => {
+    console.log('Editing question:', question)
+    
     const options = typeof question.options === 'string' 
       ? JSON.parse(question.options) 
       : question.options
+    
+    console.log('Parsed options:', options)
     
     // Extract options and find correct answer
     let optionTexts = ['', '', '', '']
@@ -178,16 +213,30 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
     
     if (Array.isArray(options)) {
       options.forEach((opt, index) => {
-        if (typeof opt === 'object' && opt.text) {
-          optionTexts[index] = opt.text
+        if (typeof opt === 'object' && opt !== null) {
+          // Handle object format: { label: 'A', text: 'Option text', correct: true }
+          if (opt.text) {
+            optionTexts[index] = opt.text
+          }
           if (opt.correct) {
-            correctAnswer = String.fromCharCode(65 + index) // A, B, C, D
+            correctAnswer = opt.label || String.fromCharCode(65 + index)
           }
         } else if (typeof opt === 'string') {
+          // Handle string format
           optionTexts[index] = opt
         }
       })
+      
+      // If no correct answer found in options, try to match with stored correctAnswer
+      if (correctAnswer === 'A' && question.correctAnswer) {
+        const correctIndex = optionTexts.findIndex(opt => opt === question.correctAnswer)
+        if (correctIndex !== -1) {
+          correctAnswer = String.fromCharCode(65 + correctIndex)
+        }
+      }
     }
+    
+    console.log('Extracted data:', { optionTexts, correctAnswer })
     
     setEditingQuestion({
       ...question,
@@ -446,10 +495,15 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
                             <SelectValue placeholder="Select correct option" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="A">A</SelectItem>
-                            <SelectItem value="B">B</SelectItem>
-                            <SelectItem value="C">C</SelectItem>
-                            <SelectItem value="D">D</SelectItem>
+                            {editingQuestion.options?.map((option: string, index: number) => {
+                              if (!option.trim()) return null
+                              const label = String.fromCharCode(65 + index)
+                              return (
+                                <SelectItem key={index} value={label}>
+                                  {label}. {option}
+                                </SelectItem>
+                              )
+                            }).filter(Boolean)}
                           </SelectContent>
                         </Select>
                       ) : editingQuestion.type === 'TRUE_FALSE' ? (
@@ -502,13 +556,19 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
                         const options = typeof question.options === 'string' 
                           ? JSON.parse(question.options) 
                           : question.options;
-                        return Array.isArray(options) ? options.map((option, optIndex) => (
-                          <div key={optIndex} className={`text-sm p-2 rounded ${
-                            (typeof option === 'object' ? option.text : option) === question.correctAnswer ? 'bg-green-100 text-green-800' : 'bg-gray-50'
-                          }`}>
-                            {String.fromCharCode(65 + optIndex)}. {typeof option === 'object' ? option.text : option}
-                          </div>
-                        )) : null;
+                        return Array.isArray(options) ? options.map((option, optIndex) => {
+                          const optionText = typeof option === 'object' ? option.text : option
+                          const isCorrect = typeof option === 'object' ? option.correct : (optionText === question.correctAnswer)
+                          
+                          return (
+                            <div key={optIndex} className={`text-sm p-2 rounded ${
+                              isCorrect ? 'bg-green-100 text-green-800 border border-green-300' : 'bg-gray-50'
+                            }`}>
+                              <span className="font-medium">{String.fromCharCode(65 + optIndex)}.</span> {optionText}
+                              {isCorrect && <span className="ml-2 text-green-600 font-medium">✓ Correct</span>}
+                            </div>
+                          )
+                        }) : null;
                       })()
                       }
                     </div>
@@ -572,10 +632,28 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
             <Label>Question</Label>
             <Textarea
               value={newQuestion.text}
-              onChange={(e) => updateNewQuestion('text', e.target.value)}
-              placeholder="Enter your question here..."
-              rows={3}
+              onChange={(e) => {
+                const text = e.target.value
+                updateNewQuestion('text', text)
+                
+                // Auto-parse if it looks like a formatted question
+                if (text.includes('A.') && text.includes('B.') && newQuestion.type === 'MCQ') {
+                  const parsed = parseMCQFromText(text)
+                  if (parsed.question && parsed.options.length > 0) {
+                    updateNewQuestion('text', parsed.question)
+                    updateNewQuestion('options', parsed.options)
+                    if (parsed.correctAnswer) {
+                      updateNewQuestion('correctAnswer', parsed.correctAnswer)
+                    }
+                  }
+                }
+              }}
+              placeholder="Enter your question here... (or paste formatted question with A. B. C. D. options)"
+              rows={6}
             />
+            <div className="text-xs text-gray-500 mt-1">
+              <strong>Auto-parse format:</strong> Question text followed by A. Option 1, B. Option 2, C. Option 3, D. Option 4, then "Correct Answer: A" (optional)
+            </div>
           </div>
 
           {newQuestion.type === 'MCQ' && (
@@ -600,14 +678,14 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
                   <SelectValue placeholder="Select correct option" />
                 </SelectTrigger>
                 <SelectContent>
-                  {newQuestion.options?.filter((option: string) => option.trim() !== '').map((option: string, index: number) => {
-                    const originalIndex = newQuestion.options?.indexOf(option) || 0
+                  {newQuestion.options?.map((option: string, index: number) => {
+                    if (!option.trim()) return null
                     return (
-                      <SelectItem key={originalIndex} value={option}>
-                        {String.fromCharCode(65 + originalIndex)}. {option}
+                      <SelectItem key={index} value={option}>
+                        {String.fromCharCode(65 + index)}. {option}
                       </SelectItem>
                     )
-                  })}
+                  }).filter(Boolean)}
                 </SelectContent>
               </Select>
             ) : newQuestion.type === 'TRUE_FALSE' ? (
